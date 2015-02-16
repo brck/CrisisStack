@@ -37,7 +37,7 @@ In addition to the software mentioned above please install these php libraries. 
 
 *[GD](http://php.net/gd)
 
-The command is :
+The command is
 
   sudo apt-get -y install libpcre3 libpcre3-dev iconv php5-mcrypt php5-mysql php5-curl php5-gd php5-idn php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-mhash php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl php5-json php5-curl
 
