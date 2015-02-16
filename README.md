@@ -21,21 +21,21 @@ Required Extensions
 -------------------
 In addition to the software mentioned above please install these php libraries. The commands have been given below. 
 
-*[PCRE](http://php.net/pcre)
+* [PCRE](http://php.net/pcre)
 
-*[iconv](http://php.net/iconv)
+* [iconv](http://php.net/iconv)
 
-*[mycrype](http://php.net/mcrypt)
+* [mycrype](http://php.net/mcrypt)
 
-*[mbstring](http://php.net/mbstring)
+* [mbstring](http://php.net/mbstring)
 
-*[cURL](http://php.net/curl)
+* [cURL](http://php.net/curl)
 
-*[MySQL](http://php.net/mysql)
+* [MySQL](http://php.net/mysql)
 
-*[IMAP](http://php.net/imap)
+* [IMAP](http://php.net/imap)
 
-*[GD](http://php.net/gd)
+* [GD](http://php.net/gd)
 
 The command is
 
