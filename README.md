@@ -10,9 +10,9 @@ More software shall be optimized and/or added over time.
 System Requirements 
 --------------------
 
-To install the platform on your pi the following software libraries must be installed:
+To install the platform on your PI the following software libraries must be installed:
 
-*php versoon 5.3 or greater
+*php version 5.3 or greater
 *MySQL version 5.0 or greater 
 *An web server 
 *unicode support in the operating system
@@ -32,7 +32,7 @@ In addition to the software mentioned above please install these php libraries. 
 
 The command is :
 
-sudo apt-get -y install libpcre3 libpcre3-dev iconv php5-mcrypt php5-mysql php5-curl php5-gd php5-idn php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-mhash php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl php5-json php5-curl
+  sudo apt-get -y install libpcre3 libpcre3-dev iconv php5-mcrypt php5-mysql php5-curl php5-gd php5-idn php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-mhash php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl php5-json php5-curl
 
 Installation
 ------------
@@ -74,15 +74,15 @@ Proceed to log in as the root user. The root password is the one you input when 
 
 Input the following command to create the new user:
 
- CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+  CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
 
 You then need to give the new user read and write access to the database management system. You do this by executing the following command:
   
- GRANT ALL PRIVILEGES ON *.* TO 'user' @ 'localhost' WITH GRANT OPTION
+  GRANT ALL PRIVILEGES ON *.* TO 'user' @ 'localhost' WITH GRANT OPTION
 
 However, if you want to only grant the user read and write access to that database then please use the command below.
 
- GRANT SELECT INSERT, DELETE, UPDATE, CREATE, DROP, ALTER, INDEX, LOCK ON TABLES On database.* TO 'user'@'localhost';
+  GRANT SELECT INSERT, DELETE, UPDATE, CREATE, DROP, ALTER, INDEX, LOCK ON TABLES On database.* TO 'user'@'localhost';
 
 RUN THE INSTALL SCRIPT 
 ----------------------
