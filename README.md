@@ -65,7 +65,9 @@ In this case, we moved the contents of the directory to /var/www/
     chmod -R 777 application/cache
     chmod -R 777 application/logs
     chmod -R 777 media/uploads
-    chmod 777 .htaccess ```
+    chmod 777 .htaccess 
+
+    ```
 
 * ####Create the ushahidi database 
   
@@ -95,11 +97,13 @@ Cleaning up
 
 Now that we are done, we need to remove the installation files. 
 You can do this by issuing the following commands:
+
 ```
 cd /var/www
 chmod -R 755 application/config 
 chmod 644 application/config/*
 chmod 644 *.htaccess
+
 ```
 
 
