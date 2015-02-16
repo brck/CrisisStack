@@ -59,12 +59,13 @@ In this case, we moved the contents of the directory to /var/www/
 * #####Permissions 
      We then need to ensure that the directory is writable by setting the permissions as follows:
 
+    ```
     cd var/www/
     chmod -R 777 application/config
     chmod -R 777 application/cache
     chmod -R 777 application/logs
     chmod -R 777 media/uploads
-    chmod 777 .htaccess
+    chmod 777 .htaccess ```
 
 * ####Create the ushahidi database 
   
@@ -74,15 +75,15 @@ Proceed to log in as the root user. The root password is the one you input when 
 
 Input the following command to create the new user:
 
-  CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+  ```CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';```
 
 You then need to give the new user read and write access to the database management system. You do this by executing the following command:
   
-  GRANT ALL PRIVILEGES ON *.* TO 'user' @ 'localhost' WITH GRANT OPTION
+  ```GRANT ALL PRIVILEGES ON *.* TO 'user' @ 'localhost' WITH GRANT OPTION```
 
 However, if you want to only grant the user read and write access to that database then please use the command below.
 
-  GRANT SELECT INSERT, DELETE, UPDATE, CREATE, DROP, ALTER, INDEX, LOCK ON TABLES On database.* TO 'user'@'localhost';
+  ```GRANT SELECT INSERT, DELETE, UPDATE, CREATE, DROP, ALTER, INDEX, LOCK ON TABLES On database.* TO 'user'@'localhost';```
 
 RUN THE INSTALL SCRIPT 
 ----------------------
@@ -94,10 +95,11 @@ Cleaning up
 
 Now that we are done, we need to remove the installation files. 
 You can do this by issuing the following commands:
-
+```
 cd /var/www
 chmod -R 755 application/config 
 chmod 644 application/config/*
 chmod 644 *.htaccess
+```
 
 
