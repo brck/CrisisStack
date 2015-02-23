@@ -45,5 +45,29 @@ You then need to clone the repo by executing the following command:
 
 ```git clone https://github.com/ether/etherpad-lite```
 
+Get into the etherpad-lite directory 
+
+``` cd etherpad-lite ```
+
+Execute the following command to update npm 
+
+``` npm install dirty && npm update ```
+
+Run the following command from within the etherpad-lite directory to start etherpad 
+
+``` ./bin/run.sh ```
+
+Optional 
+---------
+
+For easy startup next, you can add this:
+
+``` echo “alias etherpad-lite=’/home/<user>/etherpad-lite/bin/run.sh'” >> ~/.bash_aliases ```
+
+By doing this, it will allow you to use the string "etherpad-lite" to start it up. 
+
+Point your browser to <RASPBERRY-PI-I.P>:9001 
+
+
 
 
