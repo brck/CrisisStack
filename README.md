@@ -1,5 +1,5 @@
 # CrisisStack
-This guide shall take you through how to install the criris stack software on the BRCK+PI MRTR. 
+This guide shall take you through how to install the CrisisStack software on the BRCK+PI MRTR. 
 
 The software stack currently includes:
 Etherpad-lite (http://github.com/ether/etherpad-lite): A real-time collaborative document editing tool. 
