@@ -1,5 +1,5 @@
 # CrisisStack
-This guide shall take you through how to install the criris stack software on the BRCK+PI MRTR. 
+This is the development branch to cater for revision. 
 
 The software stack is an application store that allows you to install and launch various applciations that are we consider a first release(Primary set) for first Crisis responders. Some of the applications included are:
 
