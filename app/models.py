@@ -90,7 +90,7 @@ class ApplicationTable (db.Model):
 
     def __repr__(self):
         return '<ApplicationTable %r %r %r %r %r %r %r %r %r %r %r %r %r %r %r %r %r %r %r %r %r >' % (self.id,self.name,self.version, self.description,self.size,self.developerId,self.developerName,self.icon,self.screenShotOne,self.screenShotTwo,self.screenShotThree,self.screenShotFour,self.video,self.interactionPoints,self.permission,self.osVersion,self.categoryId,self.downloads,self.launchurl,self.installscript,self.installed,self.uninstallscript)
-
+        
 class Address(db.Model):
     __tablename__='AddressTable'
     # Here we define db.columns for the table address.
