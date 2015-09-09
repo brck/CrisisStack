@@ -56,7 +56,7 @@ def storeapplication(app_id):
       return render_template("applicationprofileinstall.html", storeappentry = models.ApplicationTable.query.get(app_id))              
 
 
-@app.route ('/login', methods=['GET',])
+@app.route ('/login', methods=['GET'])
 def login():
     if request.method=='GET':
         return render_template('login.html')
