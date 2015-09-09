@@ -13,19 +13,21 @@ def MyApplications():
 
 @app.route('/MyApplications/<int:app_id>', methods =['DELETE','GET'])
 def myapplication(app_id):
-  if request.method == 'GET';
+  if request.method == 'GET':
      return render_template("applicationprofile.html", appentry = models.ApplicationTable.query.get(app_id))
   elif request.method == 'DELETE':
-      if request.form['submit'] == "Delete Application"
+      if request.form['submit'] == "Delete Application":
           subprocess.call([{{appentry.uninstallscript}}])
           if ( subprocess.call(["echo $?"]) == 0):
                appentry.update().\
                values(installed = 'False') .\
                where(appentry.id == app_id)
                flash ('Your application will be deleted in the background.')
+               return render_template("applicationprofile.html", appentry = models.ApplicationTable.query.get(app_id))
           else: 
-              pass 
-	        return render_template("applicationprofile.html", appentry = models.ApplicationTable.query.get(app_id))
+              flash ('Your application was not successfuly deleted. Please try again ')
+              return render_template("applicationprofile.html", appentry = models.ApplicationTable.query.get(app_id))
+ 
   else: 
           return render_template("applicationprofile.html", appentry = models.ApplicationTable.query.get(app_id))
                   
@@ -36,7 +38,7 @@ def Storeapplications():
 
 @app.route('/StoreApplications/<int:app_id>', methods = ['GET','POST'])
 def storeapplication(app_id):
-  if request.method =='GET'
+  if request.method =='GET':
       return render_template("applicationprofileinstall.html", storeappentry = models.ApplicationTable.query.get(app_id))      
   elif request.method == 'POST':
         if request.form['submit'] == "Install Application" :
