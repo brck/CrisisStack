@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class = "row">
+  
+  <div class = "large-12 colums ">
+    <h1 class = "text-center">
+      "BRCK Crisis Stack " 
+      <br>
+      "Application store management page "
+  </h1>
+  </div>
+  
+</div>
+
+{% for storeapplication in storeapplications %}
+<div class="row content">
+     
+    <section class = "large-6 medium-6 small-12 colums">
+      <div class = "row">
+       
+      <div class = "large-5 medium-5 colums">
+        <a class = "app_logo" href = "/StoreApplications/{{storeapplication.id}}">
+          <img src = /static/staticfolder/{{storeapplication.id}}/icon.svg >
+        </a>
+
+        <button class = "button expand radius"> 
+          <i class ="fa fa-download"> 
+             
+          </i>
+          <a href={{storeapplication.installscript}}>Install</a>
+        </button>
+      </div>
+
+      <!-- App description  !-->
+     
+<div class = "large-7 medium-7 colums">
+  <h4>
+    <a href= "applciationprofile.html">{{storeapplication.name}}</a>
+  </h4>
+  <h6> by {{storeapplication.developerName}}</h6>
+</div>
+<p class = "rating">
+  <span class = "label round">{{storeapplication.downloads}}</span> "Downloads"
+</p>
+<p>
+  {{storeapplication.description}}
+</p>
+</div>
+</div>
+</section>
+{% endfor %}
+{%endblock%}
