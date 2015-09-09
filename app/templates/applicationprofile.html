@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row content">
+
+    <section class="large-12 columns">
+      <div class="row">
+        
+        <div class="large-3 medium-3 columns">
+          <img src= "/static/staticfolder/{{appentry.id}}/icon.svg"  >
+          <button class="button expand radius"><i class="fa fa-rocket"></i>Launch</button>
+        </div>
+
+        <div class="large-9 medium-9 columns">
+          <h4>{{appentry.name}}</h4>
+          <h6>by {{appentry.developerName}} </h6>
+          <p class="rating"><span class="label round">{{appentry.downloads}}</span>Downloads</p>
+          <p>{{appentry.description}} </p>
+          <hr>
+          <h5>Screenshots</h5>
+          <div class="row screenshots">
+            <div class="large-6 columns"><img src= /static/staticfolder/{{appentry.id}}//browser.png ></div>
+            <div class="large-6 columns"><img src=/static/staticfolder/{{appentry.id}}//browser.png ></div>
+            <div class="large-6 columns"><img src= /static/staticfolder/{{appentry.id}}//browser.png></div>
+            <div class="large-6 columns"><img src= /static/staticfolder/{{appentry.id}}//browser.png ></div>
+          </div>
+          <hr>
+          <button class="button radius alert tiny right"> <i class="fa fa-trash-o"></i> Delete App</button>
+        </div>
+      </div>
+    </section>
+{%endblock%}
