@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class = "row">
+  
+  <div class = "large-12 colums ">
+    <h1 class = "text-center">
+      "BRCK Crisis Stack " 
+      <br>
+      "A set of applications for crisis responders"
+  </h1>
+  </div>
+</div>
+
+
+<div class="row content">
+    {%for application in applicationset %} 
+    <section class = "large-6 medium-6 small-12 columns">
+      <div class = "row">
+
+        <div class = "large-5 small-5 columns">
+          <a class = "app_logo" href = "/myapplications/{{application.id}}.html">
+            <img src ="/static/staticfolder/{{application.id}}/icon.svg">
+          </a>
+          <a class = "button expand radius" href = "{{application.launchurl}}"><i class ="fa fa-rocket"> </i> Launch </a>
+        </div>
+
+        <!-- App description  !-->
+        <div class = "large-7 medium-7 columns">
+          <h4><a href= "applciationprofile.html">{{application.name}}</a></h4>
+          <h6>asdfads</h6>
+          <p class = "rating">
+            <span class = "label round">{{application.downloads}}</span> "Downloads"
+          </p>
+        </div>
+
+      </div> 
+    </section>
+
+{% endfor %}  
+</div>  
+{%endblock%}
