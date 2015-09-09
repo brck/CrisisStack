@@ -1,4 +1,4 @@
-import os, subprocess , shlex , sys
+import os, subprocess , shlex , sys , threading 
 from app import app , db , models , forms , APP_STATIC 
 from flask import Flask, request, render_template, redirect , url_for , flash 
 
@@ -56,7 +56,7 @@ def storeapplication(app_id):
       return render_template("applicationprofileinstall.html", storeappentry = models.ApplicationTable.query.get(app_id))              
 
 
-@app.route ('/login', methods=['GET', 'POST'])
+@app.route ('/login', methods=['GET',])
 def login():
     if request.method=='GET':
         return render_template('login.html')
