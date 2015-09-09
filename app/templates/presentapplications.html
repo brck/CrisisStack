@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class = "row">
+  
+  <div class = "large-12 colums ">
+    <h1 class = "text-center">
+      "BRCK Crisis Stack " 
+      <br>
+      "These are the applications that have been installed by your adminsitrator"
+  </h1>
+  </div>
+</div>
+
+<div class="row content">
+ {% for presentapplication in presentapplications %} 
+
+
+<section class = "large-6 medium-6 small-12 colums">
+ <div class = "row">
+    <div class = "large-5 medium-5 colums">
+        <a class = "app_logo" href = {{ presentapplication.launchurl }} >
+          <img src = /static/staticfolder/{{presentapplication.id}}/icon.svg />
+        </a>
+
+        <button class = "button expand radius"> 
+          <i class ="fa fa-rocket"> 
+          </i>
+          <a href= {{ presentapplication.launchurl }}>Launch</a>
+        </button>
+   </div>
+
+      <!-- App description  !-->
+     
+ <div class = "large-7 medium-7 colums">
+   <h4>
+     <a href= "/MyApplications/{{presentapplication.id}}">{{ presentapplication.name }}</a>
+   </h4>
+   <h6> by {{presentappliation.developerName}}</h6>
+ </div>
+<p class = "rating">
+  <span class = "label round">{{presentapplication.downloads}}</span> "Downloads"
+</p>
+<p>
+  {{presentapplication.description}}
+</p>
+</div>
+</div>
+    
+</section>
+{% endfor %} 
+
+{% for app in categoryapps %}
+
+    <div class="row related">
+      <div class="large-12 columns"><h1><br>Related Apps</h1></div>
+      <div class="large-3 medium-2 columns"><a href="#"><img src="/static/assets/images/content/logo_crowdmap.svg" ></a>
+          <h4><a href="#">{{presentapplication.Applicationname }}</a> </h4>
+          <h6>by {{presentapplication.Developername }} </h6>
+          <p class="rating"><span class="label round">{{presentapplication.noofdownloads}}</span> Downloads</p>
+      </div>
+{% endfor %}
+{% endfor %}
+{%endblock%}
