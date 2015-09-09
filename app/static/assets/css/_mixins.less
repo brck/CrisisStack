@@ -1,0 +1,74 @@
+/* ==========================================================================
+   LESS STYLES MIXINS
+   ========================================================================== */
+
+@yellow: #fcd432;
+@grey: #595959;
+@lightgrey: #ebebeb;
+@darkgrey: #303030;
+@green:#8abc51;
+@red:#f04124;
+@orange:#ef9300;
+
+
+.rounded-corners (@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  -ms-border-radius: @radius;
+  -o-border-radius: @radius;
+  border-radius: @radius;
+}
+.border-radius-custom (@topleft: 5px, @topright: 5px, @bottomleft: 5px, @bottomright: 5px) {
+    -webkit-border-radius: @topleft @topright @bottomright @bottomleft;
+    -moz-border-radius: @topleft @topright @bottomright @bottomleft;
+    border-radius: @topleft @topright @bottomright @bottomleft;
+}
+
+.gradient (@origin: left, @start: #ffffff, @stop: #000000) {
+    background-color: @start;
+    background-image: -webkit-linear-gradient(@origin, @start, @stop);
+    background-image: -moz-linear-gradient(@origin, @start, @stop);
+    background-image: -o-linear-gradient(@origin, @start, @stop);
+    background-image: -ms-linear-gradient(@origin, @start, @stop);
+    background-image: linear-gradient(@origin, @start, @stop);
+}
+ 
+.box-shadow(@arguments) {
+  -webkit-box-shadow: @arguments;
+  -moz-box-shadow: @arguments;
+  box-shadow: @arguments;
+}
+
+.transition(@duration:0.5s, @ease:ease) {
+  -webkit-transition: all @duration @ease;
+  -moz-transition: all @duration @ease;
+  -o-transition: all @duration @ease;
+  transition: all @duration @ease;
+}
+
+.transform (@rotate: 45deg, @scale: 1, @skew: 0deg, @translate: 0px) {
+	-webkit-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+	-moz-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+	-o-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+	-ms-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+	transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+}
+
+.text-shadow (@string: 0 1px 3px rgba(0, 0, 0, 0.25)) {
+	text-shadow: @string;
+}
+
+.opacity (@opacity: 0.5) {
+	-webkit-opacity: 	@opacity;
+	-moz-opacity: 		@opacity;
+	opacity: 		@opacity;
+}
+
+.perspective (@value: 1000) {
+	-webkit-perspective: 	@value;
+	-moz-perspective: 	@value;
+	-ms-perspective: 	@value;
+	perspective: 		@value;
+}
+
+
