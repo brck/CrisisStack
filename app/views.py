@@ -1,7 +1,9 @@
 import os, subprocess , shlex , sys , threading 
+import json
+from datetime import datetime
 from app import app , db , models , forms , APP_STATIC 
-from flask import Flask, request, render_template, redirect , url_for , flash 
-
+from flask import Flask, request, render_template, redirect , url_for , flash , jsonify, json 
+from flask_json import FlaskJSON , JsonError, json_response, as_json
 @app.route('/')
 @app.route('/index')
 def index():
@@ -11,27 +13,17 @@ def index():
 def MyApplications():
     return render_template("presentapplications.html", presentapplications = models.ApplicationTable.query.filter_by(installed = True))
 
-@app.route('/MyApplications/<int:app_id>', methods =['DELETE','GET'])
+@app.route('/MyApplications/<int:app_id>', methods =['POST','GET'])
 def myapplication(app_id):
+  appentry = models.ApplicationTable.query.get(app_id)
   if request.method == 'GET':
      return render_template("applicationprofile.html", appentry = models.ApplicationTable.query.get(app_id))
-  elif request.method == 'DELETE':
-      if request.form['submit'] == "Delete Application":
-          subprocess.call([{{appentry.uninstallscript}}])
-          if ( subprocess.call(["echo $?"]) == 0):
-               appentry.update().\
-               values(installed = 'False') .\
-               where(appentry.id == app_id)
-               flash ('Your application will be deleted in the background.')
-               return render_template("applicationprofile.html", appentry = models.ApplicationTable.query.get(app_id))
-          else: 
-              flash ('Your application was not successfuly deleted. Please try again ')
-              return render_template("applicationprofile.html", appentry = models.ApplicationTable.query.get(app_id))
- 
-  else: 
-          return render_template("applicationprofile.html", appentry = models.ApplicationTable.query.get(app_id))
+  elif request.method == 'POST':
+      #subprocess.call([{{appentry.uninstallscript}}])
+      myDict={'test':'testatt'}
+      return jsonify(app="ok")
                   
-
+ 
 @app.route('/StoreApplications')
 def Storeapplications():
     return render_template("StoreApplications.html", storeapplications = models.ApplicationTable.query.filter_by(installed= False), )	  

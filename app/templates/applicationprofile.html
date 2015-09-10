@@ -24,7 +24,10 @@
             <div class="large-6 columns"><img src= /static/staticfolder/{{appentry.id}}//browser.png ></div>
           </div>
           <hr>
-          <button class="button radius alert tiny right"> <i class="fa fa-trash-o"></i> Delete App</button>
+          <form>
+              <input type="hidden" value="{{appentry.id}}" name="appid" id="appid"/>
+              <button id="deleteButton" type="submit"  class="button radius alert tiny right"> <i class="fa fa-trash-o"></i> Delete App</button>
+          </form>    
         </div>
       </div>
     </section>
