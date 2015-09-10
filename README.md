@@ -101,7 +101,11 @@ At the time of writing this, these are some of the packages I had in my virtual 
 	wsgiref==0.1.2 
 ``` 
 
-Please note that the numbers indicate the versions.
+Please note that the numbers indicate the package versions.
+
+You can now start the application by executing the following command: 
+
+``` python run.py ```
 
 
 
