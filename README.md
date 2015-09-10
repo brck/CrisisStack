@@ -65,7 +65,42 @@ Proceed to Install the packages listed in requirements.txt or by issuing the fol
 
 pip install flask flask-login flask-openid flask-mail flask-sqlalchemy sqlalchemy-migrate flask-whooshalchemy flask-wtf flask-babel guess_language flipflop coverage flask-json
 
-The packages above will be specific to your virtual environment.  
+The packages above will be specific to your virtual environment. 
+At the time of writing this, these are some of the packages I had in my virtual environment: 
+``` Babel==2.0
+	Flask==0.10.1
+	Flask-Babel==0.9
+	Flask-JSON==0.2.0
+	Flask-Login==0.2.11
+	Flask-Mail==0.9.1
+	Flask-OpenID==1.2.4
+	Flask-SQLAlchemy==2.0
+	Flask-WTF==0.12
+	Flask-WhooshAlchemy==0.56
+	Jinja2==2.8
+	MarkupSafe==0.23
+	SQLAlchemy==1.0.8
+	Tempita==0.5.2
+	WTForms==2.0.2
+	Werkzeug==0.10.4
+	Whoosh==2.7.0
+	argparse==1.2.1
+	blinker==1.4
+	coverage==3.7.1
+	decorator==4.0.2
+	flipflop==1.0
+	guess-language==0.2
+	itsdangerous==0.24
+	pbr==1.7.0
+	python-openid==2.2.5
+	pytz==2015.4
+	six==1.9.0
+	speaklater==1.3
+	sqlalchemy-migrate==0.10.0
+	sqlparse==0.1.16
+	wsgiref==0.1.2 ``` 
+
+Please note that the numbers indicate the versions.
 
 
 
