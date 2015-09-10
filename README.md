@@ -98,7 +98,8 @@ At the time of writing this, these are some of the packages I had in my virtual 
 	speaklater==1.3
 	sqlalchemy-migrate==0.10.0
 	sqlparse==0.1.16
-	wsgiref==0.1.2 ``` 
+	wsgiref==0.1.2 
+``` 
 
 Please note that the numbers indicate the versions.
 
