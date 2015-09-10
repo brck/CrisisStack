@@ -4,6 +4,8 @@ from datetime import datetime
 from app import app , db , models , forms , APP_STATIC 
 from flask import Flask, request, render_template, redirect , url_for , flash , jsonify, json 
 from flask_json import FlaskJSON , JsonError, json_response, as_json
+
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -19,9 +21,8 @@ def myapplication(app_id):
   if request.method == 'GET':
      return render_template("applicationprofile.html", appentry = models.ApplicationTable.query.get(app_id))
   elif request.method == 'POST':
-      #subprocess.call([{{appentry.uninstallscript}}])
-      myDict={'test':'testatt'}
-      return jsonify(app="ok")
+      subprocess.call([{{appentry.uninstallscript}}])
+      
                   
  
 @app.route('/StoreApplications')
@@ -30,23 +31,11 @@ def Storeapplications():
 
 @app.route('/StoreApplications/<int:app_id>', methods = ['GET','POST'])
 def storeapplication(app_id):
+  storeappentry = models.ApplicationTable.query.get(app_id)
   if request.method =='GET':
       return render_template("applicationprofileinstall.html", storeappentry = models.ApplicationTable.query.get(app_id))      
   elif request.method == 'POST':
-        if request.form['submit'] == "Install Application" :
-            subprocess.call([{{storeappentry.installscript}}])
-            if ( subprocess.call(["echo $?"]) == 0):
-               appentry.update().\
-               values(installed = 'True') .\
-               where(appentry.id == app_id)
-               flash('The installation process will run in the background. Kindly launch from Installed applications ')
-            else: 
-                pass 
-        else:
-            pass
-  else: 
-      return render_template("applicationprofileinstall.html", storeappentry = models.ApplicationTable.query.get(app_id))              
-
+       subprocess.call([{{storeappentry.installscript}}])
 
 @app.route ('/login', methods=['GET'])
 def login():
