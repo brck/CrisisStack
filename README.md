@@ -37,4 +37,36 @@ Install the following packages:
 
 ``` sudo apt-get -y install linux-headers wget wget python apache libapache2-mod-wsgi perl git wget python-pip postgresql-contrib postgresql build-essential gdb cython python-virtualenv ```
 
+You will then need to browse to any location on your machine where you have write permission. I would recommend your home directory. 
+You can access it by issuing the following command. 
+
+```cd ~ ```
+
+Proceed to clone the repository by issuing the following command: 
+
+``` git clone git@github.com:brck/CrisisStack.git ```
+
+You will now have a directory labelled CrisisStack 
+ ``` cd CrisisStack ```
+
+Create a Virtual Environment using the following command. This will jail your development environment. In my case I call my virtual environment flask. You can call it any other name your preffer: 
+
+```  virtualenv flask ```
+
+You then need to activate it by issuing either of the following commands:
+
+``` . flask/bin/acticate ```
+
+or 
+
+``` source flask/bin/activate ```
+
+Proceed to Install the packages listed in requirements.txt or by issuing the following command:
+
+pip install flask flask-login flask-openid flask-mail flask-sqlalchemy sqlalchemy-migrate flask-whooshalchemy flask-wtf flask-babel guess_language flipflop coverage flask-json
+
+The packages above will be specific to your virtual environment.  
+
+
+
 
