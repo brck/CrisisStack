@@ -22,5 +22,19 @@ If you wish to see what is required to launch a particular app please visit that
 For the application store please view the install notes on the website to get the latest information. 
 
 
+Setting Up Your Development Environment 
+----------------------------------------
+
+This application has mainly been written in python using the Flask framework. 
+You will therefore need to set up a local develoopment environment on your machine. Below are instructions on how to do this on Ubuntu. 
+
+Update your sources by punching in the following command: 
+
+``` sudo apt-get update ```
+``` sudo apt-get -y upgrade ```
+
+Install the following packages: 
+
+``` sudo apt-get -y install linux-headers wget wget python apache libapache2-mod-wsgi perl git wget python-pip postgresql-contrib postgresql build-essential gdb cython python-virtualenv ```
 
 
