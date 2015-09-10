@@ -38,17 +38,40 @@
     </section>
 
 {% endfor %}  
-</div> 
 
-{% for app in categoryapps %}
+<div class = "large-12 columns">
+  <h1 class = "clearfix"> 
+    <br> 
+    "Recommended Applications  "
+    </br>
+   </h1>
+</div>   
 
-    <div class="row related">
-      <div class="large-12 columns"><h1><br>Related Apps</h1></div>
-      <div class="large-3 medium-2 columns"><a href="#"><img src="/static/assets/images/content/logo_crowdmap.svg" ></a>
-          <h4><a href="#">{{presentapplication.Applicationname }}</a> </h4>
-          <h6>by {{presentapplication.Developername }} </h6>
-          <p class="rating"><span class="label round">{{presentapplication.noofdownloads}}</span> Downloads</p>
-      </div>
+{% for app in notinstalledapps %}
+    
+    <section class = "large-6 medium-6 small-12 columns download">
+      <div class = "row">
+
+        <div class = "large-5 small-5 columns">
+          <a class = "app_logo" href = "/MyApplications/{{app.id}}">
+            <img src ="/static/staticfolder/{{app.id}}/icon.svg">
+          </a>
+          <a class = "button expand radius" href = "{{app.launchurl}}"><i class ="fa fa-download"> </i> Installed </a>
+        </div>
+
+        <!-- App description  !-->
+        <div class = "large-7 medium-7 columns">
+          <h4><a href= "applciationprofile.html">{{app.name}}</a></h4>
+          <h6>by {{app.developerName}}</h6>
+          <p class = "rating">
+            <span class = "label round">{{app.downloads}}</span> "Downloads"
+          </p>
+          <p>{{app.description}}</p>
+        </div>
+
+      </div> 
+    </section>
 {% endfor %}
- 
+
+</div> 
 {%endblock%}

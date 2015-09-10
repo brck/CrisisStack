@@ -5,7 +5,7 @@ from flask import Flask, request, render_template, redirect , url_for , flash
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', applicationset = models.ApplicationTable.query.filter_by(installed=True))
+    return render_template('index.html', applicationset = models.ApplicationTable.query.filter_by(installed=True), notinstalledapps = models.ApplicationTable.query.filter_by(installed=False))
 
 @app.route('/MyApplications')
 def MyApplications():
