@@ -40,16 +40,4 @@
 {% endfor %}  
 </div>
 
-{% for app in categoryapps %}
-
-    <div class="row related">
-      <div class="large-12 columns"><h1><br>Related Apps</h1></div>
-      <div class="large-3 medium-2 columns"><a href="#"><img src="/static/assets/images/content/logo_crowdmap.svg" ></a>
-          <h4><a href="#">{{presentapplication.Applicationname }}</a> </h4>
-          <h6>by {{presentapplication.Developername }} </h6>
-          <p class="rating"><span class="label round">{{presentapplication.noofdownloads}}</span> Downloads</p>
-      </div>
-{% endfor %}
-
-
 {% endblock %}
