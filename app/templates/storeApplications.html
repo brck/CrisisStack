@@ -22,20 +22,13 @@
         <a class = "app_logo" href = "/StoreApplications/{{storeapplication.id}}">
           <img src = /static/staticfolder/{{storeapplication.id}}/icon.svg >
         </a>
-
-        <button class = "button expand radius"> 
-          <i class ="fa fa-download"> 
-             
-          </i>
-          <a href={{storeapplication.installscript}}>Install</a>
-        </button>
-      </div>
+       <a class = "button expand radius" href = "/StoreApplications/{{storeapplication.id}}"><i class ="fa fa-download"> </i> Install </a>      
+     </div>
 
       <!-- App description  !-->
      
 <div class = "large-7 medium-7 colums">
-  <h4>
-    <a href= "applciationprofile.html">{{storeapplication.name}}</a>
+  <h4>{{storeapplication.name}}
   </h4>
   <h6> by {{storeapplication.developerName}}</h6>
 </div>

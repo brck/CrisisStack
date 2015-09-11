@@ -13,14 +13,12 @@ $(document).ready(function(){
 		});
 		return false;
 	});
-});
-
-$(document).ready(function(){
-	$('#InstallButton').click(function(){
-		$('#InstallButton').html('<i class="fa fa-refresh fa-spin"></i> Installing');
+	//
+	$('#installButton').click(function(){
+		$('#installButton').html('<i class="fa fa-refresh fa-spin"></i> Installing');
 		var appId = $('#appid').val();
 		$.ajax({
-			url: '/MyApplications/'+ appId,
+			url: '/StoreApplications/'+ appId,
 			type: 'POST',
 		}).then(function (data){
 			setTimeout(function(){
@@ -31,3 +29,4 @@ $(document).ready(function(){
 		return false;
 	});
 });
+

@@ -39,7 +39,7 @@ def storeapplication(app_id):
   if request.method =='GET':
       return render_template("applicationprofileinstall.html", storeappentry = models.ApplicationTable.query.get(app_id))      
   elif request.method == 'POST':
-      commandline = "{{appentry.installscript}}"
+      commandline = "{{storeappentry.installscript}}"
       args = shlex.split(commandline)
       if ( subprocess.call(args) == 0):
             storeappentry.installed = True 
