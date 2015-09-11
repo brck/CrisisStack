@@ -100,10 +100,10 @@ body {
 /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    START : Foundation over-rides
    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
-.button {
+.button{
   background: #8abc51;
 }
-.button:hover {
+.button:hover, button.button:hover {
   background-color: #595959;
 }
 input[type="text"],
@@ -239,7 +239,7 @@ h1 {
 .content h6 {
   color: #666;
 }
-.content button {
+.content button, .content a {
   margin-top: 5px;
   color: #fff;
 }
@@ -259,7 +259,7 @@ h1 {
   -moz-opacity: 0.2;
   opacity: 0.2;
 }
-.download .button {
+.download .button, .download button{
   background-color: #ba1f44;
 }
 .download .button:hover {
