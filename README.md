@@ -107,6 +107,8 @@ You can now start the application by executing the following command:
 
 ``` python run.py ```
 
+Have fun!!!! 
+
 
 
 
