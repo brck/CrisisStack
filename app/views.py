@@ -21,8 +21,12 @@ def myapplication(app_id):
   if request.method == 'GET':
      return render_template("applicationprofile.html", appentry = models.ApplicationTable.query.get(app_id))
   elif request.method == 'POST':
-      subprocess.call([{{appentry.uninstallscript}}])
-      
+      commandline = "pwd"
+      args = shlex.split(commandline)
+      if ( subprocess.call(args) == 0):
+            appentry.installed = False
+            db.session.commit()
+            return redirect(url_for('index'))
                   
  
 @app.route('/StoreApplications')
@@ -35,7 +39,12 @@ def storeapplication(app_id):
   if request.method =='GET':
       return render_template("applicationprofileinstall.html", storeappentry = models.ApplicationTable.query.get(app_id))      
   elif request.method == 'POST':
-       subprocess.call([{{storeappentry.installscript}}])
+      commandline = "{{appentry.installscript}}"
+      args = shlex.split(commandline)
+      if ( subprocess.call(args) == 0):
+            storeappentry.installed = True 
+            db.session.commit()
+            return redirect(url_for('index'))
 
 @app.route ('/login', methods=['GET'])
 def login():
