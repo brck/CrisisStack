@@ -35,7 +35,7 @@ Update your sources by punching in the following command:
 
 Install the following packages: 
 
-``` sudo apt-get -y install linux-headers wget wget python apache libapache2-mod-wsgi perl git wget python-pip postgresql-contrib postgresql build-essential gdb cython python-virtualenv ```
+``` sudo apt-get -y install wget wget python apache2 libapache2-mod-wsgi perl git wget python-pip postgresql-contrib postgresql build-essential gdb cython python-virtualenv ```
 
 You will then need to browse to any location on your machine where you have write permission. I would recommend your home directory. 
 You can access it by issuing the following command. 
