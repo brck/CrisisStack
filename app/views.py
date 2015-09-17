@@ -31,7 +31,7 @@ def myapplication(app_id):
  
 @app.route('/StoreApplications')
 def Storeapplications():
-    return render_template("StoreApplications.html", storeapplications = models.ApplicationTable.query.filter_by(installed= False), )	  
+    return render_template("StoreApplications.html", storeapplications = models.ApplicationTable.query.filter_by(installed= False))	  
 
 @app.route('/StoreApplications/<int:app_id>', methods = ['GET','POST'])
 def storeapplication(app_id):
