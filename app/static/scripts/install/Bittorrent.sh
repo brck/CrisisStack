@@ -1,6 +1,6 @@
 #!/bin/sh 
-sudo apt-get install software-properties-common python-software-properties
-apt-key adv --keyserver keys.gnupg.net --recv-keys 6BF18B15
+sudo apt-get install software-properties-common python-software-properties -y 
+apt-key adv --keyserver keys.gnupg.net --recv-keys 6BF18B15 -y 
 CODENAME=$(lsb_release -cs | sed -n '/lucid\|precise\|quantal\|raring\|saucy\|trusty\|squeeze\|wheezy\|jessie\|sid/p')
 echo "" >> /etc/apt/sources.list
 echo "#### BitTorrent Sync - see: http://forum.bittorrent.com/topic/18974-debian-and-ubuntu-server-packages-for-bittorrent-sync-121-1/" >> /etc/apt/sources.list
