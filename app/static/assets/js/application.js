@@ -22,7 +22,7 @@ $(document).ready(function(){
 			type: 'POST',
 		}).then(function (data){
 			setTimeout(function(){
-				$('#InstallButton').html('<i class="fa fa-tick"></i> Installed');
+				$('#installButton').html('<i class="fa fa-tick"></i> Installed');
 			}, 5000);
 			window.location.href ="/";
 		});
