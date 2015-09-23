@@ -10,10 +10,9 @@ allowing anyone to submit information through text messaging using a mobile phon
 
 * Sahana Eden(http://sahanafoundation.org/products/eden/) : A suite of tools designed specifically for organizations during disasters, including organization registry, project tracking, asset tracking and more.
 
-Work in progress 
-
 * BitTorrent Sync(https://www.getsync.com/) -Fast, simple, and secure file syncing for IT and individuals.
 
+Work in progress
 
 *OSM Sync(https://blog.openstreetmap.org/2013/04/29/openstreetmap-opens-up-to-more-contributors-with-easy-add-a-note-feature/) – Make a mark on a map served off the BRCK+Pi and synchronize with OSM API occasionally
 
