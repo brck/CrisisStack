@@ -12,7 +12,7 @@ allowing anyone to submit information through text messaging using a mobile phon
 
 * BitTorrent Sync(https://www.getsync.com/) -Fast, simple, and secure file syncing for IT and individuals.
 
-Work in progress
+In progress: 
 
 * OSM Sync(https://blog.openstreetmap.org/2013/04/29/openstreetmap-opens-up-to-more-contributors-with-easy-add-a-note-feature/) – Make a mark on a map served off the BRCK+Pi and synchronize with OSM API occasionally
 
@@ -67,7 +67,7 @@ or
 
 Proceed to Install the packages listed in requirements.txt or by issuing the following command:
 
-pip install flask flask-login flask-openid flask-mail flask-sqlalchemy sqlalchemy-migrate flask-whooshalchemy flask-wtf flask-babel guess_language flipflop coverage flask-json
+``` pip install flask flask-login flask-openid flask-mail flask-sqlalchemy sqlalchemy-migrate flask-whooshalchemy flask-wtf flask-babel guess_language flipflop coverage flask-json ```
 
 The packages above will be specific to your virtual environment. 
 At the time of writing this, these are some of the packages I had in my virtual environment: 
