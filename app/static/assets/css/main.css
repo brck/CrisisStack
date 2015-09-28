@@ -259,7 +259,7 @@ h1 {
   -moz-opacity: 0.2;
   opacity: 0.2;
 }
-.download .button, .download button{
+.download .button, .download button, .install.button{
   background-color: #ba1f44;
 }
 .download .button:hover {
