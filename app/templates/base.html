@@ -44,7 +44,11 @@
               <li><a href="/StoreApplications">Application Store </a></li>
               <li><a href="/MyApplications">My Applications</a></li>
               <li><a href="/">Home</a></li>
-              <li><a href="/">Logout</a></li>
+             {% if not session.logged_in %}
+              <li><a href="{{ url_for('login') }}">Log In</a></li>
+              {% else %}
+               <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+              {% endif %}
             </ul>
           </span>
           <span class="search right">
