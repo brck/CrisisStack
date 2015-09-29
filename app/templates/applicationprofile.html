@@ -31,4 +31,26 @@
         </div>
       </div>
     </section>
+    <div class = "row related">
+      <div class = "large-12 columns">
+       <h1>
+        <br>Related Applications 
+        </h1>
+
+          {%for application in similarapps %}  
+           <div class="large-3 medium-2 columns">
+           <img src="/static/staticfolder/{{application.id}}/icon.svg">
+           <h4>{{application.name}}</h4>
+           <h6>by {{application.developerName}}</h6>
+           <p class = "rating">
+             <span class = "label round">{{application.downloads}}</span>
+             "Downloads"
+           </p>
+           </div>
+          {% endfor %}
+
+      </div>
+
+    </div>
+    </div>
 {% endblock %}
