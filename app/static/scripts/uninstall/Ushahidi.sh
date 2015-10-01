@@ -1,4 +1,6 @@
 #!/bin/sh 
-cd /etc/apache2/sites-available/ 
-sudo a2dissite Ushahidi 
-sudo service apache2 restart
+cd /etc/nginx/sites-enabled/
+rm -rf ushahidi
+service nginx restart
+
+
