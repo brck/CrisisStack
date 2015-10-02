@@ -38,6 +38,9 @@
         </h1>
 
           {%for application in similarapps %}  
+          {%if application.id == appentry.id %}
+           <p></p>
+          {% else %}
            <div class="large-3 medium-2 columns">
            <img src="/static/staticfolder/{{application.id}}/icon.svg">
            <h4>{{application.name}}</h4>
@@ -47,6 +50,7 @@
              "Downloads"
            </p>
            </div>
+           {% endif %}
           {% endfor %}
 
       </div>
