@@ -5,7 +5,6 @@ from app import app , db , models , forms , APP_STATIC
 from flask import Flask, request, render_template, redirect , url_for , flash , jsonify, json 
 from flask_json import FlaskJSON , JsonError, json_response, as_json
 
-
 @app.route('/')
 @app.route('/index')
 def index():
@@ -80,4 +79,3 @@ def page_not_found(e):
 def internal_server_error(error):
     return 'Sorry we are currently experiencing an internal server error'
 
-app.secret_key = 'd41d8cd98f00b204e9800998ecf8427e'
