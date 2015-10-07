@@ -1,2 +1,2 @@
-#!/bin/sh 
-sudo apt-get -y remove bt-sync 
+	#!/bin/sh 
+sudo apt-get -y remove btsync 
