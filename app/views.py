@@ -66,8 +66,12 @@ def login():
         if username != "admin" and password != "password" :
             flash('Username or Password is invalid' , 'error')
             return redirect(url_for('login'))
-    else: 
-        return redirect(request.args.get('next') or url_for('index'))
+        else: 
+            return redirect(url_for('index'))    
+    else:
+        flash('We are experiencing a problem')
+        return redirect(url_for('index'))       
+    
 
 @app.errorhandler(404)
 def page_not_found(e):
