@@ -26,10 +26,10 @@ def myapplication(app_id):
       if (subprocess.call(args) == 0):
             appentry.installed = False
             db.session.commit()
-            return redirect(url_for('index'))
+            return redirect(url_for('/'))
       elif (subprocess.call(args) == 1):
             flash('your application was not successfully installed, Kindly contact your administrator')
-            return redirect(url_for('index'))
+            return redirect(url_for('/'))
       else:
            flash ('Program error. Please contact the developer') 
                   
