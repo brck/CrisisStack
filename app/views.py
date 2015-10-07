@@ -55,7 +55,6 @@ def storeapplication(app_id):
       else:
            flash ('Program error. Please contact the developer') 
 
-
 @app.route ('/login', methods=['GET', 'POST'])
 def login():
     if request.method=='GET':
