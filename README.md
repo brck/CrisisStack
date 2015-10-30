@@ -1,109 +1,118 @@
 # CrisisStack
-This guide shall take you through how to install the CrisisStack software on the BRCK+PI MRTR. 
+This is the development branch to cater for revision. 
 
-The software stack currently includes:
-Etherpad-lite (http://github.com/ether/etherpad-lite): A real-time collaborative document editing tool. 
-Ushahidi(https://github.com/ushahidi/Ushahidi_Web):A platform that allows information collection, visialuzation and interactive mapping allowing anyone to submit information through text messaging using a mobile phone,email or web form
+The software stack is an application store that allows you to install and launch various applciations that are we consider a first release(Primary set) for first Crisis responders. Some of the applications included are:
+
+* Etherpad-lite (http://github.com/ether/etherpad-lite): A real-time collaborative document editing tool. 
+
+* Ushahidi(https://github.com/ushahidi/Ushahidi_Web):A platform that allows information collection, visialuzation and interactive mapping 
+allowing anyone to submit information through text messaging using a mobile phone,email or web form
+
+* Sahana Eden(http://sahanafoundation.org/products/eden/) : A suite of tools designed specifically for organizations during disasters, including organization registry, project tracking, asset tracking and more.
+
+* BitTorrent Sync(https://www.getsync.com/) -Fast, simple, and secure file syncing for IT and individuals.
+
+In progress: 
+
+* OSM Sync(https://blog.openstreetmap.org/2013/04/29/openstreetmap-opens-up-to-more-contributors-with-easy-add-a-note-feature/) – Make a mark on a map served off the BRCK+Pi and synchronize with OSM API occasionally
 
 More software shall be optimized and/or added over time. 
 
 System Requirements 
 --------------------
+We have included a set of packages in our image that allow you to install these applications, where most of them share libraries that can be viewed from the individual package install scripts. 
+If you wish to see what is required to launch a particular app please visit that the specific package. 
 
-To install the platform on your PI the following software libraries must be installed:
+For the application store please view the install notes on the website to get the latest information. 
 
-*php version 5.3 or greater
-*MySQL version 5.0 or greater 
-*An web server 
-*unicode support in the operating system
 
-Required Extensions
--------------------
-In addition to the software mentioned above please install these php libraries. The commands have been given below. 
+Setting Up Your Development Environment 
+----------------------------------------
 
-* [PCRE](http://php.net/pcre)
-* [iconv](http://php.net/iconv)
-* [mycrype](http://php.net/mcrypt)
-* [mbstring](http://php.net/mbstring)
-* [cURL](http://php.net/curl)
-* [MySQL](http://php.net/mysql)
-* [IMAP](http://php.net/imap)
-* [GD](http://php.net/gd)
+This application has mainly been written in python using the Flask framework. 
+You will therefore need to set up a local develoopment environment on your machine. Below are instructions on how to do this on Ubuntu. 
 
-The command is
+Update your sources by punching in the following command: 
 
-  ```sudo apt-get -y install libpcre3 libpcre3-dev iconv php5-mcrypt php5-mysql php5-curl php5-gd php5-idn php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-mhash php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl php5-json php5-curl ```
+``` sudo apt-get update ```
+``` sudo apt-get -y upgrade ```
 
-Installation
-------------
-* #####Download and extract Ushahidi 
-   There are two recommended ways to do this: 
-   
-   You can obtain ushahidi from the official realease site which is available [here](http://download.ushahidi.com).
-   
-   
-   You may also choose to download it from the [Ushahidi github repo](https://github.com/ushahidi/Ushahidi_Web)
-   
-If you chose to go with the first option kindly proceed to unpack the files as shown below :
-On Linux
+Install the following packages: 
 
-	tar -xzvf Ushahidi-web-xxxx-tar.gz
+``` sudo apt-get -y install wget wget python apache2 libapache2-mod-wsgi perl git wget python-pip postgresql-contrib postgresql build-essential gdb cython python-virtualenv ```
 
-or if it is a zip file 
+You will then need to browse to any location on your machine where you have write permission. I would recommend your home directory. 
+You can access it by issuing the following command. 
 
-	unzip Ushahidi-web-xxxx.zip
+```cd ~ ```
 
-You will then need to move the directory to your public HTML directory. 
-In this case, we moved the contents of the directory to /var/www/
+Proceed to clone the repository by issuing the following command: 
 
-* #####Permissions 
-     We then need to ensure that the directory is writable by setting the permissions as follows:
+``` git clone git@github.com:brck/CrisisStack.git ```
 
-    ```
-    cd var/www/
-    chmod -R 777 application/config
-    chmod -R 777 application/cache
-    chmod -R 777 application/logs
-    chmod -R 777 media/uploads
-    chmod 777 .htaccess 
+You will now have a directory labelled CrisisStack 
+ ``` cd CrisisStack ```
 
-    ```
+Create a Virtual Environment using the following command. This will jail your development environment. In my case I call my virtual environment flask. You can call it any other name your preffer: 
 
-* ####Create the ushahidi database 
-  
-  Ushahidi strores all its data in a database . We need to create a user account on the database management system and then proceed to give the user rights to access the database we shall be creating.  
+```  virtualenv flask ```
 
-Proceed to log in as the root user. The root password is the one you input when you installed mysql-server earlier. 
+You then need to activate it by issuing either of the following commands:
 
-Input the following command to create the new user:
+``` . flask/bin/acticate ```
 
-  ```CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';```
+or 
 
-You then need to give the new user read and write access to the database management system. You do this by executing the following command:
-  
-  ```GRANT ALL PRIVILEGES ON *.* TO 'user' @ 'localhost' WITH GRANT OPTION```
+``` source flask/bin/activate ```
 
-However, if you want to only grant the user read and write access to that database then please use the command below.
+Proceed to Install the packages listed in requirements.txt or by issuing the following command:
 
-  ```GRANT SELECT INSERT, DELETE, UPDATE, CREATE, DROP, ALTER, INDEX, LOCK ON TABLES On database.* TO 'user'@'localhost';```
+``` pip install flask flask-login flask-openid flask-mail flask-sqlalchemy sqlalchemy-migrate flask-whooshalchemy flask-wtf flask-babel guess_language flipflop coverage flask-json ```
 
-RUN THE INSTALL SCRIPT 
-----------------------
+The packages above will be specific to your virtual environment. 
+At the time of writing this, these are some of the packages I had in my virtual environment: 
+``` Babel==2.0
+	Flask==0.10.1
+	Flask-Babel==0.9
+	Flask-JSON==0.2.0
+	Flask-Login==0.2.11
+	Flask-Mail==0.9.1
+	Flask-OpenID==1.2.4
+	Flask-SQLAlchemy==2.0
+	Flask-WTF==0.12
+	Flask-WhooshAlchemy==0.56
+	Jinja2==2.8
+	MarkupSafe==0.23
+	SQLAlchemy==1.0.8
+	Tempita==0.5.2
+	WTForms==2.0.2
+	Werkzeug==0.10.4
+	Whoosh==2.7.0
+	argparse==1.2.1
+	blinker==1.4
+	coverage==3.7.1
+	decorator==4.0.2
+	flipflop==1.0
+	guess-language==0.2
+	itsdangerous==0.24
+	pbr==1.7.0
+	python-openid==2.2.5
+	pytz==2015.4
+	six==1.9.0
+	speaklater==1.3
+	sqlalchemy-migrate==0.10.0
+	sqlparse==0.1.16
+	wsgiref==0.1.2 
+``` 
 
-To run the install script, point your browser to the base URL of your raspberry pi.This will then allow you to set up your instance.  
+Please note that the numbers indicate the package versions.
 
-Cleaning up 
------------
+You can now start the application by executing the following command: 
 
-Now that we are done, we need to remove the installation files. 
-You can do this by issuing the following commands:
+``` python run.py ```
 
-```
-cd /var/www
-chmod -R 755 application/config 
-chmod 644 application/config/*
-chmod 644 *.htaccess
+Have fun!!!! 
 
-```
+
 
 

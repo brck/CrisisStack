@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row content">
+
+    <section class="large-12 columns">
+      <div class="row">
+        
+        <div class="large-3 medium-3 columns">
+          <img src= "/static/staticfolder/{{storeappentry.id}}/icon.svg" >
+          <form> 
+          <input type="hidden" value="{{storeappentry.id}}" name="appid" id="appid"/>
+              <button id="installButton" type="submit"   class="install button expand radius" type = "submit" value = "Install Application"><i class="fa fa-download"></i>Install</button>
+          </form>
+        </div>
+
+        <div class="large-9 medium-9 columns">
+          <h4>{{storeappentry.name}}</h4>
+          <h6>by {{storeappentry.developerName}} </h6>
+          <p class="rating"><span class="label round">{{storeappentry.downloads}}</span> Downloads</p>
+          <p>{{storeappentry.description}} </p>
+          <hr>
+          <h5>Screenshots</h5>
+          <div class="row screenshots">
+            <div class="large-6 columns"><img src= /static/staticfolder/{{storeappentry.id}}//browser.png ></div>
+            <div class="large-6 columns"><img src=/static/staticfolder/{{storeappentry.id}}//browser.png ></div>
+            <div class="large-6 columns"><img src= /static/staticfolder/{{storeappentry.id}}//browser.png></div>
+            <div class="large-6 columns"><img src= /static/staticfolder/{{storeappentry.id}}//browser.png ></div>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </section>
+{%endblock%}
