@@ -53,13 +53,13 @@ Proceed to clone the repository by issuing the following command:
 You will now have a directory labelled CrisisStack 
  ``` cd CrisisStack ```
 
-Create a Virtual Environment using the following command. This will jail your development environment. In my case I call my virtual environment flask. You can call it any other name your preffer: 
+Create a Virtual Environment using the following command. This will jail your development environment. In my case I call my virtual environment flask. You can call it any other name your prefer: 
 
 ```  virtualenv flask ```
 
 You then need to activate it by issuing either of the following commands:
 
-``` . flask/bin/acticate ```
+``` . flask/bin/activate ```
 
 or 
 
