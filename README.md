@@ -1,5 +1,5 @@
 # CrisisStack
-This is the development branch to cater for revision. 
+This is the lua development branch to cater for revision of the local application. 
 
 The software stack is an application store that allows you to install and launch various applciations that are we consider a first release(Primary set) for first Crisis responders. Some of the applications included are:
 
