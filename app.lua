@@ -16,7 +16,12 @@ app:match("application_id","/MyApplications/:application_id", respond_to({
 	    return "This is a specific applications"
     end,
     POST = function(self)
-    	--return function to go here. 
+    	--return function to go here.     
+        return {redirect_to= self:url_for('index')}
+    end, 
+    DELETE =function(self) 
+        --do something that somewhat relates to delete. 
+        return {redirect_to =self:url_for('index')}     
     end})) 
 
 app:match("/MyApplications/:application_id/analytics", function(self)
@@ -28,11 +33,9 @@ app:match("/Search", respond_to ({
          return "This is the search page"
     end, 
     POST = function(self),
-    --- return      
+      --- look for that item here 
+      return 'Here are your results'      
     end}))
 
-app:delete("/MyApplications/:application_id/delete", function(self)
-	return "delete the application"
-end)
 
 return app
