@@ -2,7 +2,7 @@ local schema = require("lapis.db.schema")
 
 local types = schema.types
 
-schema.create_table("applciations", {
+schema.create_table("applications", {
   {"id", types.serial({ primary_key = true, null = false })},
   {"name", types.varchar({null = false})},
   {"version",types.double({null = false})},
@@ -17,9 +17,12 @@ schema.create_table("applciations", {
 })
 
 schema.create_table("address",{
+ relations = {
+ {"developer", belongs_to = "developerinformation"}
+ }	
   {"id",types.serial({ primary_key = true, null = false })},
   {"email",types.varchar({null=false}), 
-  {"developerid",types.foreign_key({null = false})}
+  {"developer",types.foreign_key({null = false})}
 })
 
 schema.create_table("developerinformation",{
@@ -35,8 +38,11 @@ schame.create_table("applciationcategory",{
 	})
 
 schema.create_table("applciationupdate",{
+	relations = {
+	"application", belongs_to = "applications"
+    }
     {"id", types.serial({ primary_key = true, null = false })},
-    {"applciationid",types.foreign_key({ null= false}), 
+    {"applciation",types.foreign_key({ null= false}), 
     {"version",types.integer({null=false})},
     {"updateinformation",types.varchar({null=false})}
     })	
