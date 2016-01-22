@@ -16,6 +16,27 @@ schema.create_table("applciations", {
   "PRIMARY KEY (id)"
 })
 
+schema.create_table("address",{
+  {"id",types.serial({ primary_key = true, null = false })},
+  {"email",types.varchar({null=false}), 
+  {"developerid",types.foreign_key({null = false})}
+})
 
+schema.create_table("developerinformation",{
+    {"id", types.serial({ primary_key = true, null = false })},
+    {"name", types.varchar({null = false})},
+    {"website",types.varchar({null = true })},
+    {"email",types.varchar({null= false})}
+	})
 
+schame.create_table("applciationcategory",{
+   {"id", types.serial({ primary_key = true, null = false })},
+   {"name", types.varchar({primary_key = true , null = false })}
+	})
 
+schema.create_table("applciationupdate",{
+    {"id", types.serial({ primary_key = true, null = false })},
+    {"applciationid",types.foreign_key({ null= false}), 
+    {"version",types.integer({null=false})},
+    {"updateinformation",types.varchar({null=false})}
+    })	
