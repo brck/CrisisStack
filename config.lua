@@ -6,6 +6,12 @@ config("development", {
   greeting = "Hello mate",
   num_workers = "2",
   measure_performance = True,
+  email_enabled = False, 
+  postgres = {
+     host= "localhost",
+     port = "5432",
+     database = "crisisstacklocal"
+}
   logging = {
           requests = True, 
           queries = True
