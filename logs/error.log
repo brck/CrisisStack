@@ -1,3 +1,0 @@
-2016/01/21 12:14:21 [alert] 8905#0: lua_code_cache is off; this will hurt performance in /vagrant/nginx.conf.compiled:16
-2016/01/21 12:24:55 [alert] 8941#0: lua_code_cache is off; this will hurt performance in /vagrant/nginx.conf.compiled:16
-2016/01/21 15:57:11 [alert] 10253#0: lua_code_cache is off; this will hurt performance in /vagrant/nginx.conf.compiled:16
