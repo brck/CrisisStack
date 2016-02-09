@@ -11,11 +11,11 @@ config("development", {
      host= "localhost",
      port = "5432",
      database = "crisisstacklocal"
-}
+     },
   logging = {
           requests = True, 
           queries = True
-}
+     }
 })
 
 config("production", {

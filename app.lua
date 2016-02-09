@@ -32,10 +32,19 @@ app:match("/Search", respond_to ({
     GET = function(self)
          return "This is the search page"
     end, 
-    POST = function(self),
+    POST = function(self)
       --- look for that item here 
       return 'Here are your results'      
     end}))
+
+app.default_route = function(self)
+  ngx.log(ngx.NOTICE, "User hit unknown path " .. self.req.parsed_url.path)
+  return lapis.Application.default_route(self)
+end
+
+app.handle_404 = function(self)
+  return { status = 404, layout = false, "Not Found!" }
+end
 
 
 return app
