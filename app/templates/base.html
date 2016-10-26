@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <!-- +++ PAGE INFO +++ -->
+    <title>Crisis Stack</title>
+    <link rel="icon" href="{{ url_for('static', filename='assets/images/favicon.ico') }}" type="image/x-icon">
+
+    <!-- +++ META +++ -->
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="robots" content="noindex">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+    <!-- +++ CSS +++ -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/normalize.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/foundation.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/font-awesome.min.css') }}" />
+
+    <!-- +++ JS +++ -->
+    <script src="{{ url_for('static', filename='assets/js/less.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/modernizr.js') }}"></script>
+
+</head>
+
+<body>
+
+    <!--========================================================
+                            HEADER
+  =========================================================-->
+    <header>
+        <div class="row">
+            <div class="large-6 medium-5 small-3 columns">
+                <a href="#">
+                    <img class="show-for-medium-up" src="{{ url_for('static', filename='assets/images/logo.svg') }}" alt="Crisis Stack">
+                    <img class="show-for-small-only" src="{{ url_for('static', filename='assets/images/logo_sm.svg') }}" alt="Crisis Stack">
+                </a>
+            </div>
+            <div class="large-6 medium-7 small-9  columns">
+                <span class="nav right">
+            <a href="#" data-dropdown="nav_dropdown" aria-controls="drop1" aria-expanded="false">
+              <i class="fa fa-navicon"></i>
+            </a>
+            <ul id="nav_dropdown" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
+              <li><a href="#">Login</a></li>
+              <li><a href="#">Logout</a></li>
+              <li><a href="#">Admin</a></li>
+            </ul>
+          </span>
+                <span class="search right">
+            <form><input type="search" value="search" class="right"><i class="fa fa-search right"></i></form>
+          </span>
+            </div>
+        </div>
+    </header>
+    <!--========================================================
+                            CONTENT
+  =========================================================-->
+
+    {% block content %}{% endblock %}
+
+    <!--========================================================
+                            FOOTER
+  =========================================================-->
+    <footer>
+        <div class="row">
+            <div class="large-12 columns">
+                <p class=" text-right">All Rights Reserved. Copyright © 2015. Crisis Stack a product of BRCK Inc.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="{{ url_for('static', filename='assets/js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/foundation.min.js') }}"></script>
+
+</body>
+
+</html>
