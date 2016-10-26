@@ -1,145 +1,144 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
 
-<div class="row">
-    <div class="large-12 columns">
-        <h1 class="text-center">BRCK Crisis Stack ipsum dolor, consectetur<br> adipiscing elit, sed do eiusmod tempor. </h1>
-    </div>
-</div>
+{% block content %}
 
-<div class="row content">
+	<div class="row">
+	    <div class="large-12 columns">
+	        <h1 class="text-center">BRCK Crisis Stack ipsum dolor, consectetur<br> adipiscing elit, sed do eiusmod tempor. </h1>
+	    </div>
+	</div>
 
-    <section class="large-6 medium-6 small-12  columns">
-        <div class="row">
+	<div class="row content">
 
-            <div class="large-5 medium-5 columns">
-                <a class="app_logo" href="app_info.html">
-                    <img src="{{ url_for('static', filename='assets/images/content/logo_crowdmap.svg') }}"></a>
-                <button class="button expand radius"><i class="fa fa-rocket"></i>Launch</button>
-            </div>
+	    <section class="large-6 medium-6 small-12  columns">
+	        <div class="row">
 
-            <div class="large-7 medium-7 columns">
-                <h4><a href="app_info.html">Crowdmap</a> </h4>
-                <h6>by Ushahidi </h6>
-                <p class="rating"><span class="label round">53</span> Downloads</p>
-                <p>Ushahidi is a global organization that empowers people to make a serious impact with open source technologies, cross-sector partnerships. </p>
-            </div>
-        </div>
-    </section>
+	            <div class="large-5 medium-5 columns">
+	                <a class="app_logo" href="app_info.html">
+	                    <img src="{{ url_for('static', filename='assets/images/content/logo_crowdmap.svg') }}"></a>
+	                <button class="button expand radius"><i class="fa fa-rocket"></i>Launch</button>
+	            </div>
 
-    <section class="large-6 medium-6 small-12  columns">
-        <div class="row">
-            <div class="large-5 medium-5  columns">
-                <a class="app_logo" href="app_info.html">
-                    <img src="{{ url_for('static', filename='assets/images/content/logo_enketo.svg') }}"></a>
-                <button class="button expand radius"><i class="fa fa-rocket"></i>Launch</button>
-            </div>
-            <div class="large-7 medium-7  columns">
-                <h4><a href="app_info.html">Smart Paper</a></h4>
-                <h6> by Enketo </h6>
-                <p class="rating"><span class="label round">232</span> Downloads</p>
-                <p>Deploy and conduct surveys that work without a connection, on any device </p>
-            </div>
-        </div>
-    </section>
-    <section class="large-6 medium-6 small-12   columns">
-        <div class="row">
-            <div class="large-5 medium-5 columns">
-                <a class="app_logo" href="app_info.html">
-                    <img src="{{ url_for('static', filename='assets/images/content/logo_etherpad.svg') }}"></a>
-                <button class="button expand radius"><i class="fa fa-rocket"></i>Launch</button>
-            </div>
-            <div class="large-7 medium-7 columns">
-                <h4><a href="app_info.html">Etherpad-Lite </a></h4>
-                <h6> by Etherpad </h6>
-                <p class="rating"><span class="label round">3</span> Downloads</p>
-                <p>Etherpad allows you to edit documents collaboratively in real-time, much like a live multi-player editor that runs in your browser. </p>
-            </div>
-        </div>
-    </section>
+	            <div class="large-7 medium-7 columns">
+	                <h4><a href="app_info.html">Crowdmap</a> </h4>
+	                <h6>by Ushahidi </h6>
+	                <p class="rating"><span class="label round">53</span> Downloads</p>
+	                <p>Ushahidi is a global organization that empowers people to make a serious impact with open source technologies, cross-sector partnerships. </p>
+	            </div>
+	        </div>
+	    </section>
 
-    <section class="large-6 medium-6 small-12  columns">
-        <div class="row">
-            <div class="large-5 medium-5  columns">
-                <a class="app_logo" href="app_info.html">
-                    <img src="{{ url_for('static', filename='assets/images/content/logo_sahana.svg') }}"> </a>
-                <button class="button expand radius"> <i class="fa fa-rocket"></i>Launch</button>
-            </div>
-            <div class="large-7 medium-7  columns">
-                <h4><a href="app_info.html">Eden</a></h4>
-                <h6> by Sahana </h6>
-                <p class="rating"><span class="label round">34K</span> Downloads</p>
-                <p>Flexible humanitarian platform with a rich feature set which can be rapidly customized to adapt to existing processes and integrate with existing systems to provide </p>
-            </div>
-        </div>
-    </section>
+	    <section class="large-6 medium-6 small-12  columns">
+	        <div class="row">
+	            <div class="large-5 medium-5  columns">
+	                <a class="app_logo" href="app_info.html">
+	                    <img src="{{ url_for('static', filename='assets/images/content/logo_enketo.svg') }}"></a>
+	                <button class="button expand radius"><i class="fa fa-rocket"></i>Launch</button>
+	            </div>
+	            <div class="large-7 medium-7  columns">
+	                <h4><a href="app_info.html">Smart Paper</a></h4>
+	                <h6> by Enketo </h6>
+	                <p class="rating"><span class="label round">232</span> Downloads</p>
+	                <p>Deploy and conduct surveys that work without a connection, on any device </p>
+	            </div>
+	        </div>
+	    </section>
+	    <section class="large-6 medium-6 small-12   columns">
+	        <div class="row">
+	            <div class="large-5 medium-5 columns">
+	                <a class="app_logo" href="app_info.html">
+	                    <img src="{{ url_for('static', filename='assets/images/content/logo_etherpad.svg') }}"></a>
+	                <button class="button expand radius"><i class="fa fa-rocket"></i>Launch</button>
+	            </div>
+	            <div class="large-7 medium-7 columns">
+	                <h4><a href="app_info.html">Etherpad-Lite </a></h4>
+	                <h6> by Etherpad </h6>
+	                <p class="rating"><span class="label round">3</span> Downloads</p>
+	                <p>Etherpad allows you to edit documents collaboratively in real-time, much like a live multi-player editor that runs in your browser. </p>
+	            </div>
+	        </div>
+	    </section>
 
-    <div class="large-12 columns">
-        <h1 class="clearfix"><br>Not Installed</h1></div>
+	    <section class="large-6 medium-6 small-12  columns">
+	        <div class="row">
+	            <div class="large-5 medium-5  columns">
+	                <a class="app_logo" href="app_info.html">
+	                    <img src="{{ url_for('static', filename='assets/images/content/logo_sahana.svg') }}"> </a>
+	                <button class="button expand radius"> <i class="fa fa-rocket"></i>Launch</button>
+	            </div>
+	            <div class="large-7 medium-7  columns">
+	                <h4><a href="app_info.html">Eden</a></h4>
+	                <h6> by Sahana </h6>
+	                <p class="rating"><span class="label round">34K</span> Downloads</p>
+	                <p>Flexible humanitarian platform with a rich feature set which can be rapidly customized to adapt to existing processes and integrate with existing systems to provide </p>
+	            </div>
+	        </div>
+	    </section>
 
-    <section class="large-6 medium-6 small-12  columns download">
-        <div class="row">
+	    <div class="large-12 columns">
+	        <h1 class="clearfix"><br>Not Installed</h1></div>
 
-            <div class="large-5 medium-5 columns">
-                <a class="app_logo" href="#">
-                    <img src="{{ url_for('static', filename='assets/images/content/logo_crowdmap.svg') }}"></a>
-                <button class="button expand radius"><i class="fa fa-download"></i>Install</button>
-            </div>
+	    <section class="large-6 medium-6 small-12  columns download">
+	        <div class="row">
 
-            <div class="large-7 medium-7 columns">
-                <h4>Crowdmap </h4>
-                <h6>by Ushahidi </h6>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-            </div>
-        </div>
-    </section>
+	            <div class="large-5 medium-5 columns">
+	                <a class="app_logo" href="#">
+	                    <img src="{{ url_for('static', filename='assets/images/content/logo_crowdmap.svg') }}"></a>
+	                <button class="button expand radius"><i class="fa fa-download"></i>Install</button>
+	            </div>
 
-    <section class="large-6 medium-6 small-12  columns download">
-        <div class="row">
-            <div class="large-5 medium-5  columns">
-                <a class="app_logo" href="#">
-                    <img src="{{ url_for('static', filename='assets/images/content/logo_enketo.svg') }}"> </a>
-                <button class="button expand radius"><i class="fa fa-download"></i>Install</button>
-            </div>
-            <div class="large-7 medium-7  columns">
-                <h4>Smart Paper</h4>
-                <h6> by Enketo </h6>
-                <p>Deploy and conduct surveys that work without a connection, on any device </p>
-            </div>
-        </div>
-    </section>
-    <section class="large-6 medium-6 small-12   columns download">
-        <div class="row">
-            <div class="large-5 medium-5 columns">
-                <a class="app_logo" href="#">
-                    <img src="{{ url_for('static', filename='assets/images/content/logo_etherpad.svg') }}"></a>
-                <button class="button expand radius"><i class="fa fa-download"></i>Install</button>
-            </div>
-            <div class="large-7 medium-7 columns">
-                <h4>Etherpad-Lite </h4>
-                <h6> by Etherpad </h6>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-            </div>
-        </div>
-    </section>
+	            <div class="large-7 medium-7 columns">
+	                <h4>Crowdmap </h4>
+	                <h6>by Ushahidi </h6>
+	                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+	            </div>
+	        </div>
+	    </section>
 
-    <section class="large-6 medium-6 small-12  columns download">
-        <div class="row">
-            <div class="large-5 medium-5  columns">
-                <a class="app_logo" href="#">
-                    <img src="{{ url_for('static', filename='assets/images/content/logo_sahana.svg') }}"> </a>
-                <button class="button expand radius"> <i class="fa fa-download"></i>Install</button>
-            </div>
-            <div class="large-7 medium-7  columns">
-                <h4>Eden</h4>
-                <h6> by Sahana </h6>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-            </div>
-        </div>
-    </section>
+	    <section class="large-6 medium-6 small-12  columns download">
+	        <div class="row">
+	            <div class="large-5 medium-5  columns">
+	                <a class="app_logo" href="#">
+	                    <img src="{{ url_for('static', filename='assets/images/content/logo_enketo.svg') }}"> </a>
+	                <button class="button expand radius"><i class="fa fa-download"></i>Install</button>
+	            </div>
+	            <div class="large-7 medium-7  columns">
+	                <h4>Smart Paper</h4>
+	                <h6> by Enketo </h6>
+	                <p>Deploy and conduct surveys that work without a connection, on any device </p>
+	            </div>
+	        </div>
+	    </section>
+	    <section class="large-6 medium-6 small-12   columns download">
+	        <div class="row">
+	            <div class="large-5 medium-5 columns">
+	                <a class="app_logo" href="#">
+	                    <img src="{{ url_for('static', filename='assets/images/content/logo_etherpad.svg') }}"></a>
+	                <button class="button expand radius"><i class="fa fa-download"></i>Install</button>
+	            </div>
+	            <div class="large-7 medium-7 columns">
+	                <h4>Etherpad-Lite </h4>
+	                <h6> by Etherpad </h6>
+	                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+	            </div>
+	        </div>
+	    </section>
 
+	    <section class="large-6 medium-6 small-12  columns download">
+	        <div class="row">
+	            <div class="large-5 medium-5  columns">
+	                <a class="app_logo" href="#">
+	                    <img src="{{ url_for('static', filename='assets/images/content/logo_sahana.svg') }}"> </a>
+	                <button class="button expand radius"> <i class="fa fa-download"></i>Install</button>
+	            </div>
+	            <div class="large-7 medium-7  columns">
+	                <h4>Eden</h4>
+	                <h6> by Sahana </h6>
+	                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+	            </div>
+	        </div>
+	    </section>
 
-
-
-</div>
+	</div>
 
 {% endblock %}

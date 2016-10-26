@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="row content">
+
+        <section class="large-12 columns">
+            <div class="row">
+
+                <div class="large-3 medium-3 columns">
+                    <img src="{{ url_for('static', filename='assets/images/content/logo_crowdmap.svg') }}">
+                    <button class="button expand radius"><i class="fa fa-rocket"></i>Launch</button>
+                </div>
+
+                <div class="large-9 medium-9 columns">
+                    <h4>Crowdmap</h4>
+                    <h6>by Ushahidi </h6>
+                    <p class="rating"><span class="label round">53</span> Downloads</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco. </p>
+                    <hr>
+
+                    <h5>Screenshots</h5>
+                    <div class="row screenshots">
+                        <div class="large-6 columns"><img src="{{ url_for('static', filename='assets/images/content/browser.png') }}"></div>
+                        <div class="large-6 columns"><img src="{{ url_for('static', filename='assets/images/content/browser.png') }}"></div>
+                        <div class="large-6 columns"><img src="{{ url_for('static', filename='assets/images/content/browser.png') }}"></div>
+                        <div class="large-6 columns"><img src="{{ url_for('static', filename='assets/images/content/browser.png') }}"></div>
+                    </div>
+                    <hr>
+                    <button class="button radius alert tiny right"> <i class="fa fa-trash-o"></i> Delete App</button>
+                </div>
+            </div>
+        </section>
+
+
+        <div class="row related">
+            <div class="large-12 columns">
+                <h1><br>Related Apps</h1></div>
+            <div class="large-3 medium-2 columns">
+                <a href="#"><img src="{{ url_for('static', filename='assets/images/content/logo_crowdmap.svg') }}"></a>
+                <h4><a href="#">Crowdmap</a> </h4>
+                <h6>by Ushahidi </h6>
+                <p class="rating"><span class="label round">53</span> Downloads</p>
+            </div>
+            <div class="large-3 medium-2 columns">
+                <a href="#"><img src="{{ url_for('static', filename='assets/images/content/logo_enketo.svg') }}"></a>
+                <h4><a href="#">Smart Paper</a></h4>
+                <h6> by Enketo </h6>
+                <p class="rating"><span class="label round">232</span> Downloads</p>
+            </div>
+            <div class="large-3 medium-2 columns">
+                <a href="#"><img src="{{ url_for('static', filename='assets/images/content/logo_etherpad.svg') }}"></a>
+                <h4><a href="#">Etherpad-Lite </a></h4>
+                <h6> by Etherpad </h6>
+                <p class="rating"><span class="label round">3</span> Downloads</p>
+            </div>
+            <div class="large-3 medium-2 columns">
+                <a href="#"><img src="{{ url_for('static', filename='assets/images/content/logo_sahana.svg') }}"></a>
+                <h4><a href="#">Eden</a></h4>
+                <h6> by Sahana </h6>
+                <p class="rating"><span class="label round">34K</span> Downloads</p>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
