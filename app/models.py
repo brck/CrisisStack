@@ -3,7 +3,7 @@ from sqlalchemy import Table, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
-from .app import db
+from . import db
 
 
 Base = declarative_base()
@@ -62,7 +62,7 @@ class Developer(db.Model):
 
 
 class CategoryTable(db.Model):
-    __tablename__ = 'app_category'
+    __tablename__ = 'CategoryTable'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250), nullable=False)
@@ -90,10 +90,12 @@ class ApplicationTable (db.Model):
     permission = db.Column(db.String(250), nullable=False)
     osVersion = db.Column(db.String(250), nullable=False)
     downloads = db.Column(db.Integer, nullable=False)
-    launchurl = db.Column(db.String, nullable=False, unique=True)
-    installscript = db.Column(db.String, nullable=False)
+    launchurl = db.Column(db.String(250), nullable=False, unique=True)
+    installscript = db.Column(db.String(250), nullable=False)
     installed = db.Column(db.Boolean, default=False, nullable=False,)
-    uninstallscript = db.Column(db.String, nullable=False)
+    uninstallscript = db.Column(db.String(250), nullable=False)
+    application_updates = db.relationship(
+        'ApplicationUpdatesTable', backref='ApplicationTable', lazy='dynamic')
 
     def __init__(
         self, id, name, version, description, size, developerId,
@@ -128,20 +130,20 @@ class ApplicationTable (db.Model):
             self.installed, self.uninstallscript)
 
 
-class applicationupdate(db.Model):
+class ApplicationUpdatesTable(db.Model):
     __tablename__ = 'applicationupdatetable'
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
-    applicationid = db.Column(db.Integer, db.ForeignKey('ApplicationTable.id'))
+    app_id = db.Column(db.Integer, db.ForeignKey('ApplicationTable.id'))
     version = db.Column(db.Integer, nullable=False)
     updates = db.Column(db.String(250), nullable=False)
 
     def __init__(self, id, applicationid, version, updates):
         self.id = id
-        self.applicationid = applicationid
+        self.app_id = applicationid
         self.version = version
         self.updates = updates
 
     def __repr__(self):
         return '< applicationupdatetable, %r %r %r >' % (
-            self.id, self.applicationid, self.version, self.updates)
+            self.id, self.app_id, self.version, self.updates)
