@@ -1,5 +1,12 @@
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import Table, Column, Integer, ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
+
 from .app import db
+
+
+Base = declarative_base()
 
 
 class User (db.Model):
@@ -26,13 +33,22 @@ class User (db.Model):
         return check_password_hash(self.pwdhash, password)
 
 
+association_table = Table(
+    'dev_apps', Base.metadata,
+    Column('application_id', Integer, ForeignKey('ApplicationTable.id')),
+    Column('developer_id', Integer, ForeignKey('DeveloperTable.id'))
+)
+
+
 class Developer(db.Model):
-    __tablename__ = 'developer'
+    __tablename__ = 'DeveloperTable'
 
     id = db.Column(db.Integer, primary_key=True)
     developername = db.Column(db.String(250), nullable=False, unique=True)
     website = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(20), nullable=False)
+    applications = relationship(
+        "ApplicationTable", secondary=association_table)
 
     def __init__(self, id, name, website, email, address):
         self.id = id
@@ -50,6 +66,8 @@ class CategoryTable(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250), nullable=False)
+    applications = db.relationship(
+        'ApplicationTable', backref='ApplicationTable', lazy='dynamic')
 
     def __init__(self, name):
         self.name = name
@@ -62,16 +80,15 @@ class ApplicationTable (db.Model):
     __tablename__ = 'ApplicationTable'
 
     id = db.Column(db.Integer, primary_key=True)
+    category_id = db.Column(
+        db.Integer, db.ForeignKey('CategoryTable.id'), nullable=False)
     name = db.Column(db.String(250), nullable=False, unique=True)
     version = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(250), nullable=False, unique=True)
     size = db.Column(db.Integer, nullable=False)
-    developerId = db.Column(db.Integer, db.ForeignKey('DeveloperTable.id'))
-    developerName = db.Column(db.String, nullable=False)
     interactionPoints = db.Column(db.String(250), nullable=False)
     permission = db.Column(db.String(250), nullable=False)
     osVersion = db.Column(db.String(250), nullable=False)
-    categoryId = db.Column(db.Integer, db.ForeignKey('categoryTable.id'), nullable=False)
     downloads = db.Column(db.Integer, nullable=False)
     launchurl = db.Column(db.String, nullable=False, unique=True)
     installscript = db.Column(db.String, nullable=False)
