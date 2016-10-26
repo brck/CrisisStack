@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="row">
+
+    <div class="large-12 columns ">
+
+        <h1>Please login</h1>
+        <br>
+        <form class="row" action="" method="post">
+            <div class="small-12 medium-12 large-6  columns">
+                <input type="text" placeholder="Username" name="username" value="{{
+              request.form.username }}">
+            </div>
+            <div class="small-12 medium-12 large-6  columns">
+
+                <input type="password" placeholder="Password" name="password" value="{{
+              request.form.password }}">
+            </div>
+            <div class="large-12 columns">
+                <button class="button radius alert right" type="submit"><i class="fa fa-sign-in">Login</i></button>
+            </div>
+        </form>
+
+        {% if error %}
+        <p class="error"> <strong>Error:</strong> {{ error }} {% endif %}
+    </div>
+</div>
+
+{% endblock %}
