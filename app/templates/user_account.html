@@ -40,6 +40,13 @@
                 {% endfor %}
             </div>
 
+            <div class="small-12 medium-12 large-12  columns">
+                {{ form.accept_tos( class_="validate", **{'aria-describedby':"termsHelpText"} ) }} Accept Terms
+                {% for message in form.accept_tos.errors %}
+                <div class="error" id="termsHelpText">{{ message }}</div>
+                {% endfor %}
+            </div>
+
             <div class="large-12 columns">
                 <button class="button radius alert right" type="submit"><i class="fa fa-user-plus">&nbsp Create Account</i></button>
             </div>

@@ -33,7 +33,7 @@ class UserSignUpForm(Form):
         validators.EqualTo('confirm', message='Passwords must match')],
         render_kw={"placeholder": "Password"})
     confirm = PasswordField('Confirm Password', render_kw={"placeholder": "Confirm Password"})
-    accept_tos = BooleanField('I accept the TAC', [validators.DataRequired()])
+    accept_tos = BooleanField('I accept the TAC', [validators.DataRequired("Accept terms to continue")])
 
     def __init__(self, *args, **kwargs):
         super(UserSignUpForm, self).__init__(*args, **kwargs)

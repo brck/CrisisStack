@@ -1,5 +1,7 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
 from . import auth
+from .. import db
+from ..models import User
 from .forms import UserSignUpForm, DeveloperSignUpForm, LoginForm
 
 
@@ -17,12 +19,23 @@ def create_account():
 
 @auth.route('/create_account/user', methods=['GET', 'POST'])
 def create_user_account():
-    usersignupform = UserSignUpForm()
+    form = UserSignUpForm()
 
-    if usersignupform.validate_on_submit():
-        return redirect(request.args.get('next') or url_for('home.index'))
+    if form.validate_on_submit():
+        print 'start adding user'
 
-    return render_template('user_account.html', form=usersignupform)
+        user = User(email=form.email.data,
+                    username=form.username.data,
+                    password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+
+        print 'done adding user'
+
+        flash('Your account has been created successfully.')
+        return redirect(request.args.get('next') or url_for('auth.login'))
+
+    return render_template('user_account.html', form=form)
 
 
 @auth.route('/create_account/developer')
