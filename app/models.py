@@ -2,6 +2,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Table, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+import json
 
 from . import db
 
@@ -13,18 +14,13 @@ class User (db.Model):
     # We define db.columns for the users table
     # db.column is a normal python instance
 
-    __tablename__ = 'users'
+    __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(250), nullable=False)
+    username = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(250), nullable=False)
-
-    def __init__(self, email, password):
-        self.email = email
-        self.password = password
-
-    def __repr__(self):
-        return '<Users %r>' % self.email
+    admin = db.Column(db.Boolean, nullable=False, default=False)
 
     def set_password(self, password):
         self.pwdhash = generate_password_hash(password)
@@ -32,56 +28,102 @@ class User (db.Model):
     def check_password(self, password):
         return check_password_hash(self.pwdhash, password)
 
-
-association_table = Table(
-    'dev_apps', Base.metadata,
-    Column('application_id', Integer, ForeignKey('ApplicationTable.id')),
-    Column('developer_id', Integer, ForeignKey('DeveloperTable.id'))
-)
-
-
-class Developer(db.Model):
-    __tablename__ = 'DeveloperTable'
-
-    id = db.Column(db.Integer, primary_key=True)
-    developername = db.Column(db.String(250), nullable=False, unique=True)
-    website = db.Column(db.String(250), nullable=False)
-    email = db.Column(db.String(20), nullable=False)
-    applications = relationship(
-        "ApplicationTable", secondary=association_table)
-
-    def __init__(self, id, name, website, email, address):
-        self.id = id
-        self.name = name
-        self.website = website
-        self.email = email
-
+    # Return an object representation of the user model
     def __repr__(self):
-            return '< DeveloperTable %r %r %r >' % (
-                self.developername, self.website, self.email, self.address)
+        return '<Users %r>' % self.email
+
+    # Return a json object of the user model
+    def to_json(self):
+        return dict(
+            id=self.id,
+            email=self.email,
+            username=self.username,
+            admin=self.admin
+        )
+
+    # Receive a json object and convert it to a python dictionary
+    # representing the user model
+    def from_json(self, user_details):
+        user = json.loads(user_details)
+        self.email = user['name']
+        self.username = user['username']
+        self.password = user['password']
+        self.admin = user['admin']
 
 
-class CategoryTable(db.Model):
-    __tablename__ = 'CategoryTable'
+# Applications category table model
+class Category(db.Model):
+
+    __tablename__ = 'category'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250), nullable=False)
     applications = db.relationship(
-        'ApplicationTable', backref='ApplicationTable', lazy='dynamic')
+        'Application', backref='belongs_to', lazy='dynamic')
 
     def __init__(self, name):
         self.name = name
 
     def __repr__(self):
-        return '<app_category, %r %r >' % (self.id, self.name)
+        return '<category, %r %r >' % (self.id, self.name)
+
+    def to_json(self):
+        return dict(
+            id=self.id,
+            name=self.name
+        )
+
+    def from_json(self, category_details):
+        category = json.loads(category_details)
+        self.name = category['name']
 
 
-class ApplicationTable (db.Model):
-    __tablename__ = 'ApplicationTable'
+developer_apps = db.Table(
+    'developer_apps',
+    db.Column('application_id', db.Integer, db.ForeignKey('application.id')),
+    db.Column('developer_id', db.Integer, db.ForeignKey('developer.id'))
+)
+
+
+class Developer(db.Model):
+    __tablename__ = 'developer'
 
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(250), nullable=False, unique=True)
+    website = db.Column(db.String(250), nullable=False)
+    email = db.Column(db.String(20), nullable=False)
+    applications = db.relationship(
+        "Application", secondary=developer_apps,
+        backref=db.backref('developers'), lazy='dynamic')
+
+    def __repr__(self):
+        return '< developer %r %r %r >' % (
+            self.name, self.website, self.email)
+
+    def to_json(self):
+        return dict(
+            id=self.id,
+            name=self.developername,
+            website=self.website,
+            email=self.email
+        )
+
+    def from_json(self, developer_details):
+        developer = json.loads(developer_details)
+        self.name = developer['name']
+        self.website = developer['website']
+        self.email = developer['email']
+
+
+# Applications table model
+class Application (db.Model):
+
+    __tablename__ = 'application'
+
+    id = db.Column(db.Integer, primary_key=True)
+    # Relationship to category table
     category_id = db.Column(
-        db.Integer, db.ForeignKey('CategoryTable.id'), nullable=False)
+        db.Integer, db.ForeignKey('category.id'), nullable=False)
     name = db.Column(db.String(250), nullable=False, unique=True)
     version = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(250), nullable=False, unique=True)
@@ -95,24 +137,23 @@ class ApplicationTable (db.Model):
     installed = db.Column(db.Boolean, default=False, nullable=False,)
     uninstallscript = db.Column(db.String(250), nullable=False)
     application_updates = db.relationship(
-        'ApplicationUpdatesTable', backref='ApplicationTable', lazy='dynamic')
+        'ApplicationUpdates', backref='updates', lazy='dynamic')
+    application_assets = db.relationship(
+        'ApplicationAssets', backref='assests', lazy='dynamic')
 
     def __init__(
-        self, id, name, version, description, size, developerId,
-        developerName, interactionPoints, permission, osVersion, categoryId,
-            downloads, launchurl, installscript, installed, uninstallscript):
+        self, name, version, description, size, interactionPoints,
+        permission, osVersion, category_id, downloads, launchurl,
+            installscript, installed, uninstallscript):
 
-        self.id = id
         self.name = name
         self.version = version
         self.description = description
         self.size = size
-        self.developerId = developerId
-        self.developerName = developerName
         self.interactionPoints = interactionPoints
         self.permission = permission
         self.osVersion = osVersion
-        self.categoryId = categoryId
+        self.category_id = category_id
         self.downloads = downloads
         self.launchurl = launchurl
         self.installscript = installscript
@@ -120,30 +161,127 @@ class ApplicationTable (db.Model):
         self.uninstallscript = uninstallscript
 
     def __repr__(self):
-        return '<ApplicationTable %r %r %r %r %r %r %r %r %r %r %r %r %r %r %r %r %r %r %r %r %r >' % (
+        return '<Application %r %r %r %r %r %r %r %r %r %r %r %r %r %r >' % (
             self.id, self.name, self.version, self.description, self.size,
-            self.developerId, self.developerName, self.icon,
-            self.screenShotOne, self.screenShotTwo, self.screenShotThree,
-            self.screenShotFour, self.video, self.interactionPoints,
-            self.permission, self.osVersion, self.categoryId,
-            self.downloads, self.launchurl, self.installscript,
-            self.installed, self.uninstallscript)
+            self.interactionPoints, self.permission, self.osVersion,
+            self.category_id, self.downloads, self.launchurl,
+            self.installscript, self.installed, self.uninstallscript)
+
+    def to_json(self):
+        return dict(
+            id=self.id,
+            category_id=self.developername,
+            name=self.name,
+            version=self.version,
+            description=self.description,
+            size=self.size,
+            interactionPoints=self.interactionPoints,
+            permission=self.permission,
+            osVersion=self.osVersion,
+            downloads=self.downloads,
+            launchurl=self.launchurl,
+            installscript=self.installscript,
+            installed=self.installed,
+            uninstallscript=self.uninstallscript
+        )
+
+    def from_json(self, application_details):
+        application = json.loads(application_details)
+
+        self.name = application['name']
+        self.version = application['version']
+        self.description = application['description']
+        self.size = application['size']
+        self.interactionPoints = application['interactionPoints']
+        self.permission = application['permission']
+        self.osVersion = application['osVersion']
+        self.category_id = application['category_id']
+        self.downloads = application['downloads']
+        self.launchurl = application['launchurl']
+        self.installscript = application['installscript']
+        self.installed = application['installed']
+        self.uninstallscript = application['uninstallscript']
 
 
-class ApplicationUpdatesTable(db.Model):
-    __tablename__ = 'applicationupdatetable'
+class ApplicationUpdates(db.Model):
+
+    __tablename__ = 'applicationupdates'
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
-    app_id = db.Column(db.Integer, db.ForeignKey('ApplicationTable.id'))
+    application_id = db.Column(db.Integer, db.ForeignKey('application.id'))
     version = db.Column(db.Integer, nullable=False)
     updates = db.Column(db.String(250), nullable=False)
 
-    def __init__(self, id, applicationid, version, updates):
-        self.id = id
-        self.app_id = applicationid
+    def __init__(self, application_id, version, updates):
+        self.application_id = application_id
         self.version = version
         self.updates = updates
 
     def __repr__(self):
-        return '< applicationupdatetable, %r %r %r >' % (
+        return '< applicationupdates, %r %r %r >' % (
+            self.id, self.application_id, self.version, self.updates)
+
+    def to_json(self):
+        return dict(
+            id=self.id,
+            application_id=self.application_id,
+            version=self.version,
+            updates=self.updates
+        )
+
+    def from_json(self, update_details):
+        updates = json.loads(update_details)
+
+        self.application_id = updates['application_id']
+        self.version = updates['version']
+        self.updates = updates['updates']
+
+
+class ApplicationAssets(db.Model):
+
+    __tablename__ = 'applicationassets'
+
+    id = db.Column(db.Integer, nullable=False, primary_key=True)
+    application_id = db.Column(db.Integer, db.ForeignKey('application.id'))
+    icon = db.Column(db.String(250), nullable=False, unique=True)
+    screenShotOne = db.Column(db.String(250), unique=True)
+    screenShotTwo = db.Column(db.String(250), unique=True)
+    screenShotThree = db.Column(db.String(250), unique=True)
+    screenShotFour = db.Column(db.String(250), unique=True)
+    video = db.Column(db.String(250), unique=True)
+
+    def __init__(
+        self, application_id, icon, screenShotOne, screenShotTwo,
+            screenShotThree, screenShotFour, video):
+        self.application_id = application_id
+        self.icon = icon
+        self.screenShotOne = screenShotOne
+        self.screenShotTwo = screenShotTwo
+        self.screenShotThree = screenShotThree
+        self.screenShotFour = screenShotFour
+        self.video = video
+
+    def __repr__(self):
+        return '< applicationassets, %r %r %r >' % (
             self.id, self.app_id, self.version, self.updates)
+
+    def to_json(self):
+        return dict(
+            id=self.id,
+            application_id=self.application_id,
+            screenShotOne=self.screenShotOne,
+            screenShotTwo=self.screenShotTwo,
+            screenShotThree=self.screenShotThree,
+            screenShotFour=self.screenShotFour,
+            video=self.video
+        )
+
+    def from_json(self, assets_details):
+        assets = json.loads(assets_details)
+
+        self.application_id = assets['application_id']
+        self.screenShotOne = assets['screenShotOne']
+        self.screenShotTwo = assets['screenShotTwo']
+        self.screenShotThree = assets['screenShotThree']
+        self.screenShotFour = assets['screenShotFour']
+        self.video = assets['video']
