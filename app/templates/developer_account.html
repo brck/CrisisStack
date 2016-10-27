@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/account.css') }}" />
 {% endblock %} {% block content %}
 
-<div class="row">
+<div class="row content">
 
     <div class="large-12 columns ">
 
@@ -63,6 +63,10 @@
 
             <div class="large-12 columns">
                 <button class="button radius alert right" type="submit"><i class="fa fa-user-plus">&nbsp Create Account</i></button>
+            </div>
+
+            <div class="large-12 columns">
+                <p class="margin medium-small">Already have an Account? <a href="{{ url_for('auth.login') }}">Login</a></p>
             </div>
         </form>
 

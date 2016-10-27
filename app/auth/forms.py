@@ -21,15 +21,17 @@ class LoginForm(Form):
 class UserSignUpForm(Form):
     """Form for user sign up in creating user account"""
     username = StringField('Username', [
-        validators.Length(min=6, max=25, message="Username must have more than 6 characters")])
+        validators.Length(min=6, max=25, message="Username must have more than 6 characters")],
+        render_kw={"placeholder": "Username"})
     email = StringField("Email", [
         validators.DataRequired("Please enter your email address."),
-        validators.Email("Please enter a valid email address.")])
+        validators.Email("Please enter a valid email address.")],
+        render_kw={"placeholder": "Email"})
     password = PasswordField('New Password', [
         validators.DataRequired(),
-        validators.EqualTo('confirm', message='Passwords must match')
-    ])
-    confirm = PasswordField('Confirm Password')
+        validators.EqualTo('confirm', message='Passwords must match')],
+        render_kw={"placeholder": "Password"})
+    confirm = PasswordField('Confirm Password', render_kw={"placeholder": "Confirm Password"})
     accept_tos = BooleanField('I accept the TAC', [validators.DataRequired()])
 
     def __init__(self, *args, **kwargs):
