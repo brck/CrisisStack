@@ -7,12 +7,13 @@ class LoginForm(Form):
     """Form where users can login"""
     email = StringField("Email", [
         validators.DataRequired("Please enter your login email."),
-        validators.Email("Please enter a valid email address.")])
+        validators.Email("Please enter a valid email address.")],
+        render_kw={"placeholder": "Email"})
     password = PasswordField('Password', [
-        validators.DataRequired("Please enter a password.")])
-    remember_me = BooleanField('remember_me', default=False)
+        validators.DataRequired("Please enter a password.")],
+        render_kw={"placeholder": "Password"})
 
-    submit = SubmitField("Sign In")
+    submit = SubmitField("Login")
 
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)

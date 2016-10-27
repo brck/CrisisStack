@@ -1,6 +1,8 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block create_account_header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/account.css') }}" />
+{% endblock %} {% block content %}
 
-<div class="row">
+<div class="row content">
 
     <div class="large-12 columns ">
 
@@ -8,16 +10,19 @@
         <br>
         <form class="row" action="" method="post">
             <div class="small-12 medium-12 large-6  columns">
-                <input type="text" placeholder="Username" name="username" value="{{
-              request.form.username }}">
+                {{ form.email( class_="validate", **{'aria-describedby':"emailHelpText"} ) }}
+                {% for message in form.email.errors %}
+                <div class="error" id="emailHelpText">{{ message }}</div>
+                {% endfor %}
             </div>
             <div class="small-12 medium-12 large-6  columns">
-
-                <input type="password" placeholder="Password" name="password" value="{{
-              request.form.password }}">
+                {{ form.password( class_="validate", **{'aria-describedby':"passwordHelpText"} ) }}
+                {% for message in form.password.errors %}
+                <div class="error" id="passwordHelpText">{{ message }}</div>
+                {% endfor %}
             </div>
             <div class="large-12 columns">
-                <button class="button radius alert right" type="submit"><i class="fa fa-sign-in">Login</i></button>
+                <button class="button radius alert right" type="submit"><i class="fa fa-sign-in">  Login</i></button>
             </div>
 
             <div class="large-12 columns">

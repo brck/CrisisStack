@@ -138,7 +138,7 @@ class Application (db.Model):
     installed = db.Column(db.Boolean, default=False, nullable=False,)
     uninstallscript = db.Column(db.String(250), nullable=False)
     application_updates = db.relationship(
-        'ApplicationUpdates', backref='updates', lazy='dynamic')
+        'ApplicationUpdates', backref='app_updates', lazy='dynamic')
     application_assets = db.relationship(
         'ApplicationAssets', backref='assests', lazy='dynamic')
 

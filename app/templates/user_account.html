@@ -13,8 +13,6 @@
             {{ form.hidden_tag() }}
 
             <div class="small-12 medium-12 large-6  columns">
-                <!-- <input type="text" placeholder="Email" name="email" value="{{
-              request.form.email }}"> -->
                 {{ form.email( class_="validate", **{'aria-describedby':"emailHelpText"} ) }}
                 {% for message in form.email.errors %}
                 <div class="error" id="emailHelpText">{{ message }}</div>
@@ -22,8 +20,6 @@
             </div>
 
             <div class="small-12 medium-12 large-6  columns">
-                <!-- <input type="text" placeholder="Username" name="username" value="{{
-              request.form.username }}"> -->
                 {{ form.username( class_="validate", **{'aria-describedby':"usernameHelpText"} ) }}
                 {% for message in form.username.errors %}
                 <div class="error" id="usernameHelpText">{{ message }}</div>
@@ -31,8 +27,6 @@
             </div>
 
             <div class="small-12 medium-12 large-6  columns">
-                <!-- <input type="password" placeholder="Password" name="password" value="{{
-              request.form.password }}"> -->
                 {{ form.password( class_="validate", **{'aria-describedby':"passwordHelpText"} ) }}
                 {% for message in form.password.errors %}
                 <div class="error" id="passwordHelpText">{{ message }}</div>
@@ -40,8 +34,6 @@
             </div>
 
             <div class="small-12 medium-12 large-6  columns">
-                <!-- <input type="password" placeholder="Confirm Password" name="confirm_password" value="{{
-              request.form.confirm_password }}"> -->
                 {{ form.confirm( class_="validate", **{'aria-describedby':"confirmHelpText"} ) }}
                 {% for message in form.confirm.errors %}
                 <div class="error" id="confirmHelpText">{{ message }}</div>
