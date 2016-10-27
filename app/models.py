@@ -30,7 +30,8 @@ class User (db.Model):
 
     # Return an object representation of the user model
     def __repr__(self):
-        return '<Users %r>' % self.email
+        return '<Users %r %r>' % (
+            self.email, self.username)
 
     # Return a json object of the user model
     def to_json(self):

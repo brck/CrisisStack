@@ -1,0 +1,57 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="row">
+
+    <div class="large-12 columns ">
+
+        <h1>Create Account</h1>
+        <br>
+
+        <select id="account_type">
+            <option value="" selected>Account Type</option>
+            <option value="User" >User</option>
+            <option value="Developer" >Developer</option>
+        </select>
+
+        <form class="row" action="" method="post">
+            <div class="small-12 medium-12 large-6  columns">
+                <input type="text" placeholder="Email" name="email" value="{{
+              request.form.email }}">
+            </div>
+
+            <div class="small-12 medium-12 large-6  columns">
+                <input type="text" placeholder="Username" name="username" value="{{
+              request.form.username }}">
+            </div>
+
+            <div class="small-12 medium-12 large-6  columns">
+                <input type="password" placeholder="Password" name="password" value="{{
+              request.form.password }}">
+            </div>
+
+            <div class="small-12 medium-12 large-6  columns">
+                <input type="password" placeholder="Confirm Password" name="confirm_password" value="{{
+              request.form.confirm_password }}">
+            </div>
+
+            <div class="small-12 medium-12 large-12  columns developer">
+                <input type="text" placeholder="Full Name" name="full_name" value="{{
+              request.form.full_name }}">
+            </div>
+
+            <div class="small-12 medium-12 large-12  columns developer">
+                <input type="text" placeholder="Website" name="website" value="{{
+              request.form.website }}">
+            </div>
+
+            <div class="large-12 columns">
+                <button class="button radius alert right" type="submit"><i class="fa fa-user-plus">&nbsp Create Account</i></button>
+            </div>
+        </form>
+
+        {% if error %}
+        <p class="error"> <strong>Error:</strong> {{ error }} {% endif %}
+    </div>
+</div>
+
+{% endblock %}
