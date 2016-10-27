@@ -4,6 +4,19 @@
 
 <div class="row content">
 
+    <div class="large-12 columns">
+        {% with messages = get_flashed_messages(category_filter=["success"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div data-alert class="alert-box success radius">
+                        {{ message }}
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
     <div class="large-12 columns ">
 
         <h1>Please login</h1>
