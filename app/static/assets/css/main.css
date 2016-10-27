@@ -468,3 +468,21 @@ footer p {
     page-break-after: avoid;
   }
 }
+
+.account_type {
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.account_type:hover {
+    border: 2px solid #eee;
+}
+
+.error {
+    padding: 0;
+    margin-top: 0px;
+    font-style: italic;
+    color: red;
+    font-size: 12px;
+    margin-left: 10px
+}

@@ -28,6 +28,8 @@
     <script src="{{ url_for('static', filename='assets/js/less.min.js') }}"></script>
     <script src="{{ url_for('static', filename='assets/js/modernizr.js') }}"></script>
 
+    {% block create_account_header %}{% endblock %}
+
 </head>
 
 <body>
@@ -43,7 +45,7 @@
                     <img class="show-for-small-only" src="{{ url_for('static', filename='assets/images/logo_sm.svg') }}" alt="Crisis Stack">
                 </a>
             </div>
-            <div class="large-6 medium-7 small-9  columns">
+            <div class="large-6 medium-7 small-9  columns create_account">
                 <span class="nav right">
             <a href="#" data-dropdown="nav_dropdown" aria-controls="drop1" aria-expanded="false">
               <i class="fa fa-navicon"></i>
