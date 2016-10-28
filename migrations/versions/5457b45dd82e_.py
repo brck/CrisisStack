@@ -1,13 +1,13 @@
 """empty message
 
-Revision ID: 7ffee8e91f15
+Revision ID: 5457b45dd82e
 Revises: None
-Create Date: 2016-10-27 12:00:56.405626
+Create Date: 2016-10-27 20:46:34.660100
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '7ffee8e91f15'
+revision = '5457b45dd82e'
 down_revision = None
 
 from alembic import op
@@ -21,19 +21,11 @@ def upgrade():
     sa.Column('name', sa.String(length=250), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('developer',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=250), nullable=False),
-    sa.Column('website', sa.String(length=250), nullable=False),
-    sa.Column('email', sa.String(length=20), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('name')
-    )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('email', sa.String(length=250), nullable=False),
     sa.Column('username', sa.String(length=100), nullable=False),
-    sa.Column('password', sa.String(length=250), nullable=False),
+    sa.Column('password_hash', sa.String(length=250), nullable=False),
     sa.Column('admin', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
@@ -56,6 +48,14 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('description'),
     sa.UniqueConstraint('launchurl'),
+    sa.UniqueConstraint('name')
+    )
+    op.create_table('developer',
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=250), nullable=False),
+    sa.Column('website', sa.String(length=250), nullable=False),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('user_id'),
     sa.UniqueConstraint('name')
     )
     op.create_table('applicationassets',
@@ -88,7 +88,7 @@ def upgrade():
     sa.Column('application_id', sa.Integer(), nullable=True),
     sa.Column('developer_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['application_id'], ['application.id'], ),
-    sa.ForeignKeyConstraint(['developer_id'], ['developer.id'], )
+    sa.ForeignKeyConstraint(['developer_id'], ['developer.user_id'], )
     )
     ### end Alembic commands ###
 
@@ -98,8 +98,8 @@ def downgrade():
     op.drop_table('developer_apps')
     op.drop_table('applicationupdates')
     op.drop_table('applicationassets')
+    op.drop_table('developer')
     op.drop_table('application')
     op.drop_table('user')
-    op.drop_table('developer')
     op.drop_table('category')
     ### end Alembic commands ###

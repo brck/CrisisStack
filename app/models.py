@@ -21,6 +21,7 @@ class User (db.Model):
     username = db.Column(db.String(100), nullable=False)
     password_hash = db.Column(db.String(250), nullable=False)
     admin = db.Column(db.Boolean, nullable=False, default=False)
+    developer = relationship('Developer', backref="developer", uselist=False)
 
     @property
     def password(self):
@@ -35,8 +36,8 @@ class User (db.Model):
 
     # Return an object representation of the user model
     def __repr__(self):
-        return '<Users %r %r>' % (
-            self.email, self.username)
+        return "<User(id='%s', email='%s', username='%s', admin='%s')>" % (
+            self.id, self.email, self.username, self.admin)
 
     # Return a json object of the user model
     def to_json(self):
@@ -87,17 +88,17 @@ class Category(db.Model):
 developer_apps = db.Table(
     'developer_apps',
     db.Column('application_id', db.Integer, db.ForeignKey('application.id')),
-    db.Column('developer_id', db.Integer, db.ForeignKey('developer.id'))
+    db.Column('developer_id', db.Integer, db.ForeignKey('developer.user_id'))
 )
 
 
 class Developer(db.Model):
     __tablename__ = 'developer'
 
-    id = db.Column(db.Integer, primary_key=True)
+    # id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, ForeignKey('user.id'), primary_key=True)
     name = db.Column(db.String(250), nullable=False, unique=True)
     website = db.Column(db.String(250), nullable=False)
-    email = db.Column(db.String(20), nullable=False)
     applications = db.relationship(
         "Application", secondary=developer_apps,
         backref=db.backref('developers'), lazy='dynamic')
