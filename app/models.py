@@ -3,14 +3,15 @@ from sqlalchemy import Table, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 import json
-
-from . import db
+from flask_login import UserMixin
+from flask import current_app
+from . import db, login_manager
 
 
 Base = declarative_base()
 
 
-class User (db.Model):
+class User(UserMixin, db.Model):
     # We define db.columns for the users table
     # db.column is a normal python instance
 
@@ -56,6 +57,12 @@ class User (db.Model):
         self.username = user['username']
         self.password = user['password']
         self.admin = user['admin']
+
+
+# This callback is used to reload the user object from the user ID stored in the session
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
 # Applications category table model

@@ -12,6 +12,7 @@ class LoginForm(Form):
     password = PasswordField('Password', [
         validators.DataRequired("Please enter a password.")],
         render_kw={"placeholder": "Password"})
+    remember_me = BooleanField('remember_me', default=False)
 
     submit = SubmitField("Login")
 
