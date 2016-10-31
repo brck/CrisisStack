@@ -144,13 +144,13 @@ class Application (db.Model):
     version = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(250), nullable=False, unique=True)
     size = db.Column(db.Integer, nullable=False)
-    interactionPoints = db.Column(db.String(250), nullable=False)
+    #interactionPoints = db.Column(db.String(250), nullable=False)
     permission = db.Column(db.String(250), nullable=False)
     osVersion = db.Column(db.String(250), nullable=False)
-    downloads = db.Column(db.Integer, nullable=False)
+    downloads = db.Column(db.Integer, nullable=False, default=0)
     launchurl = db.Column(db.String(250), nullable=False, unique=True)
     # installscript = db.Column(db.String(250), nullable=False)
-    installed = db.Column(db.Boolean, default=False, nullable=False,)
+    installed = db.Column(db.Boolean, nullable=False, default=False)
     # uninstallscript = db.Column(db.String(250), nullable=False)
     application_updates = db.relationship(
         'ApplicationUpdates', backref='app_updates', lazy='dynamic')
@@ -158,28 +158,28 @@ class Application (db.Model):
         'ApplicationAssets', backref='assests', lazy='dynamic')
 
     def __init__(
-        self, name, version, description, size, interactionPoints,
-        permission, osVersion, category_id, downloads, launchurl, installed):
+        self, name, version, description, size,
+        permission, osVersion, category_id, launchurl):
 
         self.name = name
         self.version = version
         self.description = description
         self.size = size
-        self.interactionPoints = interactionPoints
+        #self.interactionPoints = interactionPoints
         self.permission = permission
         self.osVersion = osVersion
         self.category_id = category_id
-        self.downloads = downloads
+        # self.downloads = downloads
         self.launchurl = launchurl
         # self.installscript = installscript
-        self.installed = installed
+        # self.installed = installed
         # self.uninstallscript = uninstallscript
 
     def __repr__(self):
-        return '<Application %r %r %r %r %r %r %r %r %r %r %r %r >' % (
+        return '<Application %r %r %r %r %r %r %r %r %r %r %r >' % (
             self.id, self.name, self.version, self.description, self.size,
-            self.interactionPoints, self.permission, self.osVersion,
-            self.category_id, self.downloads, self.launchurl, self.installed)
+            self.permission, self.osVersion, self.category_id,
+            self.downloads, self.launchurl, self.installed)
 
     def to_json(self):
         return dict(
@@ -189,7 +189,7 @@ class Application (db.Model):
             version=self.version,
             description=self.description,
             size=self.size,
-            interactionPoints=self.interactionPoints,
+            #interactionPoints=self.interactionPoints,
             permission=self.permission,
             osVersion=self.osVersion,
             downloads=self.downloads,
@@ -204,7 +204,7 @@ class Application (db.Model):
         self.version = application['version']
         self.description = application['description']
         self.size = application['size']
-        self.interactionPoints = application['interactionPoints']
+        #self.interactionPoints = application['interactionPoints']
         self.permission = application['permission']
         self.osVersion = application['osVersion']
         self.category_id = application['category_id']

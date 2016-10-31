@@ -5,9 +5,9 @@ from ..models import Application
 
 class ApplicationsForm(Form):
     """Applications update form"""
-    name = StringField("Name", [
-        validators.DataRequired("Please enter the application name.")],
-        render_kw={"placeholder": "Name"})
+    # name = StringField("Name", [
+    #     validators.DataRequired("Please enter the application name.")],
+    #     render_kw={"placeholder": "Name"})
     version = StringField("Version", [
         validators.DataRequired("Enter application version.")],
         render_kw={"placeholder": "Version"})
@@ -17,19 +17,24 @@ class ApplicationsForm(Form):
     file = FileField("Size", [
         validators.DataRequired("Application size can not be blank")],
         render_kw={"placeholder": "Size"})
-    permission = StringField("Permission", [
-        validators.DataRequired("Enter permissions needed by the application.")],
-        render_kw={"placeholder": "Permission"})
+    app_permissions = [
+        ('0', 'Choose App OS Permissions'),
+        ('OS-Admin', 'OS-Admin'),
+        ('None', 'None')
+    ]
+    permission = SelectField(label="Permissions", choices = app_permissions, default = ['0'])
+    # permission = StringField("Permission", [
+    #     validators.DataRequired("Enter permissions needed by the application.")],
+    #     render_kw={"placeholder": "Permission"})
 
-    my_choices = [('0', 'Choose OS'), ('1', 'Raspbian'), ('2', 'Ubuntu MATE'), ('3', 'FreeBSD')]
-    osVersion = SelectField(label="Category", choices = my_choices, default = ['0'])
-    # osVersion = StringField("OS Version", [
-    #     validators.DataRequired("Choose OS Version.")],
-    #     render_kw={"placeholder": "OS Version"})
+    os_vesions = [
+        ('0', 'Choose OS'),
+        ('Raspbian', 'Raspbian'),
+        ('Ubuntu MATE', 'Ubuntu MATE'),
+        ('FreeBSD', 'FreeBSD')
+    ]
+    osVersion = SelectField(label="OS Version", choices = os_vesions, default = ['0'])
     category_id = SelectField(label="Category", coerce=int)
-    # category_id = StringField("Category", [
-    #     validators.DataRequired("Choose application category.")],
-    #     render_kw={"placeholder": "Category"})
     launchurl = StringField("Launch URL", [
         validators.DataRequired("Please enter the launch url."),
         validators.url("Please enter a valid url.")],

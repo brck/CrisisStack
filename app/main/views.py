@@ -3,7 +3,7 @@ from werkzeug import secure_filename
 from flask import current_app
 import os
 from . import main
-from ..models import Category
+from ..models import Category, Application
 from .. import db
 from .forms import ApplicationsForm, CategoryForm
 
@@ -43,6 +43,7 @@ def app_info():
 def application():
     form = ApplicationsForm()
     populate_categories(form)
+    print request.form
 
     if form.validate_on_submit():
         print request.form
@@ -61,10 +62,23 @@ def application():
             INSTALLS_DIR = os.path.join(APP_DIR, current_app.config['UPLOAD_FOLDER'])
             filename = secure_filename(file.filename)
             FILE_PATH = os.path.join(INSTALLS_DIR, filename)
-            #file.save(os.path.join(INSTALLS_DIR, filename))
+            file.save(os.path.join(INSTALLS_DIR, filename))
 
             size = os.stat(FILE_PATH).st_size
-            print 'file size', size
+            app_name = filename.rsplit('.', 1)[0]
+
+            application = Application(
+                category_id=form.category_id.data,
+                name=app_name,
+                version=form.version.data,
+                description=form.description.data,
+                size=size,
+                permission=form.permission.data,
+                osVersion=form.osVersion.data,
+                launchurl=form.launchurl.data)
+
+            db.session.add(application)
+            db.session.commit()
 
         flash('Application added successfully', 'success')
         return redirect(request.args.get('next') or url_for('main.application'))
