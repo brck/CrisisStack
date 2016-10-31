@@ -72,14 +72,16 @@ class Category(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250), nullable=False)
+    description = db.Column(db.String(250), nullable=False)
     applications = db.relationship(
         'Application', backref='belongs_to', lazy='dynamic')
 
-    def __init__(self, name):
+    def __init__(self, name, description):
         self.name = name
+        self.description = description
 
     def __repr__(self):
-        return '<category, %r %r >' % (self.id, self.name)
+        return '<category, %r %r %r >' % (self.id, self.name, self.description)
 
     def to_json(self):
         return dict(
@@ -147,9 +149,9 @@ class Application (db.Model):
     osVersion = db.Column(db.String(250), nullable=False)
     downloads = db.Column(db.Integer, nullable=False)
     launchurl = db.Column(db.String(250), nullable=False, unique=True)
-    installscript = db.Column(db.String(250), nullable=False)
+    # installscript = db.Column(db.String(250), nullable=False)
     installed = db.Column(db.Boolean, default=False, nullable=False,)
-    uninstallscript = db.Column(db.String(250), nullable=False)
+    # uninstallscript = db.Column(db.String(250), nullable=False)
     application_updates = db.relationship(
         'ApplicationUpdates', backref='app_updates', lazy='dynamic')
     application_assets = db.relationship(
@@ -157,8 +159,7 @@ class Application (db.Model):
 
     def __init__(
         self, name, version, description, size, interactionPoints,
-        permission, osVersion, category_id, downloads, launchurl,
-            installscript, installed, uninstallscript):
+        permission, osVersion, category_id, downloads, launchurl, installed):
 
         self.name = name
         self.version = version
@@ -170,16 +171,15 @@ class Application (db.Model):
         self.category_id = category_id
         self.downloads = downloads
         self.launchurl = launchurl
-        self.installscript = installscript
+        # self.installscript = installscript
         self.installed = installed
-        self.uninstallscript = uninstallscript
+        # self.uninstallscript = uninstallscript
 
     def __repr__(self):
-        return '<Application %r %r %r %r %r %r %r %r %r %r %r %r %r %r >' % (
+        return '<Application %r %r %r %r %r %r %r %r %r %r %r %r >' % (
             self.id, self.name, self.version, self.description, self.size,
             self.interactionPoints, self.permission, self.osVersion,
-            self.category_id, self.downloads, self.launchurl,
-            self.installscript, self.installed, self.uninstallscript)
+            self.category_id, self.downloads, self.launchurl, self.installed)
 
     def to_json(self):
         return dict(
@@ -194,9 +194,7 @@ class Application (db.Model):
             osVersion=self.osVersion,
             downloads=self.downloads,
             launchurl=self.launchurl,
-            installscript=self.installscript,
-            installed=self.installed,
-            uninstallscript=self.uninstallscript
+            installed=self.installed
         )
 
     def from_json(self, application_details):
@@ -212,9 +210,7 @@ class Application (db.Model):
         self.category_id = application['category_id']
         self.downloads = application['downloads']
         self.launchurl = application['launchurl']
-        self.installscript = application['installscript']
         self.installed = application['installed']
-        self.uninstallscript = application['uninstallscript']
 
 
 class ApplicationUpdates(db.Model):

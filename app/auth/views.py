@@ -40,7 +40,10 @@ def create_account():
 def create_user_account():
     form = UserSignUpForm()
 
+    print 'Accessed on testing'
+
     if form.validate_on_submit():
+        print 'Validated on testing'
         user = User(email=form.email.data,
                     username=form.username.data,
                     password=form.password.data)

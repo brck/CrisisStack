@@ -1,0 +1,80 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="row content">
+
+    <div class="large-12 columns ">
+
+        {% with messages = get_flashed_messages(category_filter=["success"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div data-alert class="alert-box success radius">
+                        {{ message }}
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div data-alert class="alert-box error radius">
+                        {{ message }}
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h1>Category Details</h1>
+        <br>
+
+        <form class="row" action="" method="post">
+            {{ form.hidden_tag() }}
+
+            <div class="small-12 medium-12 large-12  columns">
+                {{ form.name( class_="validate", **{'aria-describedby':"nameHelpText"} ) }}
+                {% for message in form.name.errors %}
+                <div class="error" id="nameHelpText">{{ message }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="small-12 medium-12 large-12  columns">
+                {{ form.description( class_="validate", **{'aria-describedby':"descriptionHelpText"} ) }}
+                {% for message in form.description.errors %}
+                <div class="error" id="descriptionHelpText">{{ message }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="large-12 columns">
+                <button class="button radius alert right" type="submit"><i class="fa fa-user-plus">&nbsp Create Category</i></button>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="small-12 medium-12 large-12  columns">
+                <table class="large-12">
+                    <thead>
+                        <tr>
+                            <th width="20">ID</th>
+                            <th width="40%">Category Name</th>
+                            <th>Category Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Content Goes Here</td>
+                            <td>Category name here.</td>
+                            <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% if error %}
+        <p class="error"> <strong>Error:</strong> {{ error }} {% endif %}
+    </div>
+</div>
+
+{% endblock %}
