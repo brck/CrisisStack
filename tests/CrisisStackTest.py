@@ -1,6 +1,4 @@
 import unittest
-from selenium import webdriver
-from werkzeug import generate_password_hash
 from flask import current_app
 from app.models import User
 from app import create_app, db
@@ -10,7 +8,6 @@ class CrisisStackTestCase(unittest.TestCase):
     """A base test case for crisis stack."""
 
     def setUp(self):
-        #self.browser=webdriver.Chrome("/usr/bin/chromedriver")
         self.app = create_app('testing')
         self.app_context = self.app.app_context()
         self.app_context.push()
@@ -28,7 +25,6 @@ class CrisisStackTestCase(unittest.TestCase):
             self.db.session.commit()
 
     def tearDown(self):
-        #self.browser.quit()
         db.session.remove()
         db.drop_all()
         self.app_context.pop()
