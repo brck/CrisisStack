@@ -43,10 +43,8 @@ def app_info():
 def application():
     form = ApplicationsForm()
     populate_categories(form)
-    print request.form
 
     if form.validate_on_submit():
-        print request.form
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part', 'error')

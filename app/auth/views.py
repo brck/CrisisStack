@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, flash
 from sqlalchemy.exc import IntegrityError
-from flask_login import logout_user, login_required, login_user
+from flask_login import logout_user, login_required, login_user, current_user
 from . import auth
 from .. import db
 from ..models import User, Developer
@@ -11,9 +11,7 @@ from .forms import UserSignUpForm, DeveloperSignUpForm, LoginForm
 def login():
     form = LoginForm()
 
-    print form.validate_on_submit()
     if form.validate_on_submit():
-        print form
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
@@ -40,10 +38,7 @@ def create_account():
 def create_user_account():
     form = UserSignUpForm()
 
-    print 'Accessed on testing'
-
     if form.validate_on_submit():
-        print 'Validated on testing'
         user = User(email=form.email.data,
                     username=form.username.data,
                     password=form.password.data)
