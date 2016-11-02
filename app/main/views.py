@@ -3,7 +3,7 @@ from werkzeug import secure_filename
 from flask import current_app
 import os
 from . import main
-from ..models import Category, Application
+from ..models import Category, Application, Developer
 from .. import db
 from .forms import ApplicationsForm, CategoryForm
 
@@ -19,9 +19,23 @@ def populate_categories(form):
 
     for category in categories:
         category_names[category.id] = category.name
+
     category_choices = [(k, v) for k, v in category_names.iteritems()]
-    #now that we've built our choices, we need to set them.
     form.category_id.choices = category_choices
+
+
+def populate_developers(form):
+    """
+    Pulls choices from the database to populate our select fields.
+    """
+    developers = Developer.query.all()
+    developer_names = {'0':'Choose Developer'}
+
+    for developer in developers:
+        developer_names[developer.user_id] = developer.name
+
+    developer_choices = [(k, v) for k, v in developer_names.iteritems()]
+    form.developer_id.choices = developer_choices
 
 
 def allowed_file(filename):
@@ -43,6 +57,7 @@ def app_info():
 def application():
     form = ApplicationsForm()
     populate_categories(form)
+    populate_developers(form)
 
     if form.validate_on_submit():
         # check if the post request has the file part
@@ -67,6 +82,7 @@ def application():
 
             application = Application(
                 category_id=form.category_id.data,
+                developer_id=form.developer_id.data,
                 name=app_name,
                 version=form.version.data,
                 description=form.description.data,

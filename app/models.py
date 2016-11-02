@@ -2,6 +2,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Table, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+import uuid
 import json
 from flask_login import UserMixin
 from flask import current_app
@@ -18,6 +19,7 @@ class User(UserMixin, db.Model):
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
+    uuid = db.Column(db.String(250), default=str(uuid.uuid4()), nullable=False)
     email = db.Column(db.String(250), nullable=False)
     username = db.Column(db.String(100), nullable=False)
     password_hash = db.Column(db.String(250), nullable=False)
@@ -37,13 +39,13 @@ class User(UserMixin, db.Model):
 
     # Return an object representation of the user model
     def __repr__(self):
-        return "<User(id='%s', email='%s', username='%s', admin='%s')>" % (
-            self.id, self.email, self.username, self.admin)
+        return "<User(uuid='%s', email='%s', username='%s', admin='%s')>" % (
+            self.uuid, self.email, self.username, self.admin)
 
     # Return a json object of the user model
     def to_json(self):
         return dict(
-            id=self.id,
+            uuid=self.uuid,
             email=self.email,
             username=self.username,
             admin=self.admin
@@ -94,11 +96,11 @@ class Category(db.Model):
         self.name = category['name']
 
 
-developer_apps = db.Table(
-    'developer_apps',
-    db.Column('application_id', db.Integer, db.ForeignKey('application.id')),
-    db.Column('developer_id', db.Integer, db.ForeignKey('developer.user_id'))
-)
+# developer_apps = db.Table(
+#     'developer_apps',
+#     db.Column('application_id', db.Integer, db.ForeignKey('application.id')),
+#     db.Column('developer_id', db.Integer, db.ForeignKey('developer.user_id'))
+# )
 
 
 class Developer(db.Model):
@@ -109,8 +111,10 @@ class Developer(db.Model):
     name = db.Column(db.String(250), nullable=False, unique=True)
     website = db.Column(db.String(250), nullable=False)
     applications = db.relationship(
-        "Application", secondary=developer_apps,
-        backref=db.backref('developers'), lazy='dynamic')
+        'Application', backref='developer', lazy='dynamic')
+    # applications = db.relationship(
+    #     "Application", secondary=developer_apps,
+    #     backref=db.backref('developers'), lazy='dynamic')
 
     def __repr__(self):
         return '< developer %r %r %r >' % (
@@ -119,7 +123,7 @@ class Developer(db.Model):
     def to_json(self):
         return dict(
             id=self.id,
-            name=self.developername,
+            name=self.name,
             website=self.website,
             email=self.email
         )
@@ -137,49 +141,44 @@ class Application (db.Model):
     __tablename__ = 'application'
 
     id = db.Column(db.Integer, primary_key=True)
-    # Relationship to category table
     category_id = db.Column(
         db.Integer, db.ForeignKey('category.id'), nullable=False)
+    developer_id = db.Column(
+        db.Integer, db.ForeignKey('developer.user_id'), nullable=False)
     name = db.Column(db.String(250), nullable=False, unique=True)
     version = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(250), nullable=False, unique=True)
     size = db.Column(db.Integer, nullable=False)
-    #interactionPoints = db.Column(db.String(250), nullable=False)
     permission = db.Column(db.String(250), nullable=False)
     osVersion = db.Column(db.String(250), nullable=False)
     downloads = db.Column(db.Integer, nullable=False, default=0)
     launchurl = db.Column(db.String(250), nullable=False, unique=True)
-    # installscript = db.Column(db.String(250), nullable=False)
-    installed = db.Column(db.Boolean, nullable=False, default=False)
-    # uninstallscript = db.Column(db.String(250), nullable=False)
+    application_status = db.Column(db.String(50), nullable=False, default='Pending')
+
     application_updates = db.relationship(
         'ApplicationUpdates', backref='app_updates', lazy='dynamic')
     application_assets = db.relationship(
         'ApplicationAssets', backref='assests', lazy='dynamic')
 
     def __init__(
-        self, name, version, description, size,
+        self, name, version, description, size, developer_id,
         permission, osVersion, category_id, launchurl):
 
         self.name = name
         self.version = version
         self.description = description
         self.size = size
-        #self.interactionPoints = interactionPoints
         self.permission = permission
         self.osVersion = osVersion
         self.category_id = category_id
-        # self.downloads = downloads
         self.launchurl = launchurl
-        # self.installscript = installscript
-        # self.installed = installed
-        # self.uninstallscript = uninstallscript
+        self.developer_id = developer_id
 
     def __repr__(self):
         return '<Application %r %r %r %r %r %r %r %r %r %r %r >' % (
             self.id, self.name, self.version, self.description, self.size,
             self.permission, self.osVersion, self.category_id,
-            self.downloads, self.launchurl, self.installed)
+            self.downloads, self.launchurl, self.developer_id)
 
     def to_json(self):
         return dict(
@@ -189,12 +188,10 @@ class Application (db.Model):
             version=self.version,
             description=self.description,
             size=self.size,
-            #interactionPoints=self.interactionPoints,
             permission=self.permission,
             osVersion=self.osVersion,
             downloads=self.downloads,
-            launchurl=self.launchurl,
-            installed=self.installed
+            launchurl=self.launchurl
         )
 
     def from_json(self, application_details):
@@ -204,13 +201,11 @@ class Application (db.Model):
         self.version = application['version']
         self.description = application['description']
         self.size = application['size']
-        #self.interactionPoints = application['interactionPoints']
         self.permission = application['permission']
         self.osVersion = application['osVersion']
         self.category_id = application['category_id']
         self.downloads = application['downloads']
         self.launchurl = application['launchurl']
-        self.installed = application['installed']
 
 
 class ApplicationUpdates(db.Model):

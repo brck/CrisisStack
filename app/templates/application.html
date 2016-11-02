@@ -103,6 +103,17 @@
             <div class="small-12 medium-12 large-12  columns">
                 <div class="row">
                     <div class="small-12 medium-12 large-12  columns">
+                        {{ form.developer_id( class_="validate", **{'aria-describedby':"developerHelpText"} ) }}
+                        {% for message in form.developer_id.errors %}
+                        <div class="error" id="developerHelpText">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="small-12 medium-12 large-12  columns">
+                <div class="row">
+                    <div class="small-12 medium-12 large-12  columns">
                         {{ form.launchurl( class_="validate", **{'aria-describedby':"launchurlHelpText"} ) }}
                         {% for message in form.launchurl.errors %}
                         <div class="error" id="launchurlHelpText">{{ message }}</div>

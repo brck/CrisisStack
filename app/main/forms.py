@@ -5,9 +5,6 @@ from ..models import Application
 
 class ApplicationsForm(Form):
     """Applications update form"""
-    # name = StringField("Name", [
-    #     validators.DataRequired("Please enter the application name.")],
-    #     render_kw={"placeholder": "Name"})
     version = StringField("Version", [
         validators.DataRequired("Enter application version.")],
         render_kw={"placeholder": "Version"})
@@ -23,10 +20,6 @@ class ApplicationsForm(Form):
         ('None', 'None')
     ]
     permission = SelectField(label="Permissions", choices = app_permissions, default = ['0'])
-    # permission = StringField("Permission", [
-    #     validators.DataRequired("Enter permissions needed by the application.")],
-    #     render_kw={"placeholder": "Permission"})
-
     os_vesions = [
         ('0', 'Choose OS'),
         ('Raspbian', 'Raspbian'),
@@ -35,10 +28,30 @@ class ApplicationsForm(Form):
     ]
     osVersion = SelectField(label="OS Version", choices = os_vesions, default = ['0'])
     category_id = SelectField(label="Category", coerce=int)
+    developer_id = SelectField(label="Developer", coerce=int)
     launchurl = StringField("Launch URL", [
         validators.DataRequired("Please enter the launch url."),
         validators.url("Please enter a valid url.")],
         render_kw={"placeholder": "Launch URL"})
+
+    # icon = FileField("Icon", [
+    #     validators.DataRequired("Application Icon can not be blank")],
+    #     render_kw={"placeholder": "Icon"})
+    # screenShotOne = FileField("Screen Shot One", [
+    #     validators.DataRequired("Application Screen Shot can not be blank")],
+    #     render_kw={"placeholder": "Screen Shot One"})
+    # screenShotTwo = FileField("Screen Shot One", [
+    #     validators.DataRequired("Application Screen Shot can not be blank")],
+    #     render_kw={"placeholder": "Screen Shot One"})
+    # screenShotThree = FileField("Screen Shot One", [
+    #     validators.DataRequired("Application Screen Shot can not be blank")],
+    #     render_kw={"placeholder": "Screen Shot One"})
+    # screenShotFour = FileField("Screen Shot One", [
+    #     validators.DataRequired("Application Screen Shot can not be blank")],
+    #     render_kw={"placeholder": "Size"})
+    # video = FileField("Screen Shot One", [
+    #     validators.DataRequired("Application Video can not be blank")],
+    #     render_kw={"placeholder": "Size"})
 
     submit = SubmitField("Login")
 
