@@ -48,6 +48,12 @@ def index():
     return render_template('index.html')
 
 
+@main.route('/app_assets/<int:app_id>')
+def app_assets(app_id):
+    application = Application.query.filter_by(id=app_id).first()
+    return render_template('app_assets.html', application=application)
+
+
 @main.route('/app_info')
 def app_info():
     return render_template('app_info.html')

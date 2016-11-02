@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="row content">
+
+        <section class="large-12 columns">
+            <div class="row">
+
+                <div class="large-3 medium-3 columns">
+                    <label for="file">
+                        <img src="{{ url_for('static', filename='assets/images/content/app_icon.png') }}">
+                    </label>
+
+                    <input aria-describedby="fileHelpText" class="inputfile" id="file" name="file" placeholder="Size" type="file">
+                </div>
+
+                <div class="large-9 medium-9 columns">
+                    <h4>{{ application.name }}</h4>
+                    <h6>by Ushahidi </h6>
+                    <p class="rating"></p>
+                    <p>{{ application.description }}. </p>
+                    <hr>
+
+                    <h5>Screenshots</h5>
+                    <div class="row screenshots">
+                        <div class="large-6 columns">
+                            <label for="file">
+                                <img src="{{ url_for('static', filename='assets/images/content/browser.png') }}">
+                            </label>
+                        </div>
+                        <div class="large-6 columns">
+                            <label for="file">
+                                <img src="{{ url_for('static', filename='assets/images/content/browser.png') }}">
+                            </label>
+                        </div>
+                        <div class="large-6 columns">
+                            <label for="file">
+                                <img src="{{ url_for('static', filename='assets/images/content/browser.png') }}">
+                            </label>
+                        </div>
+                        <div class="large-6 columns">
+                            <label for="file">
+                                <img src="{{ url_for('static', filename='assets/images/content/browser.png') }}">
+                            </label>
+                        </div>
+                    </div>
+                    <hr>
+                    <button class="button radius alert tiny right"> <i class="fa fa-trash-o"></i> Save Details</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+{% endblock %}
