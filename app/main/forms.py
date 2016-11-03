@@ -34,25 +34,6 @@ class ApplicationsForm(Form):
         validators.url("Please enter a valid url.")],
         render_kw={"placeholder": "Launch URL"})
 
-    # icon = FileField("Icon", [
-    #     validators.DataRequired("Application Icon can not be blank")],
-    #     render_kw={"placeholder": "Icon"})
-    # screenShotOne = FileField("Screen Shot One", [
-    #     validators.DataRequired("Application Screen Shot can not be blank")],
-    #     render_kw={"placeholder": "Screen Shot One"})
-    # screenShotTwo = FileField("Screen Shot One", [
-    #     validators.DataRequired("Application Screen Shot can not be blank")],
-    #     render_kw={"placeholder": "Screen Shot One"})
-    # screenShotThree = FileField("Screen Shot One", [
-    #     validators.DataRequired("Application Screen Shot can not be blank")],
-    #     render_kw={"placeholder": "Screen Shot One"})
-    # screenShotFour = FileField("Screen Shot One", [
-    #     validators.DataRequired("Application Screen Shot can not be blank")],
-    #     render_kw={"placeholder": "Size"})
-    # video = FileField("Screen Shot One", [
-    #     validators.DataRequired("Application Video can not be blank")],
-    #     render_kw={"placeholder": "Size"})
-
     submit = SubmitField("Login")
 
     def __init__(self, *args, **kwargs):
@@ -73,3 +54,30 @@ class CategoryForm(Form):
 
     def __init__(self, *args, **kwargs):
         super(CategoryForm, self).__init__(*args, **kwargs)
+
+
+class ApplicationAssetsForm(Form):
+    """Applications update form"""
+    icon = FileField("Icon", [
+        validators.DataRequired("Application Icon can not be blank")],
+        render_kw={"placeholder": "Icon"})
+    screenshot1 = FileField("Screen Shot One", [
+        validators.DataRequired("Application Screen Shot can not be blank")],
+        render_kw={"placeholder": "Screen Shot One"})
+    screenshot2 = FileField("Screen Shot One", [
+        validators.DataRequired("Application Screen Shot can not be blank")],
+        render_kw={"placeholder": "Screen Shot One"})
+    screenshot3 = FileField("Screen Shot One", [
+        validators.DataRequired("Application Screen Shot can not be blank")],
+        render_kw={"placeholder": "Screen Shot One"})
+    screenshot4 = FileField("Screen Shot One", [
+        validators.DataRequired("Application Screen Shot can not be blank")],
+        render_kw={"placeholder": "Size"})
+    video = FileField("Screen Shot One", [
+        validators.DataRequired("Application Video can not be blank")],
+        render_kw={"placeholder": "Size"})
+
+    submit = SubmitField("Login")
+
+    def __init__(self, *args, **kwargs):
+        super(ApplicationAssetsForm, self).__init__(*args, **kwargs)

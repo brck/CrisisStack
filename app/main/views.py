@@ -3,11 +3,11 @@ from werkzeug import secure_filename
 from flask import current_app
 import os
 from . import main
-from ..models import Category, Application, Developer
+from ..models import Category, Application, Developer, ApplicationAssets
 from .. import db
-from .forms import ApplicationsForm, CategoryForm
+from .forms import ApplicationsForm, CategoryForm, ApplicationAssetsForm
 
-ALLOWED_EXTENSIONS = set(['sh'])
+ALLOWED_EXTENSIONS = set(['sh', 'jpg', 'png', 'jpeg', 'svg', 'mp4', 'flv', 'mkv', '3gp'])
 
 
 def populate_categories(form):
@@ -48,15 +48,72 @@ def index():
     return render_template('index.html')
 
 
-@main.route('/app_assets/<int:app_id>')
+@main.route('/app_assets/<int:app_id>', methods=['GET', 'POST'])
 def app_assets(app_id):
     application = Application.query.filter_by(id=app_id).first()
-    return render_template('app_assets.html', application=application)
+    developer = Developer.query.filter_by(user_id=application.developer_id).first()
+
+    form = ApplicationAssetsForm()
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            APP_DIR = os.path.abspath(os.path.join(__file__ ,"../.."))
+            INSTALLS_DIR = os.path.join(APP_DIR, current_app.config['UPLOAD_FOLDER'])
+            ASSETS_DIR = os.path.join(INSTALLS_DIR, str(app_id))
+
+            if not os.path.exists(ASSETS_DIR):
+                os.makedirs(ASSETS_DIR)
+
+            app_assets = {}
+
+            for field in form:
+                if field.type == "FileField":
+                    field_name = field.name
+                    field_data = field.data
+
+                    if field_data.filename == '':
+                        flash('No selected file', 'error')
+                        return redirect(request.url)
+
+                    if field_data and allowed_file(field_data.filename):
+                        asset_name = secure_filename(field_data.filename)
+                        file_ext = asset_name.rsplit('.', 1)[1]
+                        new_asset_name = field_name + '.' + file_ext
+                        app_assets[field_name] = new_asset_name
+
+                        field_data.save(os.path.join(ASSETS_DIR, asset_name))
+
+                        file_dir = os.path.join(ASSETS_DIR, asset_name)
+                        new_file_dir = os.path.join(ASSETS_DIR, new_asset_name)
+                        print 'old file =>', file_dir
+                        print 'new file =>', new_file_dir
+                        os.rename(file_dir, new_file_dir)
+
+            assets = ApplicationAssets(
+                application_id=app_id,
+                icon=app_assets.get('icon', 'app_icon.png'),
+                screenShotOne=app_assets.get('screenshot1', 'browser.png'),
+                screenShotTwo=app_assets.get('screenshot2', 'browser.png'),
+                screenShotThree=app_assets.get('screenshot3', 'browser.png'),
+                screenShotFour=app_assets.get('screenshot4', 'browser.png'),
+                video=app_assets.get('video', 'None'))
+
+            db.session.add(assets)
+            db.session.commit()
+
+            flash('Assets added successfully', 'success')
+            return redirect(request.args.get('next') or url_for('main.app_info', app_id=app_id))
+
+    return render_template('app_assets.html', form=form, application=application, developer=developer)
 
 
-@main.route('/app_info')
-def app_info():
-    return render_template('app_info.html')
+@main.route('/app_info/<int:app_id>')
+def app_info(app_id):
+    application = Application.query.filter_by(id=app_id).first()
+    developer = Developer.query.filter_by(user_id=application.developer_id)
+    assets = ApplicationAssets.query.filter_by(application_id=app_id).first()
+
+    return render_template('app_info.html', application=application, developer=developer, assets=assets)
 
 
 @main.route('/application', methods=['GET', 'POST'])

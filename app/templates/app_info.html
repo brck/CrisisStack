@@ -8,24 +8,50 @@
             <div class="row">
 
                 <div class="large-3 medium-3 columns">
-                    <img src="{{ url_for('static', filename='assets/images/content/logo_crowdmap.svg') }}">
+                    {% set icon = "scripts/install/%s/%s"%(assets.application_id, assets.icon) %}
+                    <img src="{{ url_for('static', filename=icon) }}">
                     <button class="button expand radius"><i class="fa fa-rocket"></i>Launch</button>
                 </div>
 
                 <div class="large-9 medium-9 columns">
-                    <h4>Crowdmap</h4>
-                    <h6>by Ushahidi </h6>
+                    <h4>{{ application.name }}</h4>
+                    <h6>by {{ developer.name }} </h6>
                     <p class="rating"><span class="label round">53</span> Downloads</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco. </p>
+                    <p>{{ application.description }}. </p>
                     <hr>
 
                     <h5>Screenshots</h5>
                     <div class="row screenshots">
-                        <div class="large-6 columns"><img src="{{ url_for('static', filename='assets/images/content/browser.png') }}"></div>
-                        <div class="large-6 columns"><img src="{{ url_for('static', filename='assets/images/content/browser.png') }}"></div>
-                        <div class="large-6 columns"><img src="{{ url_for('static', filename='assets/images/content/browser.png') }}"></div>
-                        <div class="large-6 columns"><img src="{{ url_for('static', filename='assets/images/content/browser.png') }}"></div>
+                        <div class="large-6 columns">
+                            {% set screenShotOne = "scripts/install/%s/%s"%(assets.application_id, assets.screenShotOne) %}
+                            <img src="{{ url_for('static', filename=screenShotOne) }}">
+                        </div>
+
+                        <div class="large-6 columns">
+                            {% set screenShotTwo = "scripts/install/%s/%s"%(assets.application_id, assets.screenShotTwo) %}
+                            <img src="{{ url_for('static', filename=screenShotTwo) }}">
+                        </div>
+
+                        <div class="large-6 columns">
+                            {% set screenShotThree = "scripts/install/%s/%s"%(assets.application_id, assets.screenShotThree) %}
+                            <img src="{{ url_for('static', filename=screenShotThree) }}">
+                        </div>
+
+                        <div class="large-6 columns">
+                            {% set screenShotFour = "scripts/install/%s/%s"%(assets.application_id, assets.screenShotFour) %}
+                            <img src="{{ url_for('static', filename=screenShotFour) }}">
+                        </div>
                     </div>
+                    <hr>
+
+                    <h5>Video</h5>
+                    <div class="row screenshots">
+                        <div class="large-12 columns">
+                            {% set video = "scripts/install/%s/%s"%(assets.application_id, assets.video) %}
+                            <embed src="{{ url_for('static', filename=video) }}" width="100%" height="400" scale="aspect" controller="true">
+                        </div>
+                    </div>
+
                     <hr>
                     <button class="button radius alert tiny right"> <i class="fa fa-trash-o"></i> Delete App</button>
                 </div>

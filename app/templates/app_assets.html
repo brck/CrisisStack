@@ -4,50 +4,95 @@
 
     <div class="row content">
 
+        {% with messages = get_flashed_messages(category_filter=["success"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div data-alert class="alert-box success radius">
+                        {{ message }}
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div data-alert class="alert-box error radius">
+                        {{ message }}
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
         <section class="large-12 columns">
             <div class="row">
 
-                <div class="large-3 medium-3 columns">
-                    <label for="file">
-                        <img src="{{ url_for('static', filename='assets/images/content/app_icon.png') }}">
-                    </label>
+                <form class="row" action="" method="post" method=post enctype=multipart/form-data>
+                    {{ form.hidden_tag() }}
 
-                    <input aria-describedby="fileHelpText" class="inputfile" id="file" name="file" placeholder="Size" type="file">
-                </div>
+                    <div class="large-3 medium-3 columns">
+                        {{ form.icon( class_="inputfile", **{'aria-describedby':"iconHelpText"} ) }}
 
-                <div class="large-9 medium-9 columns">
-                    <h4>{{ application.name }}</h4>
-                    <h6>by Ushahidi </h6>
-                    <p class="rating"></p>
-                    <p>{{ application.description }}. </p>
-                    <hr>
-
-                    <h5>Screenshots</h5>
-                    <div class="row screenshots">
-                        <div class="large-6 columns">
-                            <label for="file">
-                                <img src="{{ url_for('static', filename='assets/images/content/browser.png') }}">
-                            </label>
-                        </div>
-                        <div class="large-6 columns">
-                            <label for="file">
-                                <img src="{{ url_for('static', filename='assets/images/content/browser.png') }}">
-                            </label>
-                        </div>
-                        <div class="large-6 columns">
-                            <label for="file">
-                                <img src="{{ url_for('static', filename='assets/images/content/browser.png') }}">
-                            </label>
-                        </div>
-                        <div class="large-6 columns">
-                            <label for="file">
-                                <img src="{{ url_for('static', filename='assets/images/content/browser.png') }}">
-                            </label>
-                        </div>
+                        <label for="icon">
+                            <img src="{{ url_for('static', filename='assets/images/content/app_icon.png') }}">
+                        </label>
                     </div>
-                    <hr>
-                    <button class="button radius alert tiny right"> <i class="fa fa-trash-o"></i> Save Details</button>
-                </div>
+
+                    <div class="large-9 medium-9 columns">
+                        <h4>{{ application.name }}</h4>
+                        <h6>by {{ developer.name }} </h6>
+                        <p class="rating"></p>
+                        <p>{{ application.description }}. </p>
+                        <hr>
+
+                        <h5>Screenshots</h5>
+                        <div class="row screenshots">
+                            <div class="large-6 columns">
+                                {{ form.screenshot1( class_="inputfile", **{'aria-describedby':"screenshot1HelpText"} ) }}
+
+                                <label for="screenshot1">
+                                    <img src="{{ url_for('static', filename='assets/images/content/browser.png') }}">
+                                </label>
+                            </div>
+                            <div class="large-6 columns">
+                                {{ form.screenshot2( class_="inputfile", **{'aria-describedby':"screenshot2HelpText"} ) }}
+
+                                <label for="screenshot2">
+                                    <img src="{{ url_for('static', filename='assets/images/content/browser.png') }}">
+                                </label>
+                            </div>
+                            <div class="large-6 columns">
+                                {{ form.screenshot3( class_="inputfile", **{'aria-describedby':"screenshot3HelpText"} ) }}
+
+                                <label for="screenshot3">
+                                    <img src="{{ url_for('static', filename='assets/images/content/browser.png') }}">
+                                </label>
+                            </div>
+                            <div class="large-6 columns">
+                                {{ form.screenshot4( class_="inputfile", **{'aria-describedby':"screenshot4HelpText"} ) }}
+
+                                <label for="screenshot4">
+                                    <img src="{{ url_for('static', filename='assets/images/content/browser.png') }}">
+                                </label>
+                            </div>
+
+                            <div class="large-12 columns">
+                                {{ form.video( class_="inputfile", **{'aria-describedby':"videoHelpText"} ) }}
+
+                                <label for="video">
+                                    <span></span> <strong>
+                                        <i class="fa fa-upload">&nbsp Choose a video file&hellip;</i>
+                                    </strong>
+                                </label>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <button type="submit" class="button radius alert tiny right"> <i class="fa fa-trash-o"></i> Save Details</button>
+                    </div>
+                </form>
             </div>
         </section>
 
