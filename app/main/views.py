@@ -110,7 +110,7 @@ def app_assets(app_id):
 @main.route('/app_info/<int:app_id>')
 def app_info(app_id):
     application = Application.query.filter_by(id=app_id).first()
-    developer = Developer.query.filter_by(user_id=application.developer_id)
+    developer = Developer.query.filter_by(user_id=application.developer_id).first()
     assets = ApplicationAssets.query.filter_by(application_id=app_id).first()
 
     return render_template('app_info.html', application=application, developer=developer, assets=assets)

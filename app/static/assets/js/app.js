@@ -25,5 +25,23 @@ $(document).ready(function() {
 		input.addEventListener( 'focus', function(){ input.classList.add( 'has-focus' ); });
 		input.addEventListener( 'blur', function(){ input.classList.remove( 'has-focus' ); });
 	});
+
+	function readURL(input) {
+		var image = $(input).siblings().find('img');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $(image).attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(".inputfile").change(function(){
+        readURL(this);
+    });
 });
 
