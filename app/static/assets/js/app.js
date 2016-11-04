@@ -44,4 +44,3 @@ $(document).ready(function() {
         readURL(this);
     });
 });
-

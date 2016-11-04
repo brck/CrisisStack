@@ -45,7 +45,29 @@ def allowed_file(filename):
 
 @main.route('/')
 def index():
-    return render_template('index.html')
+    apps = Application.query.all()
+    applications = []
+
+    for app in apps:
+        assets = ApplicationAssets.query.filter_by(application_id=app.id).first()
+        developer = Developer.query.filter_by(user_id=app.developer_id).first()
+
+        app_details = {
+            'id':app.id,
+            'name':app.name,
+            'developer':developer.name,
+            'icon':assets.icon,
+            'description':app.description,
+            'downloads':app.downloads
+        }
+
+        applications.append(app_details)
+
+    for app in applications:
+        print app
+        print app['id'], app['name'], app['developer'], app['icon'], app['description'], app['downloads']
+
+    return render_template('index.html', applications=applications)
 
 
 @main.route('/app_assets/<int:app_id>', methods=['GET', 'POST'])
