@@ -8,30 +8,56 @@
 	    </div>
 	</div>
 
+	<div class="row">
+		<div class="large-12 columns">
+			{% with messages = get_flashed_messages(category_filter=["success"]) %}
+	            {% if messages %}
+	                {% for message in messages %}
+	                    <div data-alert class="alert-box success radius">
+	                        {{ message }}
+	                        <a href="#" class="close">&times;</a>
+	                    </div>
+	                {% endfor %}
+	            {% endif %}
+	        {% endwith %}
+
+	        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+	            {% if messages %}
+	                {% for message in messages %}
+	                    <div data-alert class="alert-box error radius">
+	                        {{ message }}
+	                        <a href="#" class="close">&times;</a>
+	                    </div>
+	                {% endfor %}
+	            {% endif %}
+	        {% endwith %}
+		</div>
+	</div>
+
 	<div class="row content">
 
-		{% for app in applications %}
-			{% set app_id = app['id'] %}
-			{% set app_name = app['name'] %}
-			{% set app_developer = app['developer'] %}
-			{% set app_icon = app['icon'] %}
-			{% set app_description = app['description'] %}
-			{% set downloads = app['downloads'] %}
-			{% set icon_url = "scripts/install/%s/%s"%(app_id, app_icon) %}
+		{% for app in installed_apps %}
+			{% set app_id = app[0]['id'] %}
+			{% set app_name = app[0]['name'] %}
+			{% set app_developer = app[0]['developer'] %}
+			{% set app_icon = app[0]['icon'] %}
+			{% set app_description = app[0]['description'] %}
+			{% set app_downloads = app[0]['downloads'] %}
+			{% set app_icon_url = "scripts/install/%s/%s"%(app_id, app_icon) %}
 
 			<section class="large-6 medium-6 small-12  columns">
 		        <div class="row">
 
 		            <div class="large-5 medium-5 columns">
 		                <a class="app_logo" href="{{ url_for('main.app_info', app_id=app_id) }}">
-		                    <img src="{{ url_for('static', filename=icon_url) }}"></a>
+		                    <img src="{{ url_for('static', filename=app_icon_url) }}"></a>
 		                <button class="button expand radius"><i class="fa fa-rocket"></i>Launch</button>
 		            </div>
 
 		            <div class="large-7 medium-7 columns">
 		                <h4><a href="{{ url_for('main.app_info', app_id=app_id) }}">{{ app_name }}</a> </h4>
 		                <h6>by {{ app_developer }} </h6>
-		                <p class="rating"><span class="label round">{{ downloads }}</span> Downloads</p>
+		                <p class="rating"><span class="label round">{{ app_downloads }}</span> Downloads</p>
 		                <p>{{ app_description }}.</p>
 		            </div>
 		        </div>
@@ -42,66 +68,35 @@
 	    <div class="large-12 columns">
 	        <h1 class="clearfix"><br>Not Installed</h1></div>
 
-	    <section class="large-6 medium-6 small-12  columns download">
-	        <div class="row">
+	    {% for app in applications %}
+			{% set id = app['id'] %}
+			{% set name = app['name'] %}
+			{% set developer = app['developer'] %}
+			{% set icon = app['icon'] %}
+			{% set description = app['description'] %}
+			{% set downloads = app['downloads'] %}
+			{% set icon_url = "scripts/install/%s/%s"%(id, icon) %}
 
-	            <div class="large-5 medium-5 columns">
-	                <a class="app_logo" href="#">
-	                    <img src="{{ url_for('static', filename='assets/images/content/logo_crowdmap.svg') }}"></a>
-	                <button class="button expand radius"><i class="fa fa-download"></i>Install</button>
-	            </div>
+			<section class="large-6 medium-6 small-12  columns download">
+		        <div class="row">
 
-	            <div class="large-7 medium-7 columns">
-	                <h4>Crowdmap </h4>
-	                <h6>by Ushahidi </h6>
-	                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-	            </div>
-	        </div>
-	    </section>
+		            <div class="large-5 medium-5 columns">
+		                <a class="app_logo" href="{{ url_for('main.app_info', app_id=id) }}">
+		                    <img src="{{ url_for('static', filename=icon_url) }}"></a>
+		                {% if current_user.is_authenticated %}
+		                	<a href="/install_app?app_id={{id}}&user_id={{current_user.id}}" class="button expand radius"> <i class="fa fa-download"></i>Install</a>
+		                {% endif %}
+		            </div>
 
-	    <section class="large-6 medium-6 small-12  columns download">
-	        <div class="row">
-	            <div class="large-5 medium-5  columns">
-	                <a class="app_logo" href="#">
-	                    <img src="{{ url_for('static', filename='assets/images/content/logo_enketo.svg') }}"> </a>
-	                <button class="button expand radius"><i class="fa fa-download"></i>Install</button>
-	            </div>
-	            <div class="large-7 medium-7  columns">
-	                <h4>Smart Paper</h4>
-	                <h6> by Enketo </h6>
-	                <p>Deploy and conduct surveys that work without a connection, on any device </p>
-	            </div>
-	        </div>
-	    </section>
-	    <section class="large-6 medium-6 small-12   columns download">
-	        <div class="row">
-	            <div class="large-5 medium-5 columns">
-	                <a class="app_logo" href="#">
-	                    <img src="{{ url_for('static', filename='assets/images/content/logo_etherpad.svg') }}"></a>
-	                <button class="button expand radius"><i class="fa fa-download"></i>Install</button>
-	            </div>
-	            <div class="large-7 medium-7 columns">
-	                <h4>Etherpad-Lite </h4>
-	                <h6> by Etherpad </h6>
-	                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-	            </div>
-	        </div>
-	    </section>
+		            <div class="large-7 medium-7 columns">
+		                <h4>{{ name }} </h4>
+		                <h6>by {{ developer }} </h6>
+		                <p>{{ description }}.</p>
+		            </div>
+		        </div>
+		    </section>
 
-	    <section class="large-6 medium-6 small-12  columns download">
-	        <div class="row">
-	            <div class="large-5 medium-5  columns">
-	                <a class="app_logo" href="#">
-	                    <img src="{{ url_for('static', filename='assets/images/content/logo_sahana.svg') }}"> </a>
-	                <button class="button expand radius"> <i class="fa fa-download"></i>Install</button>
-	            </div>
-	            <div class="large-7 medium-7  columns">
-	                <h4>Eden</h4>
-	                <h6> by Sahana </h6>
-	                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-	            </div>
-	        </div>
-	    </section>
+		{% endfor%}
 
 	</div>
 

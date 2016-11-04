@@ -1,9 +1,10 @@
 from flask import render_template, request, redirect, url_for, flash
 from werkzeug import secure_filename
+from flask_login import current_user
 from flask import current_app
 import os
 from . import main
-from ..models import Category, Application, Developer, ApplicationAssets
+from ..models import Category, Application, Developer, ApplicationAssets, User
 from .. import db
 from .forms import ApplicationsForm, CategoryForm, ApplicationAssetsForm
 
@@ -83,9 +84,20 @@ def load_applications(**kwargs):
 
 @main.route('/')
 def index():
-    applications = load_applications()
+    user = User.query.filter_by(id=current_user.id).first()
+    installed_apps = []
+    for app in get_installed_apps(user):
+        installed_apps.append(load_applications(app_id=app))
 
-    return render_template('index.html', applications=applications)
+    for app in installed_apps:
+        print 'installed_app =>', app[0]
+
+    applications = load_applications()
+    for app in range(len(applications)):
+        if applications[app]['id'] in get_installed_apps(user):
+            applications.pop(app)
+
+    return render_template('index.html', applications=applications, installed_apps=installed_apps)
 
 
 @main.route('/app_assets/<int:app_id>', methods=['GET', 'POST'])
@@ -157,6 +169,32 @@ def app_info(app_id):
     related_apps = load_applications(category_id=application.category_id, app_id=app_id)
 
     return render_template('app_info.html', app_details=app_details, related_apps=related_apps, assets=assets)
+
+
+@main.route('/install_app')
+def install_app():
+    user_id = request.args['user_id']
+    app_id = request.args['app_id']
+
+    user = User.query.filter_by(id=user_id).first()
+    app = Application.query.filter_by(id=app_id).first()
+
+    try:
+        user.installed_apps.append(app)
+        db.session.commit()
+
+        flash('Application installed successfully', 'success')
+    except Exception as e:
+        db.session.rollback()
+        db.session.flush()
+
+        flash('Application did not install successfully', 'error')
+
+    return redirect(url_for('main.index'))
+
+
+def get_installed_apps(user):
+    return [app.id for app in user.installed_apps]
 
 
 @main.route('/application', methods=['GET', 'POST'])

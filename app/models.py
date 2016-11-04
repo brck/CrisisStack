@@ -102,11 +102,11 @@ class Category(db.Model):
 #     db.Column('developer_id', db.Integer, db.ForeignKey('developer.user_id'))
 # )
 
-# developer_apps = db.Table(
-#     'developer_apps',
-#     db.Column('application_id', db.Integer, db.ForeignKey('application.id')),
-#     db.Column('developer_id', db.Integer, db.ForeignKey('developer.user_id'))
-# )
+user_apps = db.Table(
+    'user_apps',
+    db.Column('application_id', db.Integer, db.ForeignKey('application.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
+)
 
 
 class Developer(db.Model):
@@ -118,9 +118,6 @@ class Developer(db.Model):
     website = db.Column(db.String(250), nullable=False)
     applications = db.relationship(
         'Application', backref='developer', lazy='dynamic')
-    # applications = db.relationship(
-    #     "Application", secondary=developer_apps,
-    #     backref=db.backref('developers'), lazy='dynamic')
 
     def __repr__(self):
         return '< developer %r %r %r >' % (
@@ -160,6 +157,10 @@ class Application (db.Model):
     downloads = db.Column(db.Integer, nullable=False, default=0)
     launchurl = db.Column(db.String(250), nullable=False, unique=True)
     application_status = db.Column(db.String(50), nullable=False, default='Pending')
+
+    installations = db.relationship(
+        "User", secondary=user_apps,
+        backref=db.backref('installed_apps'), lazy='dynamic')
 
     application_updates = db.relationship(
         'ApplicationUpdates', backref='app_updates', lazy='dynamic')

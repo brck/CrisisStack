@@ -43,4 +43,5 @@ $(document).ready(function() {
     $(".inputfile").change(function(){
         readURL(this);
     });
+
 });
