@@ -39,11 +39,17 @@ def populate_developers(form):
 
 
 def allowed_file(filename):
+    """
+    Checks whether a given file extension is allowed.
+    """
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
 def load_applications(**kwargs):
+    """
+    Populate applications from database based on parameters passed
+    """
     applications = []
 
     apps = None
@@ -77,24 +83,6 @@ def load_applications(**kwargs):
 
 @main.route('/')
 def index():
-    # apps = Application.query.all()
-    # applications = []
-
-    # for app in apps:
-    #     assets = ApplicationAssets.query.filter_by(application_id=app.id).first()
-    #     developer = Developer.query.filter_by(user_id=app.developer_id).first()
-
-    #     app_details = {
-    #         'id':app.id,
-    #         'name':app.name,
-    #         'developer':developer.name,
-    #         'icon':assets.icon,
-    #         'description':app.description,
-    #         'downloads':app.downloads
-    #     }
-
-    #     applications.append(app_details)
-
     applications = load_applications()
 
     return render_template('index.html', applications=applications)
