@@ -43,10 +43,19 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
-@main.route('/')
-def index():
-    apps = Application.query.all()
+def load_applications(**kwargs):
     applications = []
+
+    apps = None
+
+    if 'app_id' in kwargs  and 'category_id' not in kwargs:
+        apps = Application.query.filter_by(id=kwargs['app_id']).all()
+    elif 'category_id' in kwargs and 'app_id' in kwargs:
+        apps = Application.query.filter_by(category_id=kwargs['category_id']).filter(Application.id != kwargs['app_id']).all()
+    elif 'category_id' in kwargs and 'app_id' not in kwargs:
+        apps = Application.query.filter_by(category_id=kwargs['category_id']).all()
+    else:
+        apps = Application.query.all()
 
     for app in apps:
         assets = ApplicationAssets.query.filter_by(application_id=app.id).first()
@@ -63,9 +72,30 @@ def index():
 
         applications.append(app_details)
 
-    for app in applications:
-        print app
-        print app['id'], app['name'], app['developer'], app['icon'], app['description'], app['downloads']
+    return applications
+
+
+@main.route('/')
+def index():
+    # apps = Application.query.all()
+    # applications = []
+
+    # for app in apps:
+    #     assets = ApplicationAssets.query.filter_by(application_id=app.id).first()
+    #     developer = Developer.query.filter_by(user_id=app.developer_id).first()
+
+    #     app_details = {
+    #         'id':app.id,
+    #         'name':app.name,
+    #         'developer':developer.name,
+    #         'icon':assets.icon,
+    #         'description':app.description,
+    #         'downloads':app.downloads
+    #     }
+
+    #     applications.append(app_details)
+
+    applications = load_applications()
 
     return render_template('index.html', applications=applications)
 
@@ -135,7 +165,10 @@ def app_info(app_id):
     developer = Developer.query.filter_by(user_id=application.developer_id).first()
     assets = ApplicationAssets.query.filter_by(application_id=app_id).first()
 
-    return render_template('app_info.html', application=application, developer=developer, assets=assets)
+    app_details = load_applications(app_id=app_id)
+    related_apps = load_applications(category_id=application.category_id, app_id=app_id)
+
+    return render_template('app_info.html', app_details=app_details, related_apps=related_apps, assets=assets)
 
 
 @main.route('/application', methods=['GET', 'POST'])

@@ -7,17 +7,24 @@
         <section class="large-12 columns">
             <div class="row">
 
+                {% set app_id = app_details[0]['id'] %}
+                {% set app_name = app_details[0]['name'] %}
+                {% set app_developer = app_details[0]['developer'] %}
+                {% set app_icon = app_details[0]['icon'] %}
+                {% set app_description = app_details[0]['description'] %}
+                {% set app_downloads = app_details[0]['downloads'] %}
+                {% set app_icon_url = "scripts/install/%s/%s"%(app_id, app_icon) %}
+
                 <div class="large-3 medium-3 columns">
-                    {% set icon = "scripts/install/%s/%s"%(assets.application_id, assets.icon) %}
-                    <img src="{{ url_for('static', filename=icon) }}">
+                    <img src="{{ url_for('static', filename=app_icon_url) }}">
                     <button class="button expand radius"><i class="fa fa-rocket"></i>Launch</button>
                 </div>
 
                 <div class="large-9 medium-9 columns">
-                    <h4>{{ application.name }}</h4>
-                    <h6>by {{ developer.name }} </h6>
-                    <p class="rating"><span class="label round">53</span> Downloads</p>
-                    <p>{{ application.description }}. </p>
+                    <h4>{{ app_name }}</h4>
+                    <h6>by {{ app_developer }} </h6>
+                    <p class="rating"><span class="label round">{{ app_downloads }}</span> Downloads</p>
+                    <p>{{ app_description }}. </p>
                     <hr>
 
                     <h5>Screenshots</h5>
@@ -58,9 +65,37 @@
             </div>
         </section>
 
+
         <div class="row related">
+        {% if related_apps|length > 0 %}
             <div class="large-12 columns">
-                <h1><br>Related Apps</h1></div>
+                <h1><br>Related Apps</h1>
+            </div>
+
+            {% for app in related_apps %}
+                {% set id = app['id'] %}
+                {% set name = app['name'] %}
+                {% set developer = app['developer'] %}
+                {% set icon = app['icon'] %}
+                {% set description = app['description'] %}
+                {% set downloads = app['downloads'] %}
+                {% set developer_url = '#' %}
+                {% set icon_url = "scripts/install/%s/%s"%(id, icon) %}
+
+                <div class="large-3 medium-2 columns">
+                    <a href="{{ url_for('main.app_info', app_id=id) }}"><img src="{{ url_for('static', filename=icon_url) }}"></a>
+                    <h4><a href="{{ url_for('main.app_info', app_id=id) }}"> {{ name }}</a> </h4>
+                    <h6>by {{ developer }} </h6>
+                    <p class="rating"><span class="label round">{{ downloads }}</span> Downloads</p>
+                </div>
+
+            {% endfor%}
+
+        {% endif %}
+            <!-- <div class="large-12 columns">
+                <h1><br>Related Apps</h1>
+            </div>
+
             <div class="large-3 medium-2 columns">
                 <a href="#"><img src="{{ url_for('static', filename='assets/images/content/logo_crowdmap.svg') }}"></a>
                 <h4><a href="#">Crowdmap</a> </h4>
@@ -84,7 +119,7 @@
                 <h4><a href="#">Eden</a></h4>
                 <h6> by Sahana </h6>
                 <p class="rating"><span class="label round">34K</span> Downloads</p>
-            </div>
+            </div> -->
         </div>
 
     </div>

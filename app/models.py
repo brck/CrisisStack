@@ -102,6 +102,12 @@ class Category(db.Model):
 #     db.Column('developer_id', db.Integer, db.ForeignKey('developer.user_id'))
 # )
 
+# developer_apps = db.Table(
+#     'developer_apps',
+#     db.Column('application_id', db.Integer, db.ForeignKey('application.id')),
+#     db.Column('developer_id', db.Integer, db.ForeignKey('developer.user_id'))
+# )
+
 
 class Developer(db.Model):
     __tablename__ = 'developer'
