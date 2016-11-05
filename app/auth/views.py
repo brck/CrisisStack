@@ -12,15 +12,16 @@ from .forms import UserSignUpForm, DeveloperSignUpForm, LoginForm
 def login():
     form = LoginForm()
 
-    if form.validate_on_submit():
-        print 'user email =>', form.email.data
-        user = User.query.filter_by(email=form.email.data).first()
-        if user:
-            print 'user object =>', user.uuid
-        if user is not None and user.verify_password(form.password.data):
-            login_user(user, form.remember_me.data)
-            return redirect(request.args.get('next') or url_for('main.index'))
-        flash('Invalid username or password.', 'error')
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            print 'user email =>', form.email.data
+            user = User.query.filter_by(email=form.email.data).first()
+            if user:
+                print 'user object =>', user.uuid
+            if user is not None and user.verify_password(form.password.data):
+                login_user(user, form.remember_me.data)
+                return redirect(request.args.get('next') or url_for('main.index'))
+            flash('Invalid username or password.', 'error')
 
     return render_template('login.html', form=form)
 
@@ -41,18 +42,18 @@ def create_account():
 @auth.route('/create_account/user', methods=['GET', 'POST'])
 def create_user_account():
     form = UserSignUpForm()
-    print 'entering validation'
-    print 'submitted form = ', request.form
-    if form.validate_on_submit():
-        print 'validated'
-        user = User(uuid=str(uuid.uuid4()),
-                    email=form.email.data,
-                    username=form.username.data,
-                    password=form.password.data)
-        db.session.add(user)
-        db.session.commit()
 
-        flash('Your account has been created successfully. You can now Login', 'success')
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            print 'validated'
+            user = User(uuid=str(uuid.uuid4()),
+                        email=form.email.data,
+                        username=form.username.data,
+                        password=form.password.data)
+            db.session.add(user)
+            db.session.commit()
+
+            flash('Your account has been created successfully. You can now Login', 'success')
         return redirect(request.args.get('next') or url_for('auth.login'))
 
     return render_template('user_account.html', form=form)
@@ -62,29 +63,30 @@ def create_user_account():
 def create_developer_account():
     form = DeveloperSignUpForm(request.form)
 
-    if form.validate_on_submit():
-        user = User(email=form.email.data,
-                    username=form.username.data,
-                    password=form.password.data)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = User(email=form.email.data,
+                        username=form.username.data,
+                        password=form.password.data)
 
-        try:
-            db.session.add(user)
-            db.session.flush()
+            try:
+                db.session.add(user)
+                db.session.flush()
 
-            developer = Developer(
-                user_id=user.id,
-                name=form.full_name.data,
-                website=form.website.data)
+                developer = Developer(
+                    user_id=user.id,
+                    name=form.full_name.data,
+                    website=form.website.data)
 
-            db.session.add(developer)
-            db.session.commit()
+                db.session.add(developer)
+                db.session.commit()
 
-        except IntegrityError as e:
-            db.session.rollback()
-            reason = e.message
-            print reason
+                flash('Your account has been created successfully. You can now Login', 'success')
 
-        flash('Your account has been created successfully. You can now Login', 'success')
+            except IntegrityError as e:
+                db.session.rollback()
+                flash('Account creation error', 'error')
+
         return redirect(request.args.get('next') or url_for('auth.login'))
 
     return render_template('developer_account.html', form=form)

@@ -8,7 +8,9 @@ from ..models import Category, Application, Developer, ApplicationAssets, User
 from .. import db
 from .forms import ApplicationsForm, CategoryForm, ApplicationAssetsForm
 
-ALLOWED_EXTENSIONS = set(['sh', 'jpg', 'png', 'jpeg', 'svg', 'mp4', 'flv', 'mkv', '3gp'])
+ALLOWED_EXTENSIONS = set(
+    ['sh', 'jpg', 'png', 'jpeg', 'svg', 'mp4', 'flv', 'mkv', '3gp']
+)
 
 
 def populate_categories(form):
@@ -16,7 +18,7 @@ def populate_categories(form):
     Pulls choices from the database to populate our select fields.
     """
     categories = Category.query.all()
-    category_names = {'0':'Choose Category'}
+    category_names = {'0': 'Choose Category'}
 
     for category in categories:
         category_names[category.id] = category.name
@@ -30,7 +32,7 @@ def populate_developers(form):
     Pulls choices from the database to populate our select fields.
     """
     developers = Developer.query.all()
-    developer_names = {'0':'Choose Developer'}
+    developer_names = {'0': 'Choose Developer'}
 
     for developer in developers:
         developer_names[developer.user_id] = developer.name
@@ -55,10 +57,11 @@ def load_applications(**kwargs):
 
     apps = None
 
-    if 'app_id' in kwargs  and 'category_id' not in kwargs:
+    if 'app_id' in kwargs and 'category_id' not in kwargs:
         apps = Application.query.filter_by(id=kwargs['app_id']).all()
     elif 'category_id' in kwargs and 'app_id' in kwargs:
-        apps = Application.query.filter_by(category_id=kwargs['category_id']).filter(Application.id != kwargs['app_id']).all()
+        apps = Application.query.filter_by(category_id=kwargs['category_id'])
+        .filter(Application.id != kwargs['app_id']).all()
     elif 'category_id' in kwargs and 'app_id' not in kwargs:
         apps = Application.query.filter_by(category_id=kwargs['category_id']).all()
     else:
@@ -69,12 +72,12 @@ def load_applications(**kwargs):
         developer = Developer.query.filter_by(user_id=app.developer_id).first()
 
         app_details = {
-            'id':app.id,
-            'name':app.name,
-            'developer':developer.name,
-            'icon':assets.icon,
-            'description':app.description,
-            'downloads':app.downloads
+            'id': app.id,
+            'name': app.name,
+            'developer': developer.name,
+            'icon': assets.icon,
+            'description': app.description,
+            'downloads': app.downloads
         }
 
         applications.append(app_details)
@@ -97,7 +100,9 @@ def index():
         if applications[app]['id'] in get_installed_apps(user):
             applications.pop(app)
 
-    return render_template('index.html', applications=applications, installed_apps=installed_apps)
+    return render_template('index.html',
+                           applications=applications,
+                           installed_apps=installed_apps)
 
 
 @main.route('/app_assets/<int:app_id>', methods=['GET', 'POST'])
@@ -109,7 +114,7 @@ def app_assets(app_id):
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            APP_DIR = os.path.abspath(os.path.join(__file__ ,"../.."))
+            APP_DIR = os.path.abspath(os.path.join(__file__, "../.."))
             INSTALLS_DIR = os.path.join(APP_DIR, current_app.config['UPLOAD_FOLDER'])
             ASSETS_DIR = os.path.join(INSTALLS_DIR, str(app_id))
 
@@ -154,7 +159,7 @@ def app_assets(app_id):
             db.session.commit()
 
             flash('Assets added successfully', 'success')
-            return redirect(request.args.get('next') or url_for('main.app_info', app_id=app_id))
+        return redirect(request.args.get('next') or url_for('main.app_info', app_id=app_id))
 
     return render_template('app_assets.html', form=form, application=application, developer=developer)
 
@@ -203,42 +208,43 @@ def application():
     populate_categories(form)
     populate_developers(form)
 
-    if form.validate_on_submit():
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part', 'error')
-            return render_template('application.html', form=form)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit a empty part without filename
-        if file.filename == '':
-            flash('No selected file', 'error')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            APP_DIR = os.path.abspath(os.path.join(__file__ ,"../.."))
-            INSTALLS_DIR = os.path.join(APP_DIR, current_app.config['UPLOAD_FOLDER'])
-            filename = secure_filename(file.filename)
-            FILE_PATH = os.path.join(INSTALLS_DIR, filename)
-            file.save(os.path.join(INSTALLS_DIR, filename))
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            # check if the post request has the file part
+            if 'file' not in request.files:
+                flash('No file part', 'error')
+                return render_template('application.html', form=form)
+            file = request.files['file']
+            # if user does not select file, browser also
+            # submit a empty part without filename
+            if file.filename == '':
+                flash('No selected file', 'error')
+                return redirect(request.url)
+            if file and allowed_file(file.filename):
+                APP_DIR = os.path.abspath(os.path.join(__file__, "../.."))
+                INSTALLS_DIR = os.path.join(APP_DIR, current_app.config['UPLOAD_FOLDER'])
+                filename = secure_filename(file.filename)
+                FILE_PATH = os.path.join(INSTALLS_DIR, filename)
+                file.save(os.path.join(INSTALLS_DIR, filename))
 
-            size = os.stat(FILE_PATH).st_size
-            app_name = filename.rsplit('.', 1)[0]
+                size = os.stat(FILE_PATH).st_size
+                app_name = filename.rsplit('.', 1)[0]
 
-            application = Application(
-                category_id=form.category_id.data,
-                developer_id=form.developer_id.data,
-                name=app_name,
-                version=form.version.data,
-                description=form.description.data,
-                size=size,
-                permission=form.permission.data,
-                osVersion=form.osVersion.data,
-                launchurl=form.launchurl.data)
+                application = Application(
+                    category_id=form.category_id.data,
+                    developer_id=form.developer_id.data,
+                    name=app_name,
+                    version=form.version.data,
+                    description=form.description.data,
+                    size=size,
+                    permission=form.permission.data,
+                    osVersion=form.osVersion.data,
+                    launchurl=form.launchurl.data)
 
-            db.session.add(application)
-            db.session.commit()
+                db.session.add(application)
+                db.session.commit()
 
-        flash('Application added successfully', 'success')
+            flash('Application added successfully', 'success')
         return redirect(request.args.get('next') or url_for('main.application'))
 
     return render_template('application.html', form=form)
@@ -248,13 +254,14 @@ def application():
 def category():
     form = CategoryForm()
 
-    if form.validate_on_submit():
-        category = Category(name=form.name.data,
-                    description=form.description.data)
-        db.session.add(category)
-        db.session.commit()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            category = Category(name=form.name.data,
+                                description=form.description.data)
+            db.session.add(category)
+            db.session.commit()
 
-        flash('Category added successfully', 'success')
+            flash('Category added successfully', 'success')
         return redirect(request.args.get('next') or url_for('main.category'))
 
     return render_template('category.html', form=form)

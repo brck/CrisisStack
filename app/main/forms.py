@@ -19,14 +19,14 @@ class ApplicationsForm(Form):
         ('OS-Admin', 'OS-Admin'),
         ('None', 'None')
     ]
-    permission = SelectField(label="Permissions", choices = app_permissions, default = ['0'])
+    permission = SelectField(label="Permissions", choices=app_permissions, default=['0'])
     os_vesions = [
         ('0', 'Choose OS'),
         ('Raspbian', 'Raspbian'),
         ('Ubuntu MATE', 'Ubuntu MATE'),
         ('FreeBSD', 'FreeBSD')
     ]
-    osVersion = SelectField(label="OS Version", choices = os_vesions, default = ['0'])
+    osVersion = SelectField(label="OS Version", choices=os_vesions, default=['0'])
     category_id = SelectField(label="Category", coerce=int)
     developer_id = SelectField(label="Developer", coerce=int)
     launchurl = StringField("Launch URL", [
