@@ -45,7 +45,6 @@ def create_user_account():
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            print 'validated'
             user = User(uuid=str(uuid.uuid4()),
                         email=form.email.data,
                         username=form.username.data,
