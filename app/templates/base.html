@@ -52,10 +52,13 @@
                     </a>
                     <ul id="nav_dropdown" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
                         <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                        <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                        {% if current_user.is_authenticated %}
                         <li><a href="{{ url_for('main.category') }}">Add Category</a></li>
                         <li><a href="{{ url_for('main.application') }}">Add Application</a></li>
                         <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                        {% else %}
+                        <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                        {% endif %}
                     </ul>
                 </span>
                 <span class="search right">

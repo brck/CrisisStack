@@ -97,7 +97,6 @@ def load_applications(**kwargs):
 
 @main.route('/')
 def index():
-    user = User.query.filter_by(id=current_user.id).first()
     installed_apps = []
     for app in get_installed_apps():
         installed_apps.append(load_applications(app_id=app))
