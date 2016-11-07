@@ -17,8 +17,8 @@
 
                 <div class="large-3 medium-3 columns">
                     <img src="{{ url_for('static', filename=app_icon_url) }}">
-                    <button class="button expand radius"><i class="fa fa-rocket"></i>Launch</button>
-                    <button class="button radius alert expand"> <i class="fa fa-trash-o"></i> Delete App</button>
+                    <button class="button expand radius"><i class="fa fa-rocket"></i> Launch</button>
+                    <button class="button radius alert expand"> <i class="fa fa-trash-o"></i> Uninstall</button>
                 </div>
 
                 <div class="large-9 medium-9 columns">
@@ -30,16 +30,18 @@
 
                     <h5>Screenshots</h5>
                     {% set screenShot1 = "scripts/install/%s/%s"%(assets.application_id, assets.screenShotOne) %}
+                    {% set screenShot2 = "scripts/install/%s/%s"%(assets.application_id, assets.screenShotTwo) %}
+                    {% set screenShot3 = "scripts/install/%s/%s"%(assets.application_id, assets.screenShotThree) %}
+                    {% set screenShot4 = "scripts/install/%s/%s"%(assets.application_id, assets.screenShotFour) %}
 
                     <div class="row screenshots">
                         <div class="large-12 columns">
                             <div id="slider">
                                 <figure>
                                     <img src="{{ url_for('static', filename=screenShot1) }}" alt>
-                                    <img src="{{ url_for('static', filename=screenShot1) }}" alt>
-                                    <img src="{{ url_for('static', filename=screenShot1) }}" alt>
-                                    <img src="{{ url_for('static', filename=screenShot1) }}" alt>
-                                    <img src="{{ url_for('static', filename=screenShot1) }}" alt>
+                                    <img src="{{ url_for('static', filename=screenShot2) }}" alt>
+                                    <img src="{{ url_for('static', filename=screenShot3) }}" alt>
+                                    <img src="{{ url_for('static', filename=screenShot4) }}" alt>
                                 </figure>
                             </div>
                         </div>

@@ -62,11 +62,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for category in categories %}
                         <tr>
-                            <td>Content Goes Here</td>
-                            <td>Category name here.</td>
-                            <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
+                            <td>{{ category.id }}</td>
+                            <td>{{ category.name }}</td>
+                            <td>{{ category.description }}</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

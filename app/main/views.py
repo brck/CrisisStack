@@ -253,6 +253,7 @@ def application():
 @main.route('/category', methods=['GET', 'POST'])
 def category():
     form = CategoryForm()
+    categories = Category.query.all()
 
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -264,4 +265,4 @@ def category():
             flash('Category added successfully', 'success')
         return redirect(request.args.get('next') or url_for('main.category'))
 
-    return render_template('category.html', form=form)
+    return render_template('category.html', form=form, categories=categories)

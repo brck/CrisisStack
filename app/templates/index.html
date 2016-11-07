@@ -2,11 +2,11 @@
 
 {% block content %}
 
-	<div class="row">
+	<!-- <div class="row">
 	    <div class="large-12 columns">
 	        <h1 class="text-center">BRCK Crisis Stack. </h1>
 	    </div>
-	</div>
+	</div> -->
 
 	<div class="row">
 		<div class="large-12 columns">
@@ -35,6 +35,8 @@
 	</div>
 
 	<div class="row content">
+		<div class="large-12 columns">
+	        <h1 class="clearfix"><br>Installed Apps</h1></div>
 
 		{% for app in installed_apps %}
 			{% set app_id = app[0]['id'] %}
@@ -95,9 +97,7 @@
 		            </div>
 		        </div>
 		    </section>
-
 		{% endfor%}
-
 	</div>
 
 {% endblock %}
