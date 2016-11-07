@@ -622,3 +622,7 @@ div#slider figure {
     font-size: 0;
     animation: 30s slidy infinite;
 }
+
+.app-icon {
+    margin-bottom: 15px
+}

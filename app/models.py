@@ -96,17 +96,11 @@ class Category(db.Model):
         self.name = category['name']
 
 
-# developer_apps = db.Table(
-#     'developer_apps',
+# user_apps = db.Table(
+#     'user_apps',
 #     db.Column('application_id', db.Integer, db.ForeignKey('application.id')),
-#     db.Column('developer_id', db.Integer, db.ForeignKey('developer.user_id'))
+#     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
 # )
-
-user_apps = db.Table(
-    'user_apps',
-    db.Column('application_id', db.Integer, db.ForeignKey('application.id')),
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
-)
 
 
 class Developer(db.Model):
@@ -156,11 +150,12 @@ class Application (db.Model):
     osVersion = db.Column(db.String(250), nullable=False)
     downloads = db.Column(db.Integer, nullable=False, default=0)
     launchurl = db.Column(db.String(250), nullable=False, unique=True)
+    installed = db.Column(db.Boolean, nullable=False, default=False)
     application_status = db.Column(db.String(50), nullable=False, default='Pending')
 
-    installations = db.relationship(
-        "User", secondary=user_apps,
-        backref=db.backref('installed_apps'), lazy='dynamic')
+    # installations = db.relationship(
+    #     "User", secondary=user_apps,
+    #     backref=db.backref('installed_apps'), lazy='dynamic')
 
     application_updates = db.relationship(
         'ApplicationUpdates', backref='app_updates', lazy='dynamic')
@@ -169,7 +164,7 @@ class Application (db.Model):
 
     def __init__(
         self, name, version, description, size, developer_id,
-        permission, osVersion, category_id, launchurl):
+            permission, osVersion, category_id, launchurl):
 
         self.name = name
         self.version = version

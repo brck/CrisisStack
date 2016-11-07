@@ -21,10 +21,10 @@
 	            {% endif %}
 	        {% endwith %}
 
-	        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+			{% with messages = get_flashed_messages(category_filter=["error"]) %}
 	            {% if messages %}
 	                {% for message in messages %}
-	                    <div data-alert class="alert-box error radius">
+	                    <div data-alert class="alert-box alert radius">
 	                        {{ message }}
 	                        <a href="#" class="close">&times;</a>
 	                    </div>
@@ -86,7 +86,7 @@
 		                <a class="app_logo" href="{{ url_for('main.app_info', app_id=id) }}">
 		                    <img src="{{ url_for('static', filename=icon_url) }}"></a>
 		                {% if current_user.is_authenticated %}
-		                	<a href="/install_app?app_id={{id}}&user_id={{current_user.id}}" class="button expand radius"> <i class="fa fa-download"></i>Install</a>
+		                	<a href="/install_app?app_id={{id}}" class="button expand radius"> <i class="fa fa-download"></i>Install</a>
 		                {% endif %}
 		            </div>
 

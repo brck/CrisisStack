@@ -49,6 +49,15 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
+def get_installed_apps():
+    """
+    Populate installed applications from database based on installed flag
+    """
+
+    apps = Application.query.filter_by(installed=True).all()
+    return [app.id for app in apps]
+
+
 def load_applications(**kwargs):
     """
     Populate applications from database based on parameters passed
@@ -76,6 +85,7 @@ def load_applications(**kwargs):
             'name': app.name,
             'developer': developer.name,
             'icon': assets.icon,
+            'installed': app.installed,
             'description': app.description,
             'downloads': app.downloads
         }
@@ -89,15 +99,12 @@ def load_applications(**kwargs):
 def index():
     user = User.query.filter_by(id=current_user.id).first()
     installed_apps = []
-    for app in get_installed_apps(user):
+    for app in get_installed_apps():
         installed_apps.append(load_applications(app_id=app))
-
-    for app in installed_apps:
-        print 'installed_app =>', app[0]
 
     applications = load_applications()
     for app in range(len(applications)):
-        if applications[app]['id'] in get_installed_apps(user):
+        if applications[app]['id'] in get_installed_apps():
             applications.pop(app)
 
     return render_template('index.html',
@@ -142,8 +149,6 @@ def app_assets(app_id):
 
                         file_dir = os.path.join(ASSETS_DIR, asset_name)
                         new_file_dir = os.path.join(ASSETS_DIR, new_asset_name)
-                        print 'old file =>', file_dir
-                        print 'new file =>', new_file_dir
                         os.rename(file_dir, new_file_dir)
 
             assets = ApplicationAssets(
@@ -178,14 +183,10 @@ def app_info(app_id):
 
 @main.route('/install_app')
 def install_app():
-    user_id = request.args['user_id']
     app_id = request.args['app_id']
 
-    user = User.query.filter_by(id=user_id).first()
-    app = Application.query.filter_by(id=app_id).first()
-
     try:
-        user.installed_apps.append(app)
+        app = Application.query.filter_by(id=app_id).update(dict(installed=True))
         db.session.commit()
 
         flash('Application installed successfully', 'success')
@@ -198,8 +199,22 @@ def install_app():
     return redirect(url_for('main.index'))
 
 
-def get_installed_apps(user):
-    return [app.id for app in user.installed_apps]
+@main.route('/uninstall_app')
+def uninstall_app():
+    app_id = request.args['app_id']
+
+    try:
+        app = Application.query.filter_by(id=app_id).update(dict(installed=False))
+        db.session.commit()
+
+        flash('Application uninstalled successfully', 'success')
+    except Exception as e:
+        db.session.rollback()
+        db.session.flush()
+
+        flash('Application did not uninstall successfully', 'error')
+
+    return redirect(url_for('main.app_info', app_id=app_id))
 
 
 @main.route('/application', methods=['GET', 'POST'])

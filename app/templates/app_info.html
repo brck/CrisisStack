@@ -4,6 +4,30 @@
 
     <div class="row content">
 
+		<div class="large-12 columns">
+			{% with messages = get_flashed_messages(category_filter=["success"]) %}
+	            {% if messages %}
+	                {% for message in messages %}
+	                    <div data-alert class="alert-box success radius">
+	                        {{ message }}
+	                        <a href="#" class="close">&times;</a>
+	                    </div>
+	                {% endfor %}
+	            {% endif %}
+	        {% endwith %}
+
+			{% with messages = get_flashed_messages(category_filter=["error"]) %}
+	            {% if messages %}
+	                {% for message in messages %}
+	                    <div data-alert class="alert-box alert radius">
+	                        {{ message }}
+	                        <a href="#" class="close">&times;</a>
+	                    </div>
+	                {% endfor %}
+	            {% endif %}
+	        {% endwith %}
+		</div>
+
         <section class="large-12 columns">
             <div class="row">
 
@@ -13,12 +37,17 @@
                 {% set app_icon = app_details[0]['icon'] %}
                 {% set app_description = app_details[0]['description'] %}
                 {% set app_downloads = app_details[0]['downloads'] %}
+                {% set app_installed = app_details[0]['installed'] %}
                 {% set app_icon_url = "scripts/install/%s/%s"%(app_id, app_icon) %}
 
                 <div class="large-3 medium-3 columns">
-                    <img src="{{ url_for('static', filename=app_icon_url) }}">
-                    <button class="button expand radius"><i class="fa fa-rocket"></i> Launch</button>
-                    <button class="button radius alert expand"> <i class="fa fa-trash-o"></i> Uninstall</button>
+                    <img class="app-icon" src="{{ url_for('static', filename=app_icon_url) }}">
+                    {% if app_installed == 1 %}
+                    <a href="" class="button expand radius"> <i class="fa fa-rocket"></i> Launch</a>
+                    <a href="/uninstall_app?app_id={{app_id}}" class="button radius alert expand"> <i class="fa fa-trash-o"></i> Uninstall</a>
+                    {% else %}
+                    <a href="/install_app?app_id={{app_id}}" class="button expand radius"> <i class="fa fa-download"></i> Install</a>
+                    {% endif %}
                 </div>
 
                 <div class="large-9 medium-9 columns">
