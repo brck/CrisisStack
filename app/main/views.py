@@ -60,8 +60,8 @@ def load_applications(**kwargs):
     if 'app_id' in kwargs and 'category_id' not in kwargs:
         apps = Application.query.filter_by(id=kwargs['app_id']).all()
     elif 'category_id' in kwargs and 'app_id' in kwargs:
-        apps = Application.query.filter_by(category_id=kwargs['category_id'])
-        .filter(Application.id != kwargs['app_id']).all()
+        apps = Application.query.filter_by(category_id=kwargs['category_id'])\
+                                .filter(Application.id != kwargs['app_id']).all()
     elif 'category_id' in kwargs and 'app_id' not in kwargs:
         apps = Application.query.filter_by(category_id=kwargs['category_id']).all()
     else:

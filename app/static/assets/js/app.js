@@ -1,4 +1,6 @@
-$(document).foundation();
+$(document).foundation({
+	
+});
 
 $(document).ready(function() {
 	var inputs = document.querySelectorAll( '.inputfile' );
