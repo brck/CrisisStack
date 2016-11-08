@@ -216,6 +216,17 @@ def uninstall_app():
     return redirect(url_for('main.app_info', app_id=app_id))
 
 
+@main.route('/launch_app')
+def launch_app():
+    app_id = request.args['app_id']
+
+    try:
+        pass
+    except Exception as e:
+        pass
+    return redirect(url_for('main.index'))
+
+
 @main.route('/application', methods=['GET', 'POST'])
 def application():
     form = ApplicationsForm()

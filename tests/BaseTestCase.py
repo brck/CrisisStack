@@ -1,7 +1,7 @@
 
 import unittest
 import uuid
-from flask import current_app
+from flask import current_app, url_for
 from sqlalchemy.exc import IntegrityError
 from app.models import User, Application, Developer, Category, ApplicationAssets
 from app import create_app, db
@@ -50,7 +50,6 @@ class BaseTestCase(ContextTestCase):
             try:
                 developer = Developer(user_id=user.id, name='Awesome Devs',
                                       website='http://www.devs.com')
-
                 db.session.add(developer)
             except IntegrityError as e:
                 db.session.rollback()
@@ -84,7 +83,6 @@ class BaseTestCase(ContextTestCase):
                     osVersion='Some OS',
                     developer_id=developer.user_id,
                     launchurl='http://www.testing.com')
-
                 db.session.add(application)
             except IntegrityError as e:
                 db.session.rollback()
@@ -103,14 +101,23 @@ class BaseTestCase(ContextTestCase):
                     screenShotThree='browser.png',
                     screenShotFour='browser.png',
                     video='video')
-
                 db.session.add(assets)
             except IntegrityError as e:
                 db.session.rollback()
         return application
 
-    def setUp(self):
+    def login(self, email, password):
+        return self.client.post(
+            url_for("auth.login"),
+            data=dict(email=email, password=password),
+            follow_redirects=True)
 
+    def install_app(self, app_id):
+        return self.client.get(
+            url_for("main.install_app", app_id=app_id),
+            follow_redirects=True)
+
+    def setUp(self):
         db.create_all()
 
         self.create_user_account()

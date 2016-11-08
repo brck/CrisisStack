@@ -69,18 +69,6 @@ class TestUserViews(BaseTestCase):
     Tests for user blueprint views
     """
 
-    def login(self, email, password):
-        return self.client.post(
-            url_for("auth.login"),
-            data=dict(email=email, password=password),
-            follow_redirects=True)
-
-    def test_page_not_found(self):
-        """_____Pages which dont exist should be directed to a 404 page"""
-
-        response = self.client.get('/a-page-which-doesnt-exist')
-        self.assertTrue(b'404' in response.data)
-
     def test_login_page_loads(self):
         """_____Login page should load successfully"""
 
