@@ -4,3 +4,4 @@
 /instance/
 *.sublime-project
 *.sublime-workspace
+/coverage/
