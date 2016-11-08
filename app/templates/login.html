@@ -19,7 +19,7 @@
         {% with messages = get_flashed_messages(category_filter=["error"]) %}
             {% if messages %}
                 {% for message in messages %}
-                    <div data-alert class="alert-box error radius">
+                    <div data-alert class="alert-box alert radius">
                         {{ message }}
                         <a href="#" class="close">&times;</a>
                     </div>

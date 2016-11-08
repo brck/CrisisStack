@@ -18,8 +18,8 @@ class CrisisStackTestCase(unittest.TestCase):
 
         if User.query.filter_by(username='admin').count() == 0:
             self.user = User(username='admin',
-                            email='admin@cs.com',
-                            password='admin')
+                             email='admin@cs.com',
+                             password='admin')
 
             self.db.session.add(self.user)
             self.db.session.commit()

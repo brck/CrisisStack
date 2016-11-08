@@ -14,10 +14,7 @@ def login():
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            print 'user email =>', form.email.data
             user = User.query.filter_by(email=form.email.data).first()
-            if user:
-                print 'user object =>', user.uuid
             if user is not None and user.verify_password(form.password.data):
                 login_user(user, form.remember_me.data)
                 return redirect(request.args.get('next') or url_for('main.index'))
@@ -53,7 +50,7 @@ def create_user_account():
             db.session.commit()
 
             flash('Your account has been created successfully. You can now Login', 'success')
-        return redirect(request.args.get('next') or url_for('auth.login'))
+            return redirect(request.args.get('next') or url_for('auth.login'))
 
     return render_template('user_account.html', form=form)
 
