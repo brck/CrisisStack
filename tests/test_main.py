@@ -11,8 +11,20 @@ class TestMainModels(BaseTestCase):
     """
     Tests for main blueprint tables and models
     """
+    def save_application(self, category_id, developer_id, name, version,
+                         description, size, permission, osVersion, launchurl):
+        return self.client.post(
+            url_for("main.application"),
+            data=dict(category_id=category_id, developer_id=developer_id, name=name,
+                      version=version, description=description, size=size,
+                      permission=permission, osVersion=osVersion, launchurl=launchurl),
+            follow_redirects=True)
 
-    pass
+    def save_category(self, name, description):
+        return self.client.post(
+            url_for("main.category"),
+            data=dict(name=name, description=description),
+            follow_redirects=True)
 
 
 class TestMainViews(BaseTestCase):
@@ -45,6 +57,12 @@ class TestMainViews(BaseTestCase):
         response = self.client.get('/')
         self.assertTrue(b'Add Category' not in response.data)
 
+    def test_applications_page_loads(self):
+        """_____Applications page loads successfully"""
+
+        response = self.client.get(url_for("main.application"))
+        self.assertTrue(b'Application Details' in response.data)
+
     def test_added_apps_are_displayed_in_home_page(self):
         """_____Added applications should be displayed on the home page"""
 
@@ -58,6 +76,12 @@ class TestMainViews(BaseTestCase):
         app = self.add_application()
         response = self.install_app(app.id)
         self.assertIn(b'/launch_app?app_id=1', response.data)
+
+    def test_app_categoty_page_loads(self):
+        """_____Category page loads successfully"""
+
+        response = self.client.get(url_for("main.category"))
+        self.assertTrue(b'Category Description' in response.data)
 
     def test_added_categories_are_displayed(self):
         """_____Installed apps should be displayed in installed apps section"""
