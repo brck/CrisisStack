@@ -1,7 +1,9 @@
 
 import unittest
+import uuid
 from flask import current_app
-from app.models import User, Application, Developer, Category
+from sqlalchemy.exc import IntegrityError
+from app.models import User, Application, Developer, Category, ApplicationAssets
 from app import create_app, db
 
 
@@ -30,35 +32,92 @@ class ContextTestCase(unittest.TestCase):
 class BaseTestCase(ContextTestCase):
     """Crisis Stack base test case."""
 
-    def user(self):
-        return User(username='admin', email='admin@cs.com', password='admin')
+    def create_user_account(self):
+        user = User.query.filter_by(email='admin@cs.com').first()
+        if user is None:
+            try:
+                user = User(uuid=str(uuid.uuid4()), email='admin@cs.com',
+                            username='admin', password='admin')
+                db.session.add(user)
+            except IntegrityError as e:
+                db.session.rollback()
+        return user
 
-    def developer(self):
-        user = User(email='developer@devs.com', username='developer',
-                    password='developer')
+    def create_developer_account(self):
+        user = self.create_user_account()
+        developer = Developer.query.filter_by(user_id=user.id).first()
+        if developer is None:
+            try:
+                developer = Developer(user_id=user.id, name='Awesome Devs',
+                                      website='http://www.devs.com')
 
-        db.session.add(user)
-        db.session.flush()
+                db.session.add(developer)
+            except IntegrityError as e:
+                db.session.rollback()
+        return developer
 
-        return Developer(user_id=user.id, name='Developers', website='http:www.devs.com')
+    def add_category(self):
+        category = Category.query.filter_by(name='category').first()
+        if category is None:
+            try:
+                category = Category(name='category', description='some description')
+                db.session.add(category)
+            except IntegrityError as e:
+                db.session.rollback()
+        return category
 
-    def category(self):
-        return Category(name='Category', description='Some Fancy Category')
+    def add_application(self):
+        application = Application.query.filter_by(id=1).first()
 
-    def application(self):
-        return Application(category_id=self.category.id, name='app_name',
-                           version='1.0', description='some great app',
-                           size='1000', permission='OS-Admin', osVersion='Some OS',
-                           developer_id=self.developer.user_id, launchurl='http://www.app.com')
+        if application is None:
+            developer = self.create_developer_account()
+            new_category = self.add_category()
+
+            try:
+                application = Application(
+                    category_id=new_category.id,
+                    name='app_name',
+                    version='1.0',
+                    description='some great app',
+                    size='1000',
+                    permission='OS-Admin',
+                    osVersion='Some OS',
+                    developer_id=developer.user_id,
+                    launchurl='http://www.testing.com')
+
+                db.session.add(application)
+            except IntegrityError as e:
+                db.session.rollback()
+        return application
+
+    def add_assets(self):
+        application = self.add_application()
+        assets = ApplicationAssets.query.filter_by(application_id=application.id).first()
+        if assets is None:
+            try:
+                assets = ApplicationAssets(
+                    application_id=application.id,
+                    icon='icon.png',
+                    screenShotOne='browser.png',
+                    screenShotTwo='browser.png',
+                    screenShotThree='browser.png',
+                    screenShotFour='browser.png',
+                    video='video')
+
+                db.session.add(assets)
+            except IntegrityError as e:
+                db.session.rollback()
+        return application
 
     def setUp(self):
 
         db.create_all()
 
-        db.session.add(User(username='admin', email='admin@cs.com', password='admin'))
-        # db.session.add(self.developer)
-        # db.session.add(self.category)
-        # db.session.add(self.application)
+        self.create_user_account()
+        self.create_developer_account()
+        self.add_category()
+        self.add_application()
+        self.add_assets()
 
         db.session.commit()
 

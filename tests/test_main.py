@@ -3,6 +3,7 @@
 import unittest
 import uuid
 from flask import url_for, request
+from app.models import Category, Developer, Application, User, ApplicationAssets
 from BaseTestCase import BaseTestCase
 
 

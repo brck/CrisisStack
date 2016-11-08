@@ -106,7 +106,6 @@ class Category(db.Model):
 class Developer(db.Model):
     __tablename__ = 'developer'
 
-    # id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey('user.id'), primary_key=True)
     name = db.Column(db.String(250), nullable=False, unique=True)
     website = db.Column(db.String(250), nullable=False)
@@ -114,22 +113,20 @@ class Developer(db.Model):
         'Application', backref='developer', lazy='dynamic')
 
     def __repr__(self):
-        return '< developer %r %r %r >' % (
-            self.name, self.website, self.email)
+        return "<Developer(user_id='%s', name='%s', website='%s')>" % (
+            self.user_id, self.name, self.website)
 
     def to_json(self):
         return dict(
             id=self.id,
             name=self.name,
-            website=self.website,
-            email=self.email
+            website=self.website
         )
 
     def from_json(self, developer_details):
         developer = json.loads(developer_details)
         self.name = developer['name']
         self.website = developer['website']
-        self.email = developer['email']
 
 
 # Applications table model
