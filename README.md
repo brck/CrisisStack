@@ -1,4 +1,4 @@
-# CrisisStack https://travis-ci.org/brck/CrisisStack.svg?branch=AppStore-Dev
+# CrisisStack
 
 This is the development branch to cater for revision.
 
