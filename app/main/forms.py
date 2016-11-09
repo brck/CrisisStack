@@ -1,6 +1,7 @@
 from flask_wtf import Form
 from wtforms import SubmitField, TextAreaField, validators, PasswordField, SelectField, StringField, BooleanField, ValidationError, FileField
 from ..models import Application
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 
 
 class ApplicationsForm(Form):
@@ -11,9 +12,10 @@ class ApplicationsForm(Form):
     description = StringField("Description", [
         validators.DataRequired("Enter application description.")],
         render_kw={"placeholder": "Description"})
-    file = FileField("Size", [
-        validators.DataRequired("Application size can not be blank")],
-        render_kw={"placeholder": "Size"})
+    app_file = FileField('Size', validators=[
+        FileRequired("Application file can not be blank"),
+        FileAllowed(['sh', 'deb', 'rpm'], 'Application files only')
+    ])
     app_permissions = [
         ('0', 'Choose App OS Permissions'),
         ('OS-Admin', 'OS-Admin'),
@@ -34,7 +36,7 @@ class ApplicationsForm(Form):
         validators.url("Please enter a valid url.")],
         render_kw={"placeholder": "Launch URL"})
 
-    submit = SubmitField("Login")
+    submit = SubmitField("Save Application")
 
     def __init__(self, *args, **kwargs):
         super(ApplicationsForm, self).__init__(*args, **kwargs)

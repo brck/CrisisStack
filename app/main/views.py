@@ -53,7 +53,6 @@ def get_installed_apps():
     """
     Populate installed applications from database based on installed flag
     """
-
     apps = Application.query.filter_by(installed=True).all()
     return [app.id for app in apps]
 
@@ -233,61 +232,57 @@ def application():
     populate_categories(form)
     populate_developers(form)
 
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            # check if the post request has the file part
-            if 'file' not in request.files:
-                flash('No file part', 'error')
-                return render_template('application.html', form=form)
-            file = request.files['file']
-            # if user does not select file, browser also
-            # submit a empty part without filename
-            if file.filename == '':
-                flash('No selected file', 'error')
-                return redirect(request.url)
-            if file and allowed_file(file.filename):
-                APP_DIR = os.path.abspath(os.path.join(__file__, "../.."))
-                INSTALLS_DIR = os.path.join(APP_DIR, current_app.config['UPLOAD_FOLDER'])
-                filename = secure_filename(file.filename)
-                FILE_PATH = os.path.join(INSTALLS_DIR, filename)
-                file.save(os.path.join(INSTALLS_DIR, filename))
+    if form.validate_on_submit():
+        if 'app_file' not in request.files:
+            flash('Application file not selected', 'error')
+            return render_template('application.html', form=form)
+        file = request.files['app_file']
 
-                size = os.stat(FILE_PATH).st_size
-                app_name = filename.rsplit('.', 1)[0]
+        if file.filename == '':
+            flash('Application file not selected', 'error')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            APP_DIR = os.path.abspath(os.path.join(__file__, "../.."))
+            INSTALLS_DIR = os.path.join(APP_DIR, current_app.config['UPLOAD_FOLDER'])
+            filename = secure_filename(file.filename)
+            FILE_PATH = os.path.join(INSTALLS_DIR, filename)
+            file.save(os.path.join(INSTALLS_DIR, filename))
 
-                application = Application(
-                    category_id=form.category_id.data,
-                    developer_id=form.developer_id.data,
-                    name=app_name,
-                    version=form.version.data,
-                    description=form.description.data,
-                    size=size,
-                    permission=form.permission.data,
-                    osVersion=form.osVersion.data,
-                    launchurl=form.launchurl.data)
+            size = os.stat(FILE_PATH).st_size
+            app_name = filename.rsplit('.', 1)[0]
 
-                db.session.add(application)
-                db.session.commit()
+            application = Application(
+                category_id=form.category_id.data,
+                developer_id=form.developer_id.data,
+                name=app_name,
+                version=form.version.data,
+                description=form.description.data,
+                size=size,
+                permission=form.permission.data,
+                osVersion=form.osVersion.data,
+                launchurl=form.launchurl.data)
 
-            flash('Application added successfully', 'success')
-        return redirect(request.args.get('next') or url_for('main.application'))
+            db.session.add(application)
+            db.session.commit()
 
+        flash('Application added successfully', 'success')
+        return redirect(url_for('main.application'))
     return render_template('application.html', form=form)
 
 
 @main.route('/category', methods=['GET', 'POST'])
 def category():
-    form = CategoryForm()
+    form = CategoryForm(request.form)
     categories = Category.query.all()
 
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            category = Category(name=form.name.data,
-                                description=form.description.data)
-            db.session.add(category)
-            db.session.commit()
+    if request.method == 'POST' and form.validate():
+        name = form.name.data
+        description = form.description.data
 
-            flash('Category added successfully', 'success')
+        category = Category(name=name, description=description)
+        db.session.add(category)
+        db.session.commit()
+
+        flash('Category added successfully', 'success')
         return redirect(request.args.get('next') or url_for('main.category'))
-
     return render_template('category.html', form=form, categories=categories)
