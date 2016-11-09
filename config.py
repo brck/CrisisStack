@@ -11,7 +11,6 @@ class Config:
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     UPLOAD_FOLDER = os.path.join(APP_ROOT, 'app/static/scripts/install')
-    # UPLOAD_FOLDER = '/static/scripts/install'
 
     @staticmethod
     def init_app(app):
@@ -26,8 +25,6 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
-    # SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
-    #     'sqlite:///' + os.path.join(basedir, 'test_db.db')
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     WTF_CSRF_ENABLED = False
     CSRF_ENABLED = False
