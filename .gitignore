@@ -5,3 +5,5 @@
 *.sublime-project
 *.sublime-workspace
 /coverage/
+*.db
+/migrations/
