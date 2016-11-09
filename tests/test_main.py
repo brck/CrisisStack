@@ -2,7 +2,10 @@
 
 import unittest
 import uuid
-from flask import url_for, request
+from StringIO import StringIO
+import os
+import io
+from flask import url_for, request, current_app
 from app.models import Category, Developer, Application, User, ApplicationAssets
 from BaseTestCase import BaseTestCase
 
@@ -11,13 +14,14 @@ class TestMainModels(BaseTestCase):
     """
     Tests for main blueprint tables and models
     """
-    def save_application(self, category_id, developer_id, name, version,
-                         description, size, permission, osVersion, launchurl):
+    def save_application(self, category_id, developer_id, version, description,
+                         permission, osVersion, launchurl, app_file):
         return self.client.post(
             url_for("main.application"),
-            data=dict(category_id=category_id, developer_id=developer_id, name=name,
-                      version=version, description=description, size=size,
-                      permission=permission, osVersion=osVersion, launchurl=launchurl),
+            content_type='multipart/form-data',
+            data=dict(category_id=category_id, developer_id=developer_id,
+                      version=version, description=description, permission=permission,
+                      osVersion=osVersion, launchurl=launchurl, app_file=app_file),
             follow_redirects=True)
 
     def save_category(self, name, description):
@@ -26,12 +30,39 @@ class TestMainModels(BaseTestCase):
             data=dict(name=name, description=description),
             follow_redirects=True)
 
+    def test_adding_new_applications(self):
+        """_____Added application should be found in the database"""
+        developer = self.create_developer_account()
+        category = self.add_category()
+
+        with self.client:
+            testfile_bytes = "fdjasdfjksjkadffgfgfgfgfgxsddsdsd"
+            app_file = (StringIO(testfile_bytes), 'testing.sh')
+
+            response = self.save_application(category.id, developer.user_id, '1.0',
+                                             'some new great app', 'OS-Admin', 'Raspbian',
+                                             'http://www.newapp.com', app_file)
+            app = Application.query.filter_by(launchurl='http://www.newapp.com').count()
+            self.assertTrue(app == 1)
+
+            APP_DIR = os.path.abspath(os.path.join(__file__, "../.."))
+            file_dir = os.path.join(APP_DIR, current_app.config['UPLOAD_FOLDER'])
+            file_path = os.path.join(file_dir, 'testing.sh')
+            os.remove(file_path)
+
+    def test_adding_new_category(self):
+        """_____Added category should be found in the database"""
+        with self.client:
+            response = self.save_category('Some Category', 'Great description')
+
+            category = Category.query.filter_by(name='Some Category').count()
+            self.assertTrue(category == 1)
+
 
 class TestMainViews(BaseTestCase):
     """
     Tests for main blueprint views
     """
-
     def test_page_not_found(self):
         """_____Pages which dont exist should be directed to a 404 page"""
 
