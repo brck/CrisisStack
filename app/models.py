@@ -134,7 +134,8 @@ class Application (db.Model):
 
     __tablename__ = 'application'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
+    uuid = db.Column(db.String(250), unique=True, default=str(uuid.uuid4()), nullable=False)
     category_id = db.Column(
         db.Integer, db.ForeignKey('category.id'), nullable=False)
     developer_id = db.Column(
@@ -160,9 +161,10 @@ class Application (db.Model):
         'ApplicationAssets', backref='assests', lazy='dynamic')
 
     def __init__(
-        self, name, version, description, size, developer_id,
-            permission, osVersion, category_id, launchurl):
+        self, uuid, name, version, description, size, developer_id,
+            permission, osVersion, category_id, launchurl, application_status):
 
+        self.uuid = uuid
         self.name = name
         self.version = version
         self.description = description
@@ -172,6 +174,7 @@ class Application (db.Model):
         self.category_id = category_id
         self.launchurl = launchurl
         self.developer_id = developer_id
+        self.application_status = application_status
 
     def __repr__(self):
         return '<Application %r %r %r %r %r %r %r %r %r %r %r >' % (
@@ -212,7 +215,8 @@ class ApplicationUpdates(db.Model):
     __tablename__ = 'applicationupdates'
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
-    application_id = db.Column(db.Integer, db.ForeignKey('application.id'))
+    app_uuid = db.Column(db.String(250), db.ForeignKey('application.uuid'),
+                         nullable=False, primary_key=True)
     version = db.Column(db.Integer, nullable=False)
     updates = db.Column(db.String(250), nullable=False)
 
@@ -245,19 +249,19 @@ class ApplicationAssets(db.Model):
 
     __tablename__ = 'applicationassets'
 
-    id = db.Column(db.Integer, nullable=False, primary_key=True)
-    application_id = db.Column(db.Integer, db.ForeignKey('application.id'))
-    icon = db.Column(db.String(250), nullable=False, unique=True)
-    screenShotOne = db.Column(db.String(250), unique=True)
-    screenShotTwo = db.Column(db.String(250), unique=True)
-    screenShotThree = db.Column(db.String(250), unique=True)
-    screenShotFour = db.Column(db.String(250), unique=True)
-    video = db.Column(db.String(250), unique=True)
+    app_uuid = db.Column(db.String(250), db.ForeignKey('application.uuid'),
+                         nullable=False, primary_key=True)
+    icon = db.Column(db.String(250), nullable=False)
+    screenShotOne = db.Column(db.String(250), nullable=False)
+    screenShotTwo = db.Column(db.String(250), nullable=False)
+    screenShotThree = db.Column(db.String(250), nullable=False)
+    screenShotFour = db.Column(db.String(250), nullable=False)
+    video = db.Column(db.String(250), nullable=False)
 
     def __init__(
-        self, application_id, icon, screenShotOne, screenShotTwo,
+        self, app_uuid, icon, screenShotOne, screenShotTwo,
             screenShotThree, screenShotFour, video):
-        self.application_id = application_id
+        self.app_uuid = app_uuid
         self.icon = icon
         self.screenShotOne = screenShotOne
         self.screenShotTwo = screenShotTwo
@@ -266,13 +270,13 @@ class ApplicationAssets(db.Model):
         self.video = video
 
     def __repr__(self):
-        return '< applicationassets, %r %r %r >' % (
-            self.id, self.app_id, self.version, self.updates)
+        return '< applicationassets, %r %r %r %r %r %r %r >' % (
+            self.app_uuid, self.icon, self.screenShotOne, self.screenShotTwo,
+            self.screenShotThree, self.screenShotFour, self.video)
 
     def to_json(self):
         return dict(
-            id=self.id,
-            application_id=self.application_id,
+            app_uuid=self.app_uuid,
             screenShotOne=self.screenShotOne,
             screenShotTwo=self.screenShotTwo,
             screenShotThree=self.screenShotThree,
@@ -283,7 +287,7 @@ class ApplicationAssets(db.Model):
     def from_json(self, assets_details):
         assets = json.loads(assets_details)
 
-        self.application_id = assets['application_id']
+        self.app_uuid = assets['application_id']
         self.screenShotOne = assets['screenShotOne']
         self.screenShotTwo = assets['screenShotTwo']
         self.screenShotThree = assets['screenShotThree']

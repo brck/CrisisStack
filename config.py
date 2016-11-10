@@ -2,7 +2,6 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 MYDIR = os.path.dirname(__file__)
-# UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static/uploads')
 
 
 class Config:
@@ -11,6 +10,8 @@ class Config:
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     UPLOAD_FOLDER = os.path.join(APP_ROOT, 'app/static/scripts/install')
+    APPLICATIONS_DIR = os.path.join(APP_ROOT, 'app/static/applictaions/')
+    APP_TEMPLATE_ASSESTS = 'applictaions'
 
     @staticmethod
     def init_app(app):

@@ -31,7 +31,7 @@
         <section class="large-12 columns">
             <div class="row">
 
-                {% set app_id = app_details[0]['id'] %}
+                {% set app_id = app_details[0]['uuid'] %}
                 {% set app_name = app_details[0]['name'] %}
                 {% set app_developer = app_details[0]['developer'] %}
                 {% set app_icon = app_details[0]['icon'] %}
@@ -39,6 +39,9 @@
                 {% set app_downloads = app_details[0]['downloads'] %}
                 {% set app_installed = app_details[0]['installed'] %}
                 {% set app_icon_url = "scripts/install/%s/%s"%(app_id, app_icon) %}
+                {% set app_icon_url = "/%s/assets/%s"%(app_id, app_icon) %}
+    			{% set app_url_parts = [root_url, app_icon_url] %}
+    			{% set app_icon_url = app_url_parts|join %}
 
                 <div class="large-3 medium-3 columns">
                     <img class="app-icon" src="{{ url_for('static', filename=app_icon_url) }}">
@@ -58,10 +61,21 @@
                     <hr>
 
                     <h5>Screenshots</h5>
-                    {% set screenShot1 = "scripts/install/%s/%s"%(assets.application_id, assets.screenShotOne) %}
-                    {% set screenShot2 = "scripts/install/%s/%s"%(assets.application_id, assets.screenShotTwo) %}
-                    {% set screenShot3 = "scripts/install/%s/%s"%(assets.application_id, assets.screenShotThree) %}
-                    {% set screenShot4 = "scripts/install/%s/%s"%(assets.application_id, assets.screenShotFour) %}
+                    {% set screenShot1 = "/%s/assets/%s"%(app_id, assets.screenShotOne) %}
+        			{% set app_url_parts = [root_url, screenShot1] %}
+        			{% set screenShot1 = app_url_parts|join %}
+
+                    {% set screenShot2 = "/%s/assets/%s"%(app_id, assets.screenShotTwo) %}
+        			{% set app_url_parts = [root_url, screenShot2] %}
+        			{% set screenShot2 = app_url_parts|join %}
+
+                    {% set screenShot3 = "/%s/assets/%s"%(app_id, assets.screenShotThree) %}
+        			{% set app_url_parts = [root_url, screenShot3] %}
+        			{% set screenShot3 = app_url_parts|join %}
+
+                    {% set screenShot4 = "/%s/assets/%s"%(app_id, assets.screenShotFour) %}
+        			{% set app_url_parts = [root_url, screenShot4] %}
+        			{% set screenShot4 = app_url_parts|join %}
 
                     <div class="row screenshots">
                         <div class="large-12 columns">
@@ -80,7 +94,9 @@
                     <h5>Video</h5>
                     <div class="row screenshots">
                         <div class="large-12 columns">
-                            {% set video = "scripts/install/%s/%s"%(assets.application_id, assets.video) %}
+                            {% set video = "/%s/assets/%s"%(app_id, assets.video) %}
+                			{% set app_url_parts = [root_url, video] %}
+                			{% set video = app_url_parts|join %}
                             <embed src="{{ url_for('static', filename=video) }}" width="100%" height="400" scale="aspect" controller="true">
                         </div>
                     </div>
@@ -97,18 +113,20 @@
             </div>
 
             {% for app in related_apps %}
-                {% set id = app['id'] %}
+                {% set id = app['uuid'] %}
                 {% set name = app['name'] %}
                 {% set developer = app['developer'] %}
                 {% set icon = app['icon'] %}
                 {% set description = app['description'] %}
                 {% set downloads = app['downloads'] %}
                 {% set developer_url = '#' %}
-                {% set icon_url = "scripts/install/%s/%s"%(id, icon) %}
+                {% set icon_url = "/%s/assets/%s"%(id, icon) %}
+    			{% set url_parts = [root_url, icon_url] %}
+    			{% set icon_url = url_parts|join %}
 
                 <div class="large-3 medium-2 columns">
-                    <a href="{{ url_for('main.app_info', app_id=id) }}"><img src="{{ url_for('static', filename=icon_url) }}"></a>
-                    <h4><a href="{{ url_for('main.app_info', app_id=id) }}"> {{ name }}</a> </h4>
+                    <a href="{{ url_for('main.app_info1', app_uuid=id) }}"><img src="{{ url_for('static', filename=icon_url) }}"></a>
+                    <h4><a href="{{ url_for('main.app_info1', app_uuid=id) }}"> {{ name }}</a> </h4>
                     <h6>by {{ developer }} </h6>
                     <p class="rating"><span class="label round">{{ downloads }}</span> Downloads</p>
                 </div>

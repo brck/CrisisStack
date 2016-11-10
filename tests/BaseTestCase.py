@@ -65,7 +65,7 @@ class BaseTestCase(ContextTestCase):
                 db.session.rollback()
         return category
 
-    def add_application(self):
+    def add_application(self, **kwargs):
         application = Application.query.filter_by(id=1).first()
 
         if application is None:
@@ -74,6 +74,7 @@ class BaseTestCase(ContextTestCase):
 
             try:
                 application = Application(
+                    uuid=str(uuid.uuid4()),
                     category_id=new_category.id,
                     name='app_name',
                     version='1.0',
@@ -82,7 +83,8 @@ class BaseTestCase(ContextTestCase):
                     permission='OS-Admin',
                     osVersion='Some OS',
                     developer_id=developer.user_id,
-                    launchurl='http://www.testing.com')
+                    launchurl='http://www.testing.com',
+                    application_status=kwargs.get('application_status', 'Pending'))
                 db.session.add(application)
             except IntegrityError as e:
                 db.session.rollback()
@@ -90,11 +92,11 @@ class BaseTestCase(ContextTestCase):
 
     def add_assets(self):
         application = self.add_application()
-        assets = ApplicationAssets.query.filter_by(application_id=application.id).first()
+        assets = ApplicationAssets.query.filter_by(app_uuid=application.uuid).first()
         if assets is None:
             try:
                 assets = ApplicationAssets(
-                    application_id=application.id,
+                    app_uuid=application.uuid,
                     icon='icon.png',
                     screenShotOne='browser.png',
                     screenShotTwo='browser.png',
@@ -123,7 +125,7 @@ class BaseTestCase(ContextTestCase):
         self.create_user_account()
         self.create_developer_account()
         self.add_category()
-        self.add_application()
+        self.add_application(application_status='Active')
         self.add_assets()
 
         db.session.commit()
