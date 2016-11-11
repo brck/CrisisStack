@@ -10,8 +10,12 @@ class Config:
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     UPLOAD_FOLDER = os.path.join(APP_ROOT, 'app/static/scripts/install')
-    APPLICATIONS_DIR = os.path.join(APP_ROOT, 'app/static/applictaions/')
-    APP_TEMPLATE_ASSESTS = 'applictaions'
+    APPLICATIONS_DIR = os.path.join(APP_ROOT, 'app/static/applications/')
+    if not os.path.exists(APPLICATIONS_DIR):
+        os.makedirs(APPLICATIONS_DIR)
+    ROOT_DIR = APP_ROOT
+    APP_TEMPLATE_ASSESTS = 'applications'
+    DEFAULT_APPS_DIR = 'app/static/default_apps/'
 
     @staticmethod
     def init_app(app):

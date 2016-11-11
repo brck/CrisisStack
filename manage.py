@@ -49,19 +49,32 @@ def test(coverage=False):
 
 
 @manager.command
-def deploy():
-    """Run deployment tasks."""
-    from flask.ext.migrate import upgrade
-    from app.models import Role, User
+def init_app():
+    """Run database initialization."""
+    from flask_migrate import init, migrate, upgrade
+
+    # initialize migtrations
+    migrations_dir = os.path.join(app.config['ROOT_DIR'], 'migrations')
+    if not os.path.exists(migrations_dir):
+        init()
+
+    # perform database migrations
+    migrate()
 
     # migrate database to latest revision
     upgrade()
 
-    # create user roles
-    Role.insert_roles()
+    print "Migrations completed ........................................."
 
-    # create self-follows for all users
-    User.add_self_follows()
+    # initialize database with default records
+    from app.utils.initialize_db import InitDb
+    init_db = InitDb()
+
+    init_db.add_categories()
+    init_db.add_developers()
+    init_db.add_applications()
+
+    print "Database records added ......................................."
 
 
 if __name__ == '__main__':

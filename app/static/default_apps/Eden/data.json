@@ -1,0 +1,11 @@
+[
+	{
+		"category_id": 1,
+		"developer_id": 4,
+		"version": "1.0",
+		"description": "Flexible humanitarian platform with a rich feature set which can be rapidly customized to adapt to existing processes and integrate with existing systems to provide.",
+		"permission": "OS-Admin",
+		"osVersion": "Raspbian",
+		"launchurl": "http://sahanaeden.com"
+	}
+]

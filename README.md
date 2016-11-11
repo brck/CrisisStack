@@ -101,6 +101,16 @@ Copy the resulting string so as to set the SECRET_KEY variable.
 
     export SECRET_KEY="GENERATED_KEY"
 
+To run code coverage of the tests, you need to specify another environment variable 'FLASK_COVERAGE' to activate coverage. First set the variable as below:
+
+    export FLASK_COVERAGE="1"
+
+Now you can run tests under coverage using
+
+    python manage.py test
+
+Otherwise to run normal tests just run the above command without setting the FLASK_COVERAGE variable.
+
 Running the application
 -----------------------
 To run the application first we need to perform database migrations to create database tables and initialize the tables with default applications. Run the following command from the terminal while at the root directory of the application.

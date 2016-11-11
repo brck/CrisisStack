@@ -125,8 +125,8 @@
     			{% set icon_url = url_parts|join %}
 
                 <div class="large-3 medium-2 columns">
-                    <a href="{{ url_for('main.app_info1', app_uuid=id) }}"><img src="{{ url_for('static', filename=icon_url) }}"></a>
-                    <h4><a href="{{ url_for('main.app_info1', app_uuid=id) }}"> {{ name }}</a> </h4>
+                    <a href="{{ url_for('main.app_info', app_uuid=id) }}"><img src="{{ url_for('static', filename=icon_url) }}"></a>
+                    <h4><a href="{{ url_for('main.app_info', app_uuid=id) }}"> {{ name }}</a> </h4>
                     <h6>by {{ developer }} </h6>
                     <p class="rating"><span class="label round">{{ downloads }}</span> Downloads</p>
                 </div>

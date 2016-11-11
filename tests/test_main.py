@@ -40,7 +40,7 @@ class TestMainModels(BaseTestCase):
             app = Application.query.filter_by(launchurl='http://www.newapp.com').first()
 
         return self.client.post(
-            url_for("main.app_assets1", app_uuid=app.uuid),
+            url_for("main.app_assets", app_uuid=app.uuid),
             content_type='multipart/form-data',
             data=dict(screenshot1=screenshot1, screenshot2=screenshot2,
                       screenshot3=screenshot3, screenshot4=screenshot4,
@@ -158,7 +158,7 @@ class TestMainViews(BaseTestCase):
         app = self.add_application()
         assets = self.add_assets()
 
-        response = self.client.get(url_for('main.app_info1', app_uuid=app.uuid))
+        response = self.client.get(url_for('main.app_info', app_uuid=app.uuid))
         self.assertTrue(app.name.encode() in response.data)
         self.assertTrue(app.uuid.encode() in response.data)
 

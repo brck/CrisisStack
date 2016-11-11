@@ -1,0 +1,11 @@
+[
+	{
+		"category_id": 1,
+		"developer_id": 1,
+		"version": "1.0",
+		"description": "Ushahidi is a global organization that empowers people to make a serious impact with open source technologies, cross-sector partnerships.",
+		"permission": "OS-Admin",
+		"osVersion": "Raspbian",
+		"launchurl": "http://crowdmap.com"
+	}
+]

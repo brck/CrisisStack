@@ -53,14 +53,13 @@
 		        <div class="row">
 
 		            <div class="large-5 medium-5 columns">
-		                <a class="app_logo" href="{{ url_for('main.app_info1', app_uuid=id) }}">
+		                <a class="app_logo" href="{{ url_for('main.app_info', app_uuid=app_id) }}">
 		                    <img src="{{ url_for('static', filename=app_icon_url) }}"></a>
-		                <!-- <button class="button expand radius"><i class="fa fa-rocket"></i>Launch</button> -->
 						<a class = "button expand radius" href="{{ url_for('main.launch_app', app_id=app_id) }}"><i class="fa fa-rocket"></i> Launch</a>
 		            </div>
 
 		            <div class="large-7 medium-7 columns">
-		                <h4><a href="{{ url_for('main.app_info1', app_uuid=id) }}">{{ app_name }}</a> </h4>
+		                <h4><a href="{{ url_for('main.app_info', app_uuid=id) }}">{{ app_name }}</a> </h4>
 		                <h6>by {{ app_developer }} </h6>
 		                <p class="rating"><span class="label round">{{ app_downloads }}</span> Downloads</p>
 		                <p>{{ app_description }}.</p>
@@ -88,7 +87,7 @@
 		        <div class="row">
 
 		            <div class="large-5 medium-5 columns">
-		                <a class="app_logo" href="{{ url_for('main.app_info1', app_uuid=id) }}">
+		                <a class="app_logo" href="{{ url_for('main.app_info', app_uuid=id) }}">
 		                    <img src="{{ url_for('static', filename=icon_url) }}"></a>
 		                {% if current_user.is_authenticated %}
 		                	<a href="/install_app?app_id={{id}}" class="button expand radius"> <i class="fa fa-download"></i>Install</a>

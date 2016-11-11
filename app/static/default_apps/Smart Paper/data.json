@@ -1,0 +1,11 @@
+[
+	{
+		"category_id": 1,
+		"developer_id": 2,
+		"version": "1.0",
+		"description": "Deploy and conduct surveys that work without a connection, on any device.",
+		"permission": "OS-Admin",
+		"osVersion": "Raspbian",
+		"launchurl": "http://smartpaper.com"
+	}
+]
