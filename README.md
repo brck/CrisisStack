@@ -46,7 +46,7 @@ Python comes installed with ubuntu and other linux based systems.
 
 Setting Up Your Virtual Environment
 -----------------------------------
-To have a virtual environment install virtualenv from pip globally
+To have a virtual environment install virtualenv from pip globally.
 ```bash
 sudo pip install virtualenv
 ```
@@ -79,19 +79,39 @@ Proceed to Install the packages listed in requirements.txt or by issuing the fol
 
     pip install -r requirements.txt
 
-You can now start the application.
+You can now start the application. For more information on how to use virtual environments visit [Virtual Environments Docs](http://docs.python-guide.org/en/latest/dev/virtualenvs/)
+
+Configuration
+-------------
+The config.py file under the project root contains different Configuration classes for different environments.
+*   Config - Is the base configuration that all others classes inherit and use. Some options can be overwritten based on the environment.
+
+Since the application uses settings stored in the environment, you need to set them using the export command. For example to setup the database url used by SQLAlchemy in development:
+
+    export DEV_DATABASE_URL="mysql://username:password@localhost/crisis_stack"
+
+Replacing "username" and "password" with your database username and password respectively.
+
+Flask uses the SECRET_KEY variable to ensure security. For the application to work properly you need to set this. You can generate the secret key by punching the following code snippet in the python shell.
+```python
+>>> import os
+>>> os.urandom(24)
+```
+Copy the resulting string so as to set the SECRET_KEY variable.
+
+    export SECRET_KEY="GENERATED_KEY"
 
 Running the application
 -----------------------
-To run the application first we need to perform database migrations to create database tables. Run the following command from the terminal while at the root directory of the application.
+To run the application first we need to perform database migrations to create database tables and initialize the tables with default applications. Run the following command from the terminal while at the root directory of the application.
 
-    python manage.py db upgrade
+    python manage.py db init_app
 
 After upgrading start the application as Below
 
     python manage.py runserver
 
-Once the sever is up and running you can now visit your browser with the url Below
+Once the sever is up and running you can now visit your browser with the url below.
 
     127.0.0.1:5000/
 
