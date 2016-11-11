@@ -1,0 +1,64 @@
+{% extends "base.html" %} {% block create_account_header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/account.css') }}" />
+{% endblock %} {% block content %}
+
+<div class="row">
+
+    <div class="large-12 columns ">
+
+        <h1>Create Account</h1>
+        <br>
+
+        <form class="row" action="" method="post">
+            {{ form.hidden_tag() }}
+
+            <div class="small-12 medium-12 large-6  columns">
+                {{ form.email( class_="validate", **{'aria-describedby':"emailHelpText"} ) }}
+                {% for message in form.email.errors %}
+                <div class="error" id="emailHelpText">{{ message }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="small-12 medium-12 large-6  columns">
+                {{ form.username( class_="validate", **{'aria-describedby':"usernameHelpText"} ) }}
+                {% for message in form.username.errors %}
+                <div class="error" id="usernameHelpText">{{ message }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="small-12 medium-12 large-6  columns">
+                {{ form.password( class_="validate", **{'aria-describedby':"passwordHelpText"} ) }}
+                {% for message in form.password.errors %}
+                <div class="error" id="passwordHelpText">{{ message }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="small-12 medium-12 large-6  columns">
+                {{ form.confirm( class_="validate", **{'aria-describedby':"confirmHelpText"} ) }}
+                {% for message in form.confirm.errors %}
+                <div class="error" id="confirmHelpText">{{ message }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="small-12 medium-12 large-12  columns">
+                {{ form.accept_tos( class_="validate", **{'aria-describedby':"termsHelpText"} ) }} Accept Terms
+                {% for message in form.accept_tos.errors %}
+                <div class="error" id="termsHelpText">{{ message }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="large-12 columns">
+                <button class="button radius alert right" type="submit"><i class="fa fa-user-plus">&nbsp Create Account</i></button>
+            </div>
+
+            <div class="large-12 columns">
+                <p class="margin medium-small">Already have an Account? <a href="{{ url_for('auth.login') }}">Login</a></p>
+            </div>
+        </form>
+
+        {% if error %}
+        <p class="error"> <strong>Error:</strong> {{ error }} {% endif %}
+    </div>
+</div>
+
+{% endblock %}

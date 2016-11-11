@@ -1,0 +1,10 @@
+/venv/
+*.pyc
+*.log
+/instance/
+*.sublime-project
+*.sublime-workspace
+/coverage/
+*.db
+/migrations/
+app/static/applications/

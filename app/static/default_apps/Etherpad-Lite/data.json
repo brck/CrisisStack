@@ -1,0 +1,11 @@
+[
+	{
+		"category_id": 1,
+		"developer_id": 3,
+		"version": "1.0",
+		"description": "Etherpad allows you to edit documents collaboratively in real-time, much like a live multi-player editor that runs in your browser.",
+		"permission": "OS-Admin",
+		"osVersion": "Raspbian",
+		"launchurl": "http://etherpad.com"
+	}
+]

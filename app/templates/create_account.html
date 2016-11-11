@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% block create_account_header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/account.css') }}" />
+{% endblock %} {% block content %}
+
+<div class="row content">
+
+    <div class="large-12 columns ">
+
+        <h1>Create Account</h1>
+        <br>
+
+        <div class="small-12 medium-12 large-6  columns account_type">
+            <p>Developer</p>
+            <a href="{{ url_for('auth.create_developer_account') }}"><img src="{{ url_for('static', filename='assets/images/developer1.png') }}"></a>
+        </div>
+
+        <div class="small-12 medium-12 large-6  columns account_type">
+            <p>User</p>
+            <a href="{{ url_for('auth.create_user_account') }}"><img src="{{ url_for('static', filename='assets/images/user.png') }}"></a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

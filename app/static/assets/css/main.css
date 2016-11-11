@@ -100,10 +100,10 @@ body {
 /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    START : Foundation over-rides
    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
-.button{
+.button {
   background: #8abc51;
 }
-.button:hover, button.button:hover {
+.button:hover {
   background-color: #595959;
 }
 input[type="text"],
@@ -239,7 +239,7 @@ h1 {
 .content h6 {
   color: #666;
 }
-.content button, .content a {
+.content button {
   margin-top: 5px;
   color: #fff;
 }
@@ -259,7 +259,7 @@ h1 {
   -moz-opacity: 0.2;
   opacity: 0.2;
 }
-.download .button, .download button, .install.button{
+.download .button {
   background-color: #ba1f44;
 }
 .download .button:hover {
@@ -467,4 +467,162 @@ footer p {
   h3 {
     page-break-after: avoid;
   }
+}
+
+.account_type {
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.account_type:hover {
+    border: 2px solid #eee;
+}
+
+.error {
+    padding: 0;
+    margin-top: 0px;
+    font-style: italic;
+    color: red;
+    font-size: 12px;
+    margin-left: 10px
+}
+
+.input-container {
+    padding-bottom: 10px;
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.js .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label {
+    width: 100%;
+    max-width: 100%;
+    font-size: 1.0rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+}
+
+.no-js .inputfile + label {
+    display: none;
+}
+
+.inputfile:focus + label,
+.inputfile.has-focus + label {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+.inputfile + label * {
+    /* pointer-events: none; */
+    /* in case of FastClick lib use */
+}
+
+.inputfile + label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    /* 4px */
+    margin-right: 0.25em;
+    /* 4px */
+}
+
+.inputfile + label {
+    color: #d3394c;
+}
+
+.inputfile + label {
+    border: 1px solid #d3394c;
+    background-color: #f1e5e6;
+    padding: 0;
+}
+
+.inputfile:focus + label,
+.inputfile.has-focus + label,
+.inputfile + label:hover {
+    border-color: #722040;
+}
+
+.inputfile + label span,
+.inputfile + label strong {
+    padding: 0.625rem 1.25rem;
+}
+
+.inputfile + label span {
+    width: 300px;
+    min-height: 2em;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+.inputfile + label strong {
+    height: 100%;
+    color: #f1e5e6;
+    background-color: #d3394c;
+    display: inline-block;
+}
+
+.inputfile:focus + label strong,
+.inputfile.has-focus + label strong,
+.inputfile + label:hover strong {
+    background-color: #722040;
+}
+
+@media screen and (max-width: 50em) {
+  .inputfile + label strong {
+    display: block;
+  }
+}
+
+
+@keyframes slidy {
+    0% { left: 0%; }
+    20% { left: 0%; }
+    25% { left: -100%; }
+    45% { left: -100%; }
+    50% { left: -200%; }
+    70% { left: -200%; }
+    75% { left: -300%; }
+    95% { left: -300%; }
+    100% { left: -400%; }
+}
+
+div#slider { overflow: hidden; }
+div#slider figure img { width: 20%; float: left; }
+div#slider figure {
+    position: relative;
+    width: 500%;
+    margin: 0;
+    left: 0;
+    text-align: left;
+    font-size: 0;
+    animation: 30s slidy infinite;
+}
+
+.app-icon {
+    margin-bottom: 15px
 }

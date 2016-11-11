@@ -1,27 +1,29 @@
-__author__ = 'Frankie'
-import os 
-import logging 
-from flask import Flask, render_template, request, flash, g, session, redirect, url_for
-from forms import LoginForm
-from decorators import requires_login
-from flask.ext.sqlalchemy import SQLAlchemy
-from logging import FileHandler
+from flask import Flask
+from config import config
+from flask_login import LoginManager
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+db = SQLAlchemy()
 
-applogger = app.logger 
-file_handler = FileHandler("crisisstackserror.log")
-file_handler.setLevel(logging.DEBUG)
-applogger.setLevel(logging.DEBUG)
-applogger.addHandler(file_handler)
-
-app.config.from_object('config')
-APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-APP_STATIC = os.path.join(APP_ROOT, 'staticfolder')
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'auth.login'
 
 
-db = SQLAlchemy(app)
+def create_app(config_name):
+    app = Flask(__name__)
+    app.config.from_object(config[config_name])
+    config[config_name].init_app(app)
 
-from app import views, models 
+    db.init_app(app)
+    login_manager.init_app(app)
 
+    # Register Auth blueprint to application factory
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
 
+    # Register Auth blueprint to application factory
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
+
+    return app

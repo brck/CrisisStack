@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="row content">
+
+		<div class="large-12 columns">
+			{% with messages = get_flashed_messages(category_filter=["success"]) %}
+	            {% if messages %}
+	                {% for message in messages %}
+	                    <div data-alert class="alert-box success radius">
+	                        {{ message }}
+	                        <a href="#" class="close">&times;</a>
+	                    </div>
+	                {% endfor %}
+	            {% endif %}
+	        {% endwith %}
+
+			{% with messages = get_flashed_messages(category_filter=["error"]) %}
+	            {% if messages %}
+	                {% for message in messages %}
+	                    <div data-alert class="alert-box alert radius">
+	                        {{ message }}
+	                        <a href="#" class="close">&times;</a>
+	                    </div>
+	                {% endfor %}
+	            {% endif %}
+	        {% endwith %}
+		</div>
+
+        <section class="large-12 columns">
+            <div class="row">
+
+                {% set app_id = app_details[0]['uuid'] %}
+                {% set app_name = app_details[0]['name'] %}
+                {% set app_developer = app_details[0]['developer'] %}
+                {% set app_icon = app_details[0]['icon'] %}
+                {% set app_description = app_details[0]['description'] %}
+                {% set app_downloads = app_details[0]['downloads'] %}
+                {% set app_installed = app_details[0]['installed'] %}
+                {% set app_icon_url = "scripts/install/%s/%s"%(app_id, app_icon) %}
+                {% set app_icon_url = "/%s/assets/%s"%(app_id, app_icon) %}
+    			{% set app_url_parts = [root_url, app_icon_url] %}
+    			{% set app_icon_url = app_url_parts|join %}
+
+                <div class="large-3 medium-3 columns">
+                    <img class="app-icon" src="{{ url_for('static', filename=app_icon_url) }}">
+                    {% if app_installed == 1 %}
+                    <a href="" class="button expand radius"> <i class="fa fa-rocket"></i> Launch</a>
+                    <a href="/uninstall_app?app_id={{app_id}}" class="button radius alert expand"> <i class="fa fa-trash-o"></i> Uninstall</a>
+                    {% else %}
+                    <a href="/install_app?app_id={{app_id}}" class="button expand radius"> <i class="fa fa-download"></i> Install</a>
+                    {% endif %}
+                </div>
+
+                <div class="large-9 medium-9 columns">
+                    <h4>{{ app_name }}</h4>
+                    <h6>by {{ app_developer }} </h6>
+                    <p class="rating"><span class="label round">{{ app_downloads }}</span> Downloads</p>
+                    <p>{{ app_description }}. </p>
+                    <hr>
+
+                    <h5>Screenshots</h5>
+                    {% set screenShot1 = "/%s/assets/%s"%(app_id, assets.screenShotOne) %}
+        			{% set app_url_parts = [root_url, screenShot1] %}
+        			{% set screenShot1 = app_url_parts|join %}
+
+                    {% set screenShot2 = "/%s/assets/%s"%(app_id, assets.screenShotTwo) %}
+        			{% set app_url_parts = [root_url, screenShot2] %}
+        			{% set screenShot2 = app_url_parts|join %}
+
+                    {% set screenShot3 = "/%s/assets/%s"%(app_id, assets.screenShotThree) %}
+        			{% set app_url_parts = [root_url, screenShot3] %}
+        			{% set screenShot3 = app_url_parts|join %}
+
+                    {% set screenShot4 = "/%s/assets/%s"%(app_id, assets.screenShotFour) %}
+        			{% set app_url_parts = [root_url, screenShot4] %}
+        			{% set screenShot4 = app_url_parts|join %}
+
+                    <div class="row screenshots">
+                        <div class="large-12 columns">
+                            <div id="slider">
+                                <figure>
+                                    <img src="{{ url_for('static', filename=screenShot1) }}" alt>
+                                    <img src="{{ url_for('static', filename=screenShot2) }}" alt>
+                                    <img src="{{ url_for('static', filename=screenShot3) }}" alt>
+                                    <img src="{{ url_for('static', filename=screenShot4) }}" alt>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <h5>Video</h5>
+                    <div class="row screenshots">
+                        <div class="large-12 columns">
+                            {% set video = "/%s/assets/%s"%(app_id, assets.video) %}
+                			{% set app_url_parts = [root_url, video] %}
+                			{% set video = app_url_parts|join %}
+                            <embed src="{{ url_for('static', filename=video) }}" width="100%" height="400" scale="aspect" controller="true">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <div class="row related">
+        {% if related_apps|length > 0 %}
+            <div class="large-12 columns">
+                <h1><br>Related Apps</h1>
+            </div>
+
+            {% for app in related_apps %}
+                {% set id = app['uuid'] %}
+                {% set name = app['name'] %}
+                {% set developer = app['developer'] %}
+                {% set icon = app['icon'] %}
+                {% set description = app['description'] %}
+                {% set downloads = app['downloads'] %}
+                {% set developer_url = '#' %}
+                {% set icon_url = "/%s/assets/%s"%(id, icon) %}
+    			{% set url_parts = [root_url, icon_url] %}
+    			{% set icon_url = url_parts|join %}
+
+                <div class="large-3 medium-2 columns">
+                    <a href="{{ url_for('main.app_info', app_uuid=id) }}"><img src="{{ url_for('static', filename=icon_url) }}"></a>
+                    <h4><a href="{{ url_for('main.app_info', app_uuid=id) }}"> {{ name }}</a> </h4>
+                    <h6>by {{ developer }} </h6>
+                    <p class="rating"><span class="label round">{{ downloads }}</span> Downloads</p>
+                </div>
+
+            {% endfor%}
+
+        {% endif %}
+
+        </div>
+
+    </div>
+
+{% endblock %}

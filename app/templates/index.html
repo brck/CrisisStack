@@ -1,76 +1,107 @@
 {% extends "base.html" %}
+
 {% block content %}
-<div class = "row">
-  
-  <div class = "large-12 colums ">
-    <h1 class = "text-center">
-      BRCK Crisis Stack  
-      <br>
-      A set of applications for crisis responders
-  </h1>
-  </div>
-</div>
 
+	<!-- <div class="row">
+	    <div class="large-12 columns">
+	        <h1 class="text-center">BRCK Crisis Stack. </h1>
+	    </div>
+	</div> -->
 
-<div class="row content">
-    {%for application in applicationset %} 
-    <section class = "large-6 medium-6 small-12 columns">
-      <div class = "row">
+	<div class="row">
+		<div class="large-12 columns">
+			{% with messages = get_flashed_messages(category_filter=["success"]) %}
+	            {% if messages %}
+	                {% for message in messages %}
+	                    <div data-alert class="alert-box success radius">
+	                        {{ message }}
+	                        <a href="#" class="close">&times;</a>
+	                    </div>
+	                {% endfor %}
+	            {% endif %}
+	        {% endwith %}
 
-        <div class = "large-5 small-5 columns">
-          <a class = "app_logo" href = "/MyApplications/{{application.id}}">
-            <img src ="/static/staticfolder/{{application.id}}/icon.svg">
-          </a>
-          <a target="_blank" class = "button expand radius" href = "http://{{application.launchurl}}"><i class ="fa fa-rocket"> </i> Launch </a>
-        </div>
+			{% with messages = get_flashed_messages(category_filter=["error"]) %}
+	            {% if messages %}
+	                {% for message in messages %}
+	                    <div data-alert class="alert-box alert radius">
+	                        {{ message }}
+	                        <a href="#" class="close">&times;</a>
+	                    </div>
+	                {% endfor %}
+	            {% endif %}
+	        {% endwith %}
+		</div>
+	</div>
 
-        <!-- App description  !-->
-        <div class = "large-7 medium-7 columns">
-          <h4><a href= "/MyApplications/{{application.id}}">{{application.name}}</a></h4>
-          <h6>by {{application.developerName}}</h6>
-          <p class = "rating">
-            <span class = "label round">{{application.downloads}}</span> Downloads
-          </p>
-          <p>{{application.description}}</p>
-        </div>
+	<div class="row content">
+		<div class="large-12 columns">
+	        <h1 class="clearfix"><br>Installed Apps</h1></div>
 
-      </div> 
-    </section>
+		{% for app in installed_apps %}
+			{% set app_id = app[0]['uuid'] %}
+			{% set app_name = app[0]['name'] %}
+			{% set app_developer = app[0]['developer'] %}
+			{% set app_icon = app[0]['icon'] %}
+			{% set app_description = app[0]['description'] %}
+			{% set app_downloads = app[0]['downloads'] %}
+			{% set app_icon_url = "/%s/assets/%s"%(app_id, app_icon) %}
+			{% set app_url_parts = [root_url, app_icon_url] %}
+			{% set app_icon_url = app_url_parts|join %}
 
-{% endfor %}  
+			<section class="large-6 medium-6 small-12  columns">
+		        <div class="row">
 
-<div class = "large-12 columns">
-  <h1 class = "clearfix"> 
-    <br> 
-    Recommended Applications 
-    </br>
-   </h1>
-</div>   
+		            <div class="large-5 medium-5 columns">
+		                <a class="app_logo" href="{{ url_for('main.app_info', app_uuid=app_id) }}">
+		                    <img src="{{ url_for('static', filename=app_icon_url) }}"></a>
+						<a class = "button expand radius" href="{{ url_for('main.launch_app', app_id=app_id) }}"><i class="fa fa-rocket"></i> Launch</a>
+		            </div>
 
-{% for app in notinstalledapps %}
-    
-    <section class = "large-6 medium-6 small-12 columns download">
-      <div class = "row">
+		            <div class="large-7 medium-7 columns">
+		                <h4><a href="{{ url_for('main.app_info', app_uuid=id) }}">{{ app_name }}</a> </h4>
+		                <h6>by {{ app_developer }} </h6>
+		                <p class="rating"><span class="label round">{{ app_downloads }}</span> Downloads</p>
+		                <p>{{ app_description }}.</p>
+		            </div>
+		        </div>
+		    </section>
 
-        <div class = "large-5 small-5 columns">
-          
-            <img class = "app_logo" src ="/static/staticfolder/{{app.id}}/icon.svg">
-          
-        </div>
+		{% endfor%}
 
-        <!-- App description  !-->
-        <div class = "large-7 medium-7 columns">
-          <h4>{{app.name}}</a></h4>
-          <h6>by {{app.developerName}}</h6>
-          <p class = "rating">
-            <span class = "label round">{{app.downloads}}</span> Downloads
-          </p>
-          <p>{{app.description}}</p>
-        </div>
+	    <div class="large-12 columns">
+	        <h1 class="clearfix"><br>Not Installed</h1></div>
 
-      </div> 
-    </section>
-{% endfor %}
+	    {% for app in applications %}
+			{% set id = app['uuid'] %}
+			{% set name = app['name'] %}
+			{% set developer = app['developer'] %}
+			{% set icon = app['icon'] %}
+			{% set description = app['description'] %}
+			{% set downloads = app['downloads'] %}
+			{% set icon_url = "/%s/assets/%s"%(id, icon) %}
+			{% set url_parts = [root_url, icon_url] %}
+			{% set icon_url = url_parts|join %}
 
-</div> 
-{%endblock%}
+			<section class="large-6 medium-6 small-12  columns download">
+		        <div class="row">
+
+		            <div class="large-5 medium-5 columns">
+		                <a class="app_logo" href="{{ url_for('main.app_info', app_uuid=id) }}">
+		                    <img src="{{ url_for('static', filename=icon_url) }}"></a>
+		                {% if current_user.is_authenticated %}
+		                	<a href="/install_app?app_id={{id}}" class="button expand radius"> <i class="fa fa-download"></i>Install</a>
+		                {% endif %}
+		            </div>
+
+		            <div class="large-7 medium-7 columns">
+		                <h4>{{ name }} </h4>
+		                <h6>by {{ developer }} </h6>
+		                <p>{{ description }}.</p>
+		            </div>
+		        </div>
+		    </section>
+		{% endfor%}
+	</div>
+
+{% endblock %}

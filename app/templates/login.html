@@ -1,30 +1,69 @@
-{% extends "base.html" %}
-{% block content %}
-<div class = "row">
-  
-  <div class = "large-12 columns ">
-       
-      <h1>Please login</h1>
-      <br>
-      <form class = "row" action="" method="post">
-      <div class="small-12 medium-12 large-6  columns">
-        <input type="text" placeholder="Username" name="username" value="{{
-          request.form.username }}">
-      </div>
-          <div class="small-12 medium-12 large-6  columns">
+{% extends "base.html" %} {% block create_account_header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/account.css') }}" />
+{% endblock %} {% block content %}
 
-         <input type="password" placeholder="Password" name="password" value="{{
-          request.form.password }}">
-        </div>
-      <div class = "large-12 columns">  
-        <button class = "button radius alert right" type="submit" ><i class="fa fa-sign-in">Login</i></button>
-      </div>  
-      </form>
+<div class="row content">
 
-     {% if error %}
-         <p class = "error"> <strong>Error:</strong> {{ error }}
-     {% endif %}
-  </div>
-</div>  
-     
+    <div class="large-12 columns">
+        {% with messages = get_flashed_messages(category_filter=["success"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div data-alert class="alert-box success radius">
+                        {{ message }}
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div data-alert class="alert-box alert radius">
+                        {{ message }}
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="large-12 columns ">
+
+        <h1>Please login</h1>
+        <br>
+        <form class="row" action="" method="post">
+            {{ form.hidden_tag() }}
+
+            <div class="small-12 medium-12 large-6  columns">
+                {{ form.email( class_="validate", **{'aria-describedby':"emailHelpText"} ) }}
+                {% for message in form.email.errors %}
+                <div class="error" id="emailHelpText">{{ message }}</div>
+                {% endfor %}
+            </div>
+            <div class="small-12 medium-12 large-6  columns">
+                {{ form.password( class_="validate", **{'aria-describedby':"passwordHelpText"} ) }}
+                {% for message in form.password.errors %}
+                <div class="error" id="passwordHelpText">{{ message }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="small-12 medium-12 large-6  columns">
+                {{ form.remember_me }} <label class="left-align" for="remember_me">Remember me</label>
+            </div>
+
+            <div class="large-12 columns">
+                <button class="button radius alert right" type="submit"><i class="fa fa-sign-in">  Login</i></button>
+            </div>
+
+            <div class="large-12 columns">
+                <p class="margin medium-small">Dont have an Account? <a href="{{ url_for('auth.create_account') }}">Create Account</a></p>
+            </div>
+        </form>
+
+        {% if error %}
+        <p class="error"> <strong>Error:</strong> {{ error }} {% endif %}
+    </div>
+</div>
+
 {% endblock %}

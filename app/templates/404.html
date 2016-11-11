@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 <div class  = "row" >
 
@@ -5,7 +6,7 @@
 	<div class = "row content"
          <div class="large-12 columns">
             <div class="center sml-center">
-    <img src = "/static/assets/images/404.png"> 
+    <img src = "{{ url_for('static', filename='assets/images/404.png') }}">
             </div>
          </div>
     </div>

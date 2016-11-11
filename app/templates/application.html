@@ -1,0 +1,136 @@
+{% extends "base.html" %} {% block create_account_header %}
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/account.css') }}" /> -->
+{% endblock %} {% block content %}
+
+<div class="row content">
+
+    <div class="large-12 columns ">
+
+        {% with messages = get_flashed_messages(category_filter=["success"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div data-alert class="alert-box success radius">
+                        {{ message }}
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div data-alert class="alert-box error radius">
+                        {{ message }}
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h1>Application Details</h1>
+        <br>
+
+        <form class="row" action="" method="post" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            <div class="small-12 medium-12 large-12  columns">
+                <div class="row input-container">
+                    <div class="small-12 medium-12 large-6  columns">
+                        {{ form.app_file( class_="inputfile", **{'aria-describedby':"fileHelpText"} ) }}
+                            <label for="app_file">
+                                <span></span> <strong>
+                                    <i class="fa fa-upload">&nbsp Choose a file&hellip;</i>
+                                </strong>
+                            </label>
+                        {% for message in form.app_file.errors %}
+                        <div class="error" id="fileHelpText">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="small-12 medium-12 large-12  columns">
+                <div class="row">
+                    <div class="small-12 medium-12 large-6  columns">
+                        {{ form.version( class_="validate", **{'aria-describedby':"versionHelpText"} ) }}
+                        {% for message in form.version.errors %}
+                        <div class="error" id="versionHelpText">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="small-12 medium-12 large-6  columns">
+                        {{ form.permission( class_="validate", **{'aria-describedby':"permissionHelpText"} ) }}
+                        {% for message in form.permission.errors %}
+                        <div class="error" id="permissionHelpText">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="small-12 medium-12 large-12  columns">
+                <div class="row">
+                    <div class="small-12 medium-12 large-6  columns">
+                        {{ form.osVersion( class_="validate", **{'aria-describedby':"osVersionHelpText"} ) }}
+                        {% for message in form.osVersion.errors %}
+                        <div class="error" id="osVersionHelpText">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="small-12 medium-12 large-6  columns">
+                        {{ form.category_id( class_="validate", **{'aria-describedby':"category_idHelpText"} ) }}
+                        {% for message in form.category_id.errors %}
+                        <div class="error" id="category_idHelpText">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="small-12 medium-12 large-12  columns">
+                <div class="row">
+                    <div class="small-12 medium-12 large-12  columns">
+                        {{ form.description( class_="validate", **{'aria-describedby':"descriptionHelpText"} ) }}
+                        {% for message in form.description.errors %}
+                        <div class="error" id="descriptionHelpText">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="small-12 medium-12 large-12  columns">
+                <div class="row">
+                    <div class="small-12 medium-12 large-12  columns">
+                        {{ form.developer_id( class_="validate", **{'aria-describedby':"developerHelpText"} ) }}
+                        {% for message in form.developer_id.errors %}
+                        <div class="error" id="developerHelpText">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="small-12 medium-12 large-12  columns">
+                <div class="row">
+                    <div class="small-12 medium-12 large-12  columns">
+                        {{ form.launchurl( class_="validate", **{'aria-describedby':"launchurlHelpText"} ) }}
+                        {% for message in form.launchurl.errors %}
+                        <div class="error" id="launchurlHelpText">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="small-12 medium-12 large-12  columns">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <button class="button radius alert right" type="submit"><i class="fa fa-cloud">&nbsp Save Details</i></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        {% if error %}
+        <p class="error"> <strong>Error:</strong> {{ error }} {% endif %}
+    </div>
+</div>
+
+{% endblock %}
